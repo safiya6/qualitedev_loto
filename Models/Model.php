@@ -58,7 +58,7 @@ class Model
      */
     public function selectRandomJoueurs($nombre)
     {
-        $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY RAND() LIMIT $nombre");
+        $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY RANDOM() LIMIT $nombre");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 

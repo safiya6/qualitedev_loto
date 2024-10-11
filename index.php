@@ -1,13 +1,12 @@
 <?php
 
 //Pour avoir la fonction e()
-require_once "Utils/functions.php";
 //Inclusion du modèle
 require_once "Models/Model.php";
 //Inclusion de la classe Controller
 require_once "Controllers/Controller.php";
 //Inclusion du fichier de configuration
-require_once "Utils/configuration.php";
+
 
 //Liste des contrôleurs
 $controllers = ['joueurs'];
