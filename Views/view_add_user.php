@@ -93,7 +93,7 @@
 <div class="container">
     <h2>Ajouter un Utilisateur</h2>
 
-    <form action="?controller=joueurs&action=addUser" method="POST">
+    <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="prepareTicket()">
         <div class="form-group">
             <label for="pseudo">Choisissez un pseudo :</label>
             <input type="text" id="pseudo" name="pseudo" required>
@@ -116,6 +116,9 @@
         <button type="button" class="generate-button" onclick="generateRandomSelection()">
             <i>🎲</i> Générer aléatoirement
         </button>
+
+        <!-- Champ caché pour stocker le ticket -->
+        <input type="hidden" id="ticket" name="ticket">
 
         <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
     </form>
@@ -148,26 +151,22 @@
     }
 
     function generateRandomSelection() {
-        // Clear previous selections
         document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => {
             btn.classList.remove("selected");
         });
         selectedNumbers.clear();
         selectedStars.clear();
 
-        // Generate 5 random unique numbers between 1 and 49
         while (selectedNumbers.size < 5) {
             let randNum = Math.floor(Math.random() * 49) + 1;
             selectedNumbers.add(randNum);
         }
 
-        // Generate 2 random unique stars between 1 and 9
         while (selectedStars.size < 2) {
             let randStar = Math.floor(Math.random() * 9) + 1;
             selectedStars.add(randStar);
         }
 
-        // Apply selected class to the buttons based on generated numbers
         document.querySelectorAll('.number-grid button').forEach(btn => {
             if (selectedNumbers.has(parseInt(btn.getAttribute("data-value")))) {
                 btn.classList.add("selected");
@@ -178,6 +177,16 @@
                 btn.classList.add("selected");
             }
         });
+    }
+
+    function prepareTicket() {
+        if (selectedNumbers.size !== 5 || selectedStars.size !== 2) {
+            alert("Veuillez sélectionner 5 numéros et 2 étoiles.");
+            return false;
+        }
+
+        const ticket = [...selectedNumbers].join(",") + " | " + [...selectedStars].join(",");
+        document.getElementById("ticket").value = ticket;
     }
 </script>
 

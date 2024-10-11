@@ -3,7 +3,7 @@
 class Controller_joueurs extends Controller
 {
     /**
-     * Action par défaut
+     * Action par défaut : affiche le formulaire pour ajouter un utilisateur.
      */
     public function action_default()
     {
@@ -11,24 +11,26 @@ class Controller_joueurs extends Controller
     }
 
     /**
-     * Action pour sélectionner des utilisateurs aléatoirement en fonction du nombre donné.
+     * Action pour ajouter un utilisateur avec le pseudo fourni.
      */
-    public function action_selectRandomUsers()
-    {
-        // Vérifier si le nombre est reçu via POST
-        if (isset($_POST['nombre'])) {
-            $nombre = intval($_POST['nombre']);
+public function action_addUser()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['ticket'])) {
+        $pseudo = trim($_POST['pseudo']);
+        $ticket = trim($_POST['ticket']);  // Assurez-vous de récupérer un ticket valide
+        $model = Model::getModel();
 
-            // Appeler la fonction du modèle pour sélectionner des utilisateurs aléatoires
-            $model = Model::getModel();
-            $randomUsers = $model->selectRandomJoueurs($nombre);
+        // Appeler la fonction du modèle pour ajouter l'utilisateur avec un ticket
+        $success = $model->addJoueur($pseudo, $ticket);
 
-            // Afficher les utilisateurs sélectionnés dans la vue
-            $this->render("select_users", ['users' => $randomUsers]);
-        } else {
-            // Si aucun nombre n'est fourni, afficher une erreur
-            $this->action_error("Nombre non spécifié pour la sélection d'utilisateurs.");
-        }
+        $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
+
+        $this->render("add_user", ['message' => $message]);
+    } else {
+        $this->action_error("Pseudo ou ticket non spécifié.");
     }
 }
+}
+
+?>
 

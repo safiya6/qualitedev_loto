@@ -41,10 +41,9 @@ class Model
      * @param string|null $ticket
      * @return bool
      */
-    public function addJoueur($id_joueur, $pseudo, $ticket = null)
+    public function addJoueur ($pseudo, $ticket)
     {
-        $req = $this->bd->prepare("INSERT INTO Joueurs (id_joueur, pseudo, ticket) VALUES (:id_joueur, :pseudo, :ticket)");
-        $req->bindValue(':id_joueur', $id_joueur);
+        $req = $this->bd->prepare("INSERT INTO Joueurs (pseudo, ticket) VALUES (:pseudo, :ticket)");
         $req->bindValue(':pseudo', $pseudo);
         $req->bindValue(':ticket', $ticket);
         $req->execute();
