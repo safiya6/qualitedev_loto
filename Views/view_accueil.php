@@ -13,14 +13,14 @@
     <header class="hero">
         <nav>
             <ul class="nav-bar">
-                <li><a href="page_creation.html">Ajouter un pseudo</a></li>
+                <li><a href="view_select_users.php">Ajouter un pseudo</a></li>
                 <li><a href="#simulation">Simulation</a></li>
             </ul>
         </nav>
         <div class="hero-text">
             <h1>
-                <span class="big-text">10X</span><br>
-                <span class="small-text">Chances de gagner</span>
+                <span class="big-text">10</span><br>
+                <span class="small-text">fois plus de chances de gagner</span>
             </h1>
         </div>
         
@@ -37,7 +37,7 @@
                 </p>
             </div>
             <div class="image-box">
-                <img src="Contetn/loto.webp" alt="Loto Image">
+                <img src="Content/loto.webp" alt="Loto Image">
             </div>
         </div>
     </section>
