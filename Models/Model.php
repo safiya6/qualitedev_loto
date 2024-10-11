@@ -118,7 +118,6 @@ class Model
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
         $req->execute();
         return (bool)$req->rowCount();
-
     }
 }
 
