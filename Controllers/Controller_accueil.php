@@ -1,5 +1,5 @@
 <?php
-class Controller_joueurs extends Controller
+class Controller_accueil extends Controller
 {
     /**
      * Action par défaut
