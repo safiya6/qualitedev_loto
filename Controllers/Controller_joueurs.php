@@ -24,7 +24,7 @@ class Controller_joueurs extends Controller
             $randomUsers = $model->selectRandomJoueurs($nombre);
 
             // Afficher les utilisateurs sélectionnés dans la vue
-            $this->render("selected_users", ['users' => $randomUsers]);
+            $this->render("select_users", ['users' => $randomUsers]);
         } else {
             // Si aucun nombre n'est fourni, afficher une erreur
             $this->action_error("Nombre non spécifié pour la sélection d'utilisateurs.");
