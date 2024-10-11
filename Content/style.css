@@ -1,0 +1,415 @@
+/* Style global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    font-weight: 300;
+    overflow-x: hidden;
+}
+
+/* Barre de navigation fixée en haut */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #354560d2;
+    padding: 1rem 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-bar {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.nav-bar li {
+    margin-left: 20px;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 400;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-bar a:hover {
+    background-color: #ffffff;
+    color: #000;
+    border-radius: 5px;
+}
+
+.text-haut {
+    margin-top: 90px;
+    text-align:center;
+}
+
+/* Hero section (header pleine page) */
+.hero {
+    height: 100vh;
+    background-image: url('header.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding-top: 80px;
+    margin-bottom: 0;
+}
+
+/* Apparition fluide du texte du header */
+.hero-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeInText 1.5s ease-out forwards;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+}
+
+.hero-text .big-text {
+    font-size: 10rem;
+    margin-bottom: 2rem;
+    position: relative;
+    top: -20px;
+}
+
+.hero-text .small-text {
+    font-size: 4rem;
+    margin-top: 12rem;
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section des règles */
+.rules {
+    padding: 2rem;
+    background-color: white;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+    margin-top: 0;
+}
+
+.rules.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rules h2 {
+    font-size: 2rem;
+    color: #1f3b57;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.rules p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-weight: 300;
+}
+
+/* Disposition en deux colonnes */
+.rules-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.rules-box, .image-box {
+    flex: 1;
+    max-width: 45%;
+}
+
+.rules-box {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.rules-box:hover {
+    transform: translateY(-10px);
+}
+
+.image-box img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.image-box img:hover {
+    transform: scale(1.05);
+}
+
+/* Section pour le pseudo et le bouton dé */
+.pseudo-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.pseudo-container h2 {
+    font-weight: 600;
+    color: #1f3b57;
+    margin-bottom: 1rem;
+}
+
+.pseudo-container input {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    width: 200px;
+    border: 2px solid #1f3b57;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+    margin-bottom: 2rem;
+}
+
+/* Ticket style */
+
+
+.ticket { 
+    padding: 1rem;
+    width: 37%;
+    max-width: 800px;
+    margin: 1.5rem auto;
+    gap: 10px;
+    border-radius: 8px;
+    background-color: #d9d9d9;   
+    box-shadow: 0 4px 12px #163345cf;
+    transition: transform 0.3s ease;
+    text-align: center; /* Centre le titre uniquement */
+}
+#loto {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #354560;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.grid-container {
+    display: flex;
+    gap: 13px;
+}
+
+/* Grille des boules en 7x7 */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 colonnes */
+    gap: 10px;
+    justify-items: center;
+}
+
+/* Boutons des numéros */
+.number-btn {
+    background-color: #ffffff; /* Changement de couleur en rouge */
+    color: #b03030;
+    border: 1px solid #b03030;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: font-size 0.3s ease;
+}
+
+.number-btn:hover {
+    font-size: 1.4rem;
+}
+
+#number-grid{
+    background-color: #ffffff;
+    border-radius: 15%;
+    border: 2px solid #b03030;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+#stars-grid{
+    background-color: #ffffff;
+    border-radius: 15%;
+    border: 2px solid #b0a000;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+/* Colonne des étoiles en 3x3 */
+.stars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+    gap: 10px;
+    justify-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 15px;
+}
+
+/* Style des boutons pour les étoiles */
+.star-btn {
+    font-size: 0.8rem;
+    color: #ffffff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: gold;
+    border: 1px solid #b0a000;
+}
+
+/* Conteneur du bouton aléatoire */
+.random-btn-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+#random-btn {
+    font-size: 1.2rem;
+    background-color: #1f3b57;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#random-btn:hover {
+    background-color: #163345;
+}
+
+#random-btn img {
+    width: 25px;
+    height: auto;
+}
+
+/* Style commun pour les h1 */
+/* Style modernisé et harmonisé pour les titres */
+.player-header {
+    font-family: 'Roboto', sans-serif; /* Police moderne et épurée */
+    font-weight: 500;
+    font-size: 2.2rem; /* Taille ajustée pour être proportionnelle */
+    color: #2c3e50; 
+    text-align: center;
+    margin-top: 20px;
+    letter-spacing: 0.4px;
+    line-height: 1.4;
+}
+
+/* Style pour le champ input plus discret */
+.player-input {
+    font-size: 1.8rem; /* Réduit pour s’harmoniser avec le titre */
+    width: 2.5rem; /* Taille ajustée pour être moins visible */
+    border: none;
+    background: transparent;
+    color: #2c3e50; /* Même couleur que le titre pour une transition subtile */
+    text-align: center;
+    cursor: pointer;
+    padding-bottom: 2px; /* Ajoute un peu d'espace avec le texte */
+}
+
+/* Légère bordure discrète au focus */
+.player-input:focus {
+    outline: none;
+    border-bottom: 1px solid #a0a0a0; /* Couleur plus claire et taille plus fine */
+}
+
+.ajout-joueur{
+    margin-top: 52px;
+}
+
+/* Style commun pour les inputs */
+.player-input {
+    font-size: 1.5rem;
+    width: 3rem;
+    border: none;
+    background: transparent;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+}
+
+.player-input:focus {
+    outline: none;
+    border-bottom: 2px solid #354560;
+}
+
+/* Cache les flèches sur certains navigateurs */
+.player-input::-webkit-inner-spin-button, 
+.player-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .rules-container {
+        flex-direction: column;
+    }
+
+    .rules-box, .image-box {
+        max-width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .nav-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-bar li {
+        margin: 10px 0;
+    }
+}
