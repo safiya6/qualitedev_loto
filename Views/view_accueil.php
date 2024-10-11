@@ -13,7 +13,7 @@
     <header class="hero">
         <nav>
             <ul class="nav-bar">
-                <li><a href="view_select_users.php">Ajouter un pseudo</a></li>
+                <li><a href="?controller=joueurs">Ajouter un pseudo</a></li>
                 <li><a href="#simulation">Simulation</a></li>
             </ul>
         </nav>

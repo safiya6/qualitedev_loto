@@ -7,7 +7,7 @@ class Controller_joueurs extends Controller
      */
     public function action_default()
     {
-        $this->render("select_users");
+        $this->render("add_user");
     }
 
     /**
@@ -32,4 +32,3 @@ class Controller_joueurs extends Controller
     }
 }
 
-?>
