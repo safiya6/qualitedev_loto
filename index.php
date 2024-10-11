@@ -10,9 +10,9 @@ require_once "Controllers/Controller.php";
 require_once "Utils/configuration.php";
 
 //Liste des contrôleurs
-$controllers = ['login', 'commercial', 'prestataire', 'interlocuteur', 'gestionnaire', 'personne', 'administrateur'];
+$controllers = ['joueurs'];
 //Nom du contrôleur par défaut
-$controller_default = "login";
+$controller_default = "joueurs";
 
 //On teste si le paramètre controller existe et correspond à un contrôleur de la liste $controllers
 if (isset($_GET['controller']) and in_array($_GET['controller'], $controllers)) {
