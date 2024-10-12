@@ -76,7 +76,7 @@ class Model
 
         public function getJoueurs()
     {
-        $req = $this->bd->query("SELECT pseudo FROM Joueurs ORDER BY pseudo");
+        $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY pseudo");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
