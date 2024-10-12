@@ -7,12 +7,70 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
     font-weight: 300;
     overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Structure principale */
+.container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Section utilisateur et formulaire */
+.users-list, .form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.users-list {
+    width: 35%;
+    text-align: left;
+}
+
+.users-list h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.header-row, .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+.header-item, .user-item, .ticket-item {
+    width: 50%;
+}
+
+.user-item, .ticket-item {
+    color: #555;
+}
+
+.form-container {
+    width: 65%;
+}
+
+/* Texte et titre */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
 }
 
 /* Barre de navigation fixée en haut */
@@ -51,7 +109,7 @@ nav {
     border-radius: 5px;
 }
 
-/* Hero section (header pleine page) */
+/* Hero section */
 .hero {
     height: 100vh;
     background-image: url('header.webp');
@@ -86,7 +144,7 @@ nav {
     margin-top: 12rem;
 }
 
-/* Animation pour le texte du header */
+/* Animation du texte du hero */
 @keyframes fadeInText {
     from {
         opacity: 0;
@@ -169,92 +227,7 @@ nav {
     transform: scale(1.05);
 }
 
-/* Responsive pour les petits écrans */
-@media (max-width: 768px) {
-    .rules-container {
-        flex-direction: column;
-    }
-
-    .rules-box, .image-box {
-        max-width: 100%;
-    }
-
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .nav-bar {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .nav-bar li {
-        margin: 10px 0;
-    }
-}
-
-/* page add_user*/
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-}
-
-.users-list, .form-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.users-list {
-    width: 35%;
-    text-align: left;
-}
-
-.users-list h3 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.header-row, .data-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    font-weight: bold;
-}
-
-.header-item, .user-item, .ticket-item {
-    width: 50%;
-}
-
-.user-item, .ticket-item {
-    color: #555;
-}
-
-.form-container {
-    width: 65%;
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
+/* Formulaire */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -273,6 +246,7 @@ input[type="text"] {
     margin-top: 5px;
 }
 
+/* Grille des numéros et étoiles */
 .number-grid, .star-grid {
     display: flex;
     flex-wrap: wrap;
@@ -305,4 +279,28 @@ input[type="text"] {
 .selected {
     background-color: #4CAF50;
     color: #fff;
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .rules-container {
+        flex-direction: column;
+    }
+
+    .rules-box, .image-box {
+        max-width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .nav-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-bar li {
+        margin: 10px 0;
+    }
 }

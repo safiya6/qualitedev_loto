@@ -1,20 +1,12 @@
 <?php require_once "view_begin.php" ; ?>
     
-<body>
     <header class="hero">
-        <nav>
-            <ul class="nav-bar">
-                <li><a href="?controller=joueurs">Ajouter un pseudo</a></li>
-                <li><a href="#simulation">Simulation</a></li>
-            </ul>
-        </nav>
         <div class="hero-text">
             <h1>
                 <span class="big-text">10</span><br>
                 <span class="small-text">fois plus de chances de gagner</span>
             </h1>
         </div>
-        
     </header>
 
     <section class="rules">
