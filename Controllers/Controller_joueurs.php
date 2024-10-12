@@ -15,20 +15,33 @@ class Controller_joueurs extends Controller
      */
     public function action_addUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['ticket'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
             $pseudo = trim($_POST['pseudo']);
-            $ticket = trim($_POST['ticket']);
+            $numbers = explode(",", trim($_POST['numbers']));
+            $stars = explode(",", trim($_POST['stars']));
     
-            error_log("Pseudo: $pseudo, Ticket: $ticket");  // Log de débogage
+            // Validation côté serveur
+            if (count($numbers) === 5 && count($stars) === 2) {
+                // Tri des numéros et étoiles pour une uniformité
+                sort($numbers);
+                sort($stars);
     
-            $model = Model::getModel();
-            $success = $model->addJoueur($pseudo, $ticket);
-            $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
-            $this->render("add_user", ['message' => $message]);
+                // Génération du ticket sous format "1,2,3,4,5 | 1,2"
+                $ticket = implode(",", $numbers) . " | " . implode(",", $stars);
+    
+                $model = Model::getModel();
+                $success = $model->addJoueur($pseudo, $ticket);
+    
+                $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
+                $this->render("add_user", ['message' => $message]);
+            } else {
+                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
+            }
         } else {
-            $this->action_error("Pseudo ou ticket non spécifié.");
+            $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
+    
     
 }
 

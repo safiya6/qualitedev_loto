@@ -95,14 +95,17 @@
         });
     }
 
+   
     function prepareTicket() {
         if (selectedNumbers.size !== 5 || selectedStars.size !== 2) {
             alert("Veuillez sélectionner 5 numéros et 2 étoiles.");
             return false;
         }
-        document.getElementById("ticket").value = [...selectedNumbers].join(",") + " | " + [...selectedStars].join(",");
+        document.getElementById("numbers").value = [...selectedNumbers].join(",");
+        document.getElementById("stars").value = [...selectedStars].join(",");
         return true;
     }
+
 </script>
 
 </body>
