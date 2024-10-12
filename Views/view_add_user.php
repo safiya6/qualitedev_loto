@@ -34,6 +34,7 @@
 
         .users-list {
             width: 35%;
+            text-align: left;
         }
 
         .users-list h3 {
@@ -41,10 +42,19 @@
             margin-bottom: 15px;
         }
 
-        .user-item {
-            color: #555;
-            margin: 5px 0;
+        .header-row, .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
             font-weight: bold;
+        }
+
+        .header-item, .user-item, .ticket-item {
+            width: 50%;
+        }
+
+        .user-item, .ticket-item {
+            color: #555;
         }
 
         .form-container {
@@ -107,6 +117,7 @@
             background-color: #4CAF50;
             color: #fff;
         }
+
     </style>
 </head>
 <body>
@@ -115,13 +126,18 @@
     <!-- Liste des utilisateurs -->
     <div class="users-list">
         <h3>Utilisateurs inscrits</h3>
-        <?php if (!empty($joueurs)): ?>
+            <div class="header-row">
+                <div class="header-item">Pseudo</div>
+                <div class="header-item">Ticket</div>
+            </div>
+        <div class="data-rows">
             <?php foreach ($joueurs as $joueur): ?>
-                <div class="user-item"><?= htmlspecialchars($joueur) ?></div>
+                <div class="data-row">
+                    <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
+                    <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+                </div>
             <?php endforeach; ?>
-        <?php else: ?>
-            <p>Aucun utilisateur enregistré.</p>
-        <?php endif; ?>
+        </div>
     </div>
 
     <!-- Formulaire d'ajout d'utilisateur -->
