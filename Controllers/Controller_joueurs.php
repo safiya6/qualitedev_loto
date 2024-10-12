@@ -8,7 +8,7 @@ class Controller_joueurs extends Controller
     public function action_default()
     {
         $model = Model::getModel();
-        $joueurs = $model->getJoueurs(); // Nouvelle méthode pour obtenir la liste des joueurs
+        $joueurs = $model->selectAllJoueurs(); // Nouvelle méthode pour obtenir la liste des joueurs
         $this->render("add_user", ['joueurs' => $joueurs]);
     }
 
@@ -32,10 +32,11 @@ class Controller_joueurs extends Controller
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
                 $model = Model::getModel();
-                $success = $model->addJoueur($pseudo, $ticket);
+                $success = $model->insertJoueur($pseudo, $ticket); // Nouvelle méthode pour insérer un joueur
     
                 $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
-                $this->render("add_user", ['message' => $message]);
+                $joueurs = $model->selectAllJoueurs(); // Rafraîchit la liste des joueurs après ajout
+                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
             } else {
                 $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
             }
@@ -43,9 +44,6 @@ class Controller_joueurs extends Controller
             $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
-    
-    
 }
 
 ?>
-

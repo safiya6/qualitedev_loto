@@ -35,13 +35,12 @@ class Model
     }
 
     /**
-     * Ajoute un joueur dans la table Joueurs.
-     * @param int $id_joueur
+     * Insère un joueur dans la table Joueurs.
      * @param string $pseudo
      * @param string|null $ticket
      * @return bool
      */
-    public function addJoueur ($pseudo, $ticket)
+    public function insertJoueur($pseudo, $ticket)
     {
         $req = $this->bd->prepare("INSERT INTO Joueurs (pseudo, ticket) VALUES (:pseudo, :ticket)");
         $req->bindValue(':pseudo', $pseudo);
@@ -66,7 +65,7 @@ class Model
      * @param string $pseudo
      * @return array|null
      */
-    public function getJoueurByPseudo($pseudo)
+    public function selectJoueurByPseudo($pseudo)
     {
         $req = $this->bd->prepare("SELECT * FROM Joueurs WHERE pseudo = :pseudo");
         $req->bindValue(':pseudo', $pseudo);
@@ -74,18 +73,23 @@ class Model
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-        public function getJoueurs()
+    /**
+     * Sélectionne tous les joueurs de la table Joueurs, ordonnés par pseudo.
+     * @return array
+     */
+    public function selectAllJoueurs()
     {
         $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY pseudo");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * Met à jour le ticket d'un joueur en fonction de son pseudo.
      * @param string $pseudo
      * @param string $ticket
      * @return bool
      */
-    public function updateTicketByPseudo($pseudo, $ticket)
+    public function updateTicketJoueurByPseudo($pseudo, $ticket)
     {
         $req = $this->bd->prepare("UPDATE Joueurs SET ticket = :ticket WHERE pseudo = :pseudo");
         $req->bindValue(':ticket', $ticket);
@@ -95,14 +99,14 @@ class Model
     }
 
     /**
-     * Ajoute un joueur en cours dans la table Joueurs_en_cours.
+     * Insère un joueur en cours dans la table Joueurs_en_cours.
      * @param int $id_joueur
      * @param int $id_partie
      * @param string $ticket
      * @param float $gains
      * @return bool
      */
-    public function addJoueurEnCours($id_joueur, $id_partie, $ticket, $gains = 0.00)
+    public function insertJoueurEnCours($id_joueur, $id_partie, $ticket, $gains = 0.00)
     {
         $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur, id_partie, ticket, gains) VALUES (:id_joueur, :id_partie, :ticket, :gains)");
         $req->bindValue(':id_joueur', $id_joueur);
@@ -114,10 +118,10 @@ class Model
     }
 
     /**
-     * Vide la table Joueurs_en_cours.
+     * Supprime toutes les lignes de la table Joueurs_en_cours.
      * @return bool
      */
-    public function clearJoueursEnCours()
+    public function deleteAllJoueursEnCours()
     {
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
         $req->execute();
