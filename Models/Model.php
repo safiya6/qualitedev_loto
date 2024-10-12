@@ -74,6 +74,11 @@ class Model
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
+        public function getJoueurs()
+    {
+        $req = $this->bd->query("SELECT pseudo FROM Joueurs ORDER BY pseudo");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
     /**
      * Met à jour le ticket d'un joueur en fonction de son pseudo.
      * @param string $pseudo

@@ -6,53 +6,159 @@
     <title>Ajouter un Utilisateur</title>
     <style>
         /* Styles pour un design minimaliste */
-        body { font-family: Arial, sans-serif; background-color: #f5f5f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); text-align: center; }
-        h2 { color: #333; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { font-weight: bold; color: #333; }
-        input[type="text"] { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd; margin-top: 5px; }
-        .number-grid, .star-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 15px; justify-content: center; }
-        .number-grid button, .star-grid button { width: 40px; height: 40px; border-radius: 5px; background-color: #eee; border: 1px solid #ddd; cursor: pointer; font-weight: bold; }
-        .generate-button { margin-top: 10px; padding: 10px 15px; border-radius: 5px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
-        .selected { background-color: #4CAF50; color: #fff; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .users-list, .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .users-list {
+            width: 35%;
+        }
+
+        .users-list h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .user-item {
+            color: #555;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .form-container {
+            width: 65%;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+
+        .number-grid, .star-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .number-grid button, .star-grid button {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .generate-button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .selected {
+            background-color: #4CAF50;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Ajouter un Utilisateur</h2>
+    <!-- Liste des utilisateurs -->
+    <div class="users-list">
+        <h3>Utilisateurs inscrits</h3>
+        <?php if (!empty($joueurs)): ?>
+            <?php foreach ($joueurs as $joueur): ?>
+                <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Aucun utilisateur enregistré.</p>
+        <?php endif; ?>
+    </div>
 
-    <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
-        <div class="form-group">
-            <label for="pseudo">Choisissez un pseudo :</label>
-            <input type="text" id="pseudo" name="pseudo" required>
-        </div>
+    <!-- Formulaire d'ajout d'utilisateur -->
+    <div class="form-container">
+        <h2>Ajouter un Utilisateur</h2>
 
-        <label>Choisissez vos numéros :</label>
-        <div class="number-grid">
-            <?php for ($i = 1; $i <= 49; $i++): ?>
-                <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
-            <?php endfor; ?>
-        </div>
+        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
+            <div class="form-group">
+                <label for="pseudo">Choisissez un pseudo :</label>
+                <input type="text" id="pseudo" name="pseudo" required>
+            </div>
 
-        <label>Choisissez vos étoiles :</label>
-        <div class="star-grid">
-            <?php for ($i = 1; $i <= 9; $i++): ?>
-                <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
-            <?php endfor; ?>
-        </div>
+            <label>Choisissez vos numéros :</label>
+            <div class="number-grid">
+                <?php for ($i = 1; $i <= 49; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
 
-        <button type="button" class="generate-button" onclick="generateRandomSelection()">
-            <i>🎲</i> Générer aléatoirement
-        </button>
+            <label>Choisissez vos étoiles :</label>
+            <div class="star-grid">
+                <?php for ($i = 1; $i <= 9; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
 
-        <!-- Champs masqués pour stocker les numéros et les étoiles -->
-        <input type="hidden" id="numbers" name="numbers">
-        <input type="hidden" id="stars" name="stars">
+            <button type="button" class="generate-button" onclick="generateRandomSelection()">
+                <i>🎲</i> Générer aléatoirement
+            </button>
 
-        <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
-    </form>
+            <!-- Champs masqués pour stocker les numéros et les étoiles -->
+            <input type="hidden" id="numbers" name="numbers">
+            <input type="hidden" id="stars" name="stars">
+
+            <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
+        </form>
+    </div>
 </div>
 
 <script>

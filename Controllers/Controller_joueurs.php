@@ -7,7 +7,9 @@ class Controller_joueurs extends Controller
      */
     public function action_default()
     {
-        $this->render("add_user");
+        $model = Model::getModel();
+        $joueurs = $model->getJoueurs(); // Nouvelle méthode pour obtenir la liste des joueurs
+        $this->render("add_user", ['joueurs' => $joueurs]);
     }
 
     /**
@@ -26,8 +28,8 @@ class Controller_joueurs extends Controller
                 sort($numbers);
                 sort($stars);
     
-                // Génération du ticket sous format "1,2,3,4,5 | 1,2"
-                $ticket = implode(",", $numbers) . " | " . implode(",", $stars);
+                // Génération du ticket sous format "1-2-3-4-5 | 1-2"
+                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
                 $model = Model::getModel();
                 $success = $model->addJoueur($pseudo, $ticket);
