@@ -288,10 +288,36 @@ input[type="text"] {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    background-color: #eee;
-    border: 1px solid #ddd;
+    background-color: white;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+/* Boutons des numéros */
+.number-grid button {
+    border: 1px solid red; /* Bordure rouge pour les numéros non sélectionnés */
+    color: red; /* Couleur de texte rouge pour les numéros */
+}
+
+/* Boutons des étoiles */
+.star-grid button {
+    border: 1px solid #cc9a00; /* Bordure jaune foncé pour les étoiles non sélectionnées */
+    color: #cc9a00; /* Couleur de texte jaune foncé pour les étoiles */
+}
+
+/* Effet de sélection pour les numéros */
+.number-grid button.selected {
+    background-color: red; /* Fond rouge pour les numéros sélectionnés */
+    color: white; /* Texte blanc */
+    border: 2px solid red; /* Bordure plus épaisse */
+}
+
+/* Effet de sélection pour les étoiles */
+.star-grid button.selected {
+    background-color: #cc9a00; /* Fond jaune foncé pour les étoiles sélectionnées */
+    color: white; /* Texte blanc */
+    border: 2px solid #cc9a00; /* Bordure plus épaisse */
 }
 
 .generate-button {
