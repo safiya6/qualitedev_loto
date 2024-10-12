@@ -51,11 +51,6 @@ nav {
     border-radius: 5px;
 }
 
-.text-haut {
-    margin-top: 90px;
-    text-align:center;
-}
-
 /* Hero section (header pleine page) */
 .hero {
     height: 100vh;
@@ -69,10 +64,8 @@ nav {
     color: white;
     text-align: center;
     padding-top: 80px;
-    margin-bottom: 0;
 }
 
-/* Apparition fluide du texte du header */
 .hero-text h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-weight: 700;
@@ -80,17 +73,12 @@ nav {
     opacity: 0;
     animation: fadeInText 1.5s ease-out forwards;
     text-transform: uppercase;
-    text-align: center;
     line-height: 1.2;
-    margin: 0;
-    padding: 0;
 }
 
 .hero-text .big-text {
     font-size: 10rem;
     margin-bottom: 2rem;
-    position: relative;
-    top: -20px;
 }
 
 .hero-text .small-text {
@@ -98,6 +86,7 @@ nav {
     margin-top: 12rem;
 }
 
+/* Animation pour le texte du header */
 @keyframes fadeInText {
     from {
         opacity: 0;
@@ -179,216 +168,6 @@ nav {
 .image-box img:hover {
     transform: scale(1.05);
 }
-
-/* Section pour le pseudo et le bouton dé */
-.pseudo-container {
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.pseudo-container h2 {
-    font-weight: 600;
-    color: #1f3b57;
-    margin-bottom: 1rem;
-}
-
-.pseudo-container input {
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    width: 200px;
-    border: 2px solid #1f3b57;
-    border-radius: 5px;
-    text-align: center;
-    outline: none;
-    margin-bottom: 2rem;
-}
-
-/* Ticket style */
-
-
-.ticket { 
-    padding: 1rem;
-    width: 37%;
-    max-width: 800px;
-    margin: 1.5rem auto;
-    gap: 10px;
-    border-radius: 8px;
-    background-color: #d9d9d9;   
-    box-shadow: 0 4px 12px #163345cf;
-    transition: transform 0.3s ease;
-    text-align: center; /* Centre le titre uniquement */
-}
-#loto {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #354560;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-}
-
-.grid-container {
-    display: flex;
-    gap: 13px;
-}
-
-/* Grille des boules en 7x7 */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 colonnes */
-    gap: 10px;
-    justify-items: center;
-}
-
-/* Boutons des numéros */
-.number-btn {
-    background-color: #ffffff; /* Changement de couleur en rouge */
-    color: #b03030;
-    border: 1px solid #b03030;
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: font-size 0.3s ease;
-}
-
-.number-btn:hover {
-    font-size: 1.4rem;
-}
-
-#number-grid{
-    background-color: #ffffff;
-    border-radius: 15%;
-    border: 2px solid #b03030;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-}
-
-#stars-grid{
-    background-color: #ffffff;
-    border-radius: 15%;
-    border: 2px solid #b0a000;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-}
-
-/* Colonne des étoiles en 3x3 */
-.stars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
-    gap: 10px;
-    justify-items: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 15px;
-}
-
-/* Style des boutons pour les étoiles */
-.star-btn {
-    font-size: 0.8rem;
-    color: #ffffff;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    background-color: gold;
-    border: 1px solid #b0a000;
-}
-
-/* Conteneur du bouton aléatoire */
-.random-btn-container {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-#random-btn {
-    font-size: 1.2rem;
-    background-color: #1f3b57;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: background-color 0.3s ease;
-}
-
-#random-btn:hover {
-    background-color: #163345;
-}
-
-#random-btn img {
-    width: 25px;
-    height: auto;
-}
-
-/* Style commun pour les h1 */
-/* Style modernisé et harmonisé pour les titres */
-.player-header {
-    font-family: 'Roboto', sans-serif; /* Police moderne et épurée */
-    font-weight: 500;
-    font-size: 2.2rem; /* Taille ajustée pour être proportionnelle */
-    color: #2c3e50; 
-    text-align: center;
-    margin-top: 20px;
-    letter-spacing: 0.4px;
-    line-height: 1.4;
-}
-
-/* Style pour le champ input plus discret */
-.player-input {
-    font-size: 1.8rem; /* Réduit pour s’harmoniser avec le titre */
-    width: 2.5rem; /* Taille ajustée pour être moins visible */
-    border: none;
-    background: transparent;
-    color: #2c3e50; /* Même couleur que le titre pour une transition subtile */
-    text-align: center;
-    cursor: pointer;
-    padding-bottom: 2px; /* Ajoute un peu d'espace avec le texte */
-}
-
-/* Légère bordure discrète au focus */
-.player-input:focus {
-    outline: none;
-    border-bottom: 1px solid #a0a0a0; /* Couleur plus claire et taille plus fine */
-}
-
-.ajout-joueur{
-    margin-top: 52px;
-}
-
-/* Style commun pour les inputs */
-.player-input {
-    font-size: 1.5rem;
-    width: 3rem;
-    border: none;
-    background: transparent;
-    color: #333;
-    text-align: center;
-    cursor: pointer;
-}
-
-.player-input:focus {
-    outline: none;
-    border-bottom: 2px solid #354560;
-}
-
-/* Cache les flèches sur certains navigateurs */
-.player-input::-webkit-inner-spin-button, 
-.player-input::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
-
 
 /* Responsive pour les petits écrans */
 @media (max-width: 768px) {
