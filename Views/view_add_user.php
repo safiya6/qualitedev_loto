@@ -3,7 +3,7 @@
 <div class="container">
     <!-- Liste des utilisateurs -->
     <div class="users-list">
-        <h3>joueurs inscrits</h3>
+        <h3>Joueurs inscrits</h3>
         <div class="header-row">
             <div class="header-item">Pseudo</div>
             <div class="header-item">Ticket</div>
