@@ -54,6 +54,6 @@
     </div>
 </div>
 
-<script src="path/to/your/javascript.js"></script> <!-- Replace with actual JS path -->
+<script src="Utils/fonction_add_user.js"></script> 
 </body>
 </html>
