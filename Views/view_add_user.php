@@ -47,8 +47,9 @@
             <i>🎲</i> Générer aléatoirement
         </button>
 
-        <!-- Champ caché pour stocker le ticket -->
-        <input type="hidden" id="ticket" name="ticket">
+        <!-- Champs masqués pour stocker les numéros et les étoiles -->
+        <input type="hidden" id="numbers" name="numbers">
+        <input type="hidden" id="stars" name="stars">
 
         <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
     </form>
@@ -95,7 +96,6 @@
         });
     }
 
-   
     function prepareTicket() {
         if (selectedNumbers.size !== 5 || selectedStars.size !== 2) {
             alert("Veuillez sélectionner 5 numéros et 2 étoiles.");
@@ -105,7 +105,6 @@
         document.getElementById("stars").value = [...selectedStars].join(",");
         return true;
     }
-
 </script>
 
 </body>
