@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Utilisateur</title>
+    <title>Ajouter un joueur</title>
     <style>
         /* Styles pour un design minimaliste */
         body {
@@ -125,7 +125,7 @@
 <div class="container">
     <!-- Liste des utilisateurs -->
     <div class="users-list">
-        <h3>Utilisateurs inscrits</h3>
+        <h3>joueurs inscrits</h3>
             <div class="header-row">
                 <div class="header-item">Pseudo</div>
                 <div class="header-item">Ticket</div>
@@ -143,7 +143,7 @@
     <!-- Formulaire d'ajout d'utilisateur -->
     <div class="form-container">
         <h2>Ajouter un Utilisateur</h2>
-
+        <?php var_dump($joueurs); ?>
         <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
             <div class="form-group">
                 <label for="pseudo">Choisissez un pseudo :</label>
