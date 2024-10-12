@@ -117,7 +117,7 @@
         <h3>Utilisateurs inscrits</h3>
         <?php if (!empty($joueurs)): ?>
             <?php foreach ($joueurs as $joueur): ?>
-                <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
+                <div class="user-item"><?= htmlspecialchars($joueur) ?></div>
             <?php endforeach; ?>
         <?php else: ?>
             <p>Aucun utilisateur enregistré.</p>
