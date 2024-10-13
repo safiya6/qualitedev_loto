@@ -7,8 +7,10 @@ class Controller_partie extends Controller
     {
         $this->render("simulation");
     }
-    public function action_selectRandomJoueurs()
-{
+
+
+    public function action_selectRandomJoueurs() {
+
     $model = Model::getModel();
 
     // Vérifie si un nombre a été spécifié dans le formulaire, sinon utilise 10 par défaut
@@ -21,7 +23,7 @@ class Controller_partie extends Controller
     $joueurs = $model->selectRandomJoueurs_pred($nombre);
 
     // Affiche les joueurs
-    $this->render("display_joueurs", ['joueurs' => $joueurs]);
-}
+    $this->render("simualtion", ['joueurs' => $joueurs]);
+    }
 }
 ?>
