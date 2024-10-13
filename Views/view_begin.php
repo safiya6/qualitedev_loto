@@ -11,6 +11,6 @@
     <nav>
         <ul class="nav-bar">
             <li><a href="?controller=joueurs">Ajouter un pseudo</a></li>
-            <li><a href="#simulation">Simulation</a></li>
+            <li><a href="?controller=partie">Simulation</a></li>
         </ul>
     </nav>
