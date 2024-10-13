@@ -36,11 +36,9 @@ class Controller_joueurs extends Controller
                     $success = $model->insertJoueurs_creer($pseudo, $ticket);
                 }
     
-                if ($success) {
-                    $message = $id_joueur ? "Utilisateur mis à jour avec succès !" : "Utilisateur ajouté avec succès !";
-                } else {
+                if (!$success) {
                     $message = "Erreur : pseudo ou ticket déjà existant.";
-                }
+                } 
     
                 // Rafraîchissement de la liste des joueurs après ajout ou modification
                 $joueurs = $model->selectAllJoueurs_creer();
