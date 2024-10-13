@@ -2,19 +2,9 @@
 
 class Model
 {
-    /**
-     * Attribut contenant l'instance PDO
-     */
     private $bd;
-
-    /**
-     * Attribut statique qui contiendra l'unique instance de Model
-     */
     private static $instance = null;
 
-    /**
-     * Constructeur : effectue la connexion à la base de données.
-     */
     private function __construct()
     {
         include "credentials.php";
@@ -23,9 +13,6 @@ class Model
         $this->bd->query("SET NAMES 'utf8'");
     }
 
-    /**
-     * Méthode permettant de récupérer un modèle car le constructeur est privé (Implémentation du Design Pattern Singleton)
-     */
     public static function getModel()
     {
         if (self::$instance === null) {
@@ -51,17 +38,11 @@ class Model
 
         return $req->fetchColumn() > 0;
     }
-    /**
-     * Insère un joueur dans la table Joueurs.
-     * @param string $pseudo
-     * @param string|null $ticket
-     * @return bool
-     */
+
     public function insertJoueurs_creer($pseudo, $ticket)
     {
-        // Vérifier les doublons
         if ($this->isDuplicate($pseudo, $ticket)) {
-            return false; // Le doublon empêche l'insertion
+            return false;
         }
 
         $req = $this->bd->prepare("INSERT INTO Joueurs_creer (pseudo, ticket) VALUES (:pseudo, :ticket)");
@@ -71,32 +52,56 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    /**
-     * Sélectionne aléatoirement un nombre donné de joueurs.
-     * @param int $nombre
-     * @return array
-     */
     public function selectRandomJoueurs_pred($nombre)
     {
-        // Vérifier si la table est vide
         $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
         $count = $req->fetch(PDO::FETCH_ASSOC)['count'];
-    
+
         if ($count == 0) {
-            $this->populateJoueurs_pred();
+            $this->populateJoueurs_pred_sql();
         }
-    
-        // Sélectionner un nombre aléatoire de joueurs
+
         $req = $this->bd->query("SELECT * FROM Joueurs_pred ORDER BY RANDOM() LIMIT $nombre");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
-    /**
-     * Sélectionne un joueur en fonction de son pseudo.
-     * @param string $pseudo
-     * @return array|null
-     */
+    public function populateJoueurs_pred_sql()
+    {
+        $sql = "
+            DO
+            $$
+            DECLARE
+                i INT := 1;
+                pseudo TEXT;
+                ticket TEXT;
+            BEGIN
+                WHILE i <= 100 LOOP
+                    pseudo := 'Joueur_' || i || 
+                              substr('abcdefghijklmnopqrstuvwxyz', floor(random() * 26)::int + 1, 1) || 
+                              substr('abcdefghijklmnopqrstuvwxyz', floor(random() * 26)::int + 1, 1);
+
+                    ticket := array_to_string(ARRAY(
+                        SELECT (floor(random() * 49) + 1)::int 
+                        FROM generate_series(1, 5)
+                    ), '-') || ' | ' || array_to_string(ARRAY(
+                        SELECT (floor(random() * 9) + 1)::int 
+                        FROM generate_series(1, 2)
+                    ), '-');
+
+                    INSERT INTO Joueurs_pred (pseudo, ticket) VALUES (pseudo, ticket);
+                    i := i + 1;
+                END LOOP;
+            END
+            $$;
+        ";
+
+        try {
+            $this->bd->exec($sql);
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+        }
+    }
+
     public function selectJoueurByPseudo($pseudo)
     {
         $req = $this->bd->prepare("SELECT * FROM Joueurs WHERE pseudo = :pseudo");
@@ -105,22 +110,12 @@ class Model
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Sélectionne tous les joueurs de la table Joueurs, ordonnés par pseudo.
-     * @return array
-     */
     public function selectAllJoueurs_creer()
     {
         $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY pseudo");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Met à jour le ticket d'un joueur en fonction de son pseudo.
-     * @param string $pseudo
-     * @param string $ticket
-     * @return bool
-     */
     public function updateTicketJoueurByPseudo($pseudo, $ticket)
     {
         $req = $this->bd->prepare("UPDATE Joueurs SET ticket = :ticket WHERE pseudo = :pseudo");
@@ -130,14 +125,6 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    /**
-     * Insère un joueur en cours dans la table Joueurs_en_cours.
-     * @param int $id_joueur
-     * @param int $id_partie
-     * @param string $ticket
-     * @param float $gains
-     * @return bool
-     */
     public function insertJoueurEnCours($id_joueur, $id_partie, $ticket, $gains = 0.00)
     {
         $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur, id_partie, ticket, gains) VALUES (:id_joueur, :id_partie, :ticket, :gains)");
@@ -149,10 +136,6 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    /**
-     * Supprime toutes les lignes de la table Joueurs_en_cours.
-     * @return bool
-     */
     public function deleteAllJoueursEnCours()
     {
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
@@ -160,17 +143,17 @@ class Model
         return (bool)$req->rowCount();
     }
 
-        public function deleteJoueurs_creer($id_joueur)
+    public function deleteJoueurs_creer($id_joueur)
     {
         $req = $this->bd->prepare("DELETE FROM Joueurs_creer WHERE id_joueur = :id_joueur");
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
+
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
-         // Vérifier les doublons en excluant l'id actuel
-         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
-            return false; // Le doublon empêche la mise à jour
+        if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
+            return false;
         }
 
         $req = $this->bd->prepare("UPDATE Joueurs_creer SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
@@ -180,62 +163,4 @@ class Model
         $req->execute();
         return (bool)$req->rowCount();
     }
-    
-
-
-public function populateJoueurs_pred()
-{
-    $pseudosExistants = [];
-    for ($i = 0; $i < 100; $i++) {
-        do {
-            $pseudo = $this->generateRandomPseudo();
-        } while (in_array($pseudo, $pseudosExistants));
-
-        $ticket = $this->generateRandomTicket();
-        $pseudosExistants[] = $pseudo;
-
-        $req = $this->bd->prepare("INSERT INTO Joueurs_pred (pseudo, ticket) VALUES (:pseudo, :ticket)");
-        $req->bindValue(':pseudo', $pseudo);
-        $req->bindValue(':ticket', $ticket);
-        $req->execute();
-    }
 }
-
-// Fonction de génération de pseudo aléatoire
-private function generateRandomPseudo()
-{
-    $letters = 'abcdefghijklmnopqrstuvwxyz';
-    $numbers = '0123456789';
-    $pseudo = '';
-
-    $letterLength = rand(3, 13);
-    for ($i = 0; $i < $letterLength; $i++) {
-        $pseudo .= $letters[rand(0, strlen($letters) - 1)];
-    }
-
-    $numLength = rand(0, 2);
-    for ($i = 0; $i < $numLength; $i++) {
-        $pseudo .= $numbers[rand(0, strlen($numbers) - 1)];
-    }
-
-    return $pseudo;
-}
-
-// Fonction de génération de ticket aléatoire
-private function generateRandomTicket()
-{
-    $numbers = range(1, 49);
-    shuffle($numbers);
-    $ticketNumbers = array_slice($numbers, 0, 5);
-    sort($ticketNumbers);
-
-    $stars = range(1, 9);
-    shuffle($stars);
-    $ticketStars = array_slice($stars, 0, 2);
-    sort($ticketStars);
-
-    return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
-}
-}
-
-?>
