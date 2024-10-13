@@ -68,10 +68,14 @@ class Model
     public function populateJoueurs_pred_lots()
     {
         try {
-            for ($i = 0; $i < 100; $i += 10) {
-                $this->bd->beginTransaction(); // Démarre une transaction pour chaque lot
+            $totalPlayers = 100;
+            $batchSize = 10;
+            $inserted = 0;
 
-                for ($j = 0; $j < 10; $j++) {
+            while ($inserted < $totalPlayers) {
+                $this->bd->beginTransaction();
+
+                for ($j = 0; $j < $batchSize; $j++) {
                     $pseudo = $this->generateRandomPseudo();
                     $ticket = $this->generateRandomTicket();
 
@@ -79,14 +83,64 @@ class Model
                     $req->bindValue(':pseudo', $pseudo);
                     $req->bindValue(':ticket', $ticket);
                     $req->execute();
+
+                    $req = null;  // Libère la mémoire allouée à la requête
                 }
 
-                $this->bd->commit(); // Valide la transaction du lot
+                $this->bd->commit();
+                $inserted += $batchSize;
+
+                gc_collect_cycles(); // Libère les caches entre chaque lot
             }
         } catch (PDOException $e) {
-            $this->bd->rollBack(); // Annule si une erreur survient dans un lot
+            $this->bd->rollBack();
             echo "Erreur : " . $e->getMessage();
         }
+    }
+
+    public function selectAllJoueurs_creer()
+    {
+        $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY pseudo");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteJoueurs_creer($id_joueur)
+    {
+        $req = $this->bd->prepare("DELETE FROM Joueurs_creer WHERE id_joueur = :id_joueur");
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
+    {
+        if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
+            return false;
+        }
+
+        $req = $this->bd->prepare("UPDATE Joueurs_creer SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
+        $req->bindValue(':pseudo', $pseudo);
+        $req->bindValue(':ticket', $ticket);
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+        return (bool)$req->rowCount();
+    }
+
+    public function insertJoueurEnCours($id_joueur, $id_partie, $ticket, $gains = 0.00)
+    {
+        $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur, id_partie, ticket, gains) VALUES (:id_joueur, :id_partie, :ticket, :gains)");
+        $req->bindValue(':id_joueur', $id_joueur);
+        $req->bindValue(':id_partie', $id_partie);
+        $req->bindValue(':ticket', $ticket);
+        $req->bindValue(':gains', $gains);
+        $req->execute();
+        return (bool)$req->rowCount();
+    }
+
+    public function deleteAllJoueursEnCours()
+    {
+        $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
+        $req->execute();
+        return (bool)$req->rowCount();
     }
 
     private function generateRandomPseudo()
@@ -121,25 +175,5 @@ class Model
         sort($ticketStars);
 
         return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
-    }
-
-    public function selectAllJoueurs_creer()
-    {
-        $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY pseudo");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
-    {
-        if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
-            return false;
-        }
-
-        $req = $this->bd->prepare("UPDATE Joueurs_creer SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
-        $req->bindValue(':pseudo', $pseudo);
-        $req->bindValue(':ticket', $ticket);
-        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
-        $req->execute();
-        return (bool)$req->rowCount();
     }
 }
