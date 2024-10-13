@@ -170,11 +170,12 @@ class Model
     public function insertJoueurEnCours($id_joueur, $id_partie, $ticket)
     {
         $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur_pred, id_partie, ticket) VALUES (:id_joueur_pred, :id_partie, :ticket)");
-        $req->bindValue(':id_joueur_pred ', $id_joueur);
+        $req->bindValue(':id_joueur_pred', $id_joueur); // Retirez l'espace ici
         $req->bindValue(':id_partie', $id_partie);
         $req->bindValue(':ticket', $ticket);
         $req->execute();
     }
+    
 
     public function selectAllJoueursEnCours()
     {
