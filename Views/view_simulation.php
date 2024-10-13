@@ -1,20 +1,19 @@
 <?php require_once "view_begin.php"; ?>
 
 <div class="container">
-    <!-- Formulaire pour sélectionner un nombre de joueurs -->
-    <div class="form-container">
-        <h2>Sélectionner un Nombre de Joueurs</h2>
-        <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
-            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" id="nombre" name="nombre" min="1" max="100" required>
-            <button type="submit" class="generate-button">Afficher les joueurs</button>
-        </form>
-    </div>
+    <h3>Sélectionner un Nombre de Joueurs</h3>
 
-    <!-- Liste des joueurs sélectionnés -->
+    <!-- Formulaire pour sélectionner un nombre de joueurs -->
+    <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
+        <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
+        <input type="number" id="nombre" name="nombre" min="1" max="100" required>
+        <button type="submit" class="generate-button">Afficher les joueurs</button>
+    </form>
+
+    <!-- Liste des joueurs en cours -->
     <div class="users-list">
-        <h3>Joueurs Sélectionnés</h3>
-        
+        <h3>Joueurs en Cours</h3>
+
         <div class="header-row">
             <div class="header-item">Pseudo</div>
             <div class="header-item">Ticket</div>
@@ -26,6 +25,17 @@
                     <div class="data-row">
                         <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+
+                        <!-- Boutons de modification et suppression -->
+                        <button type="button" class="edit-button" 
+                            onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
+                            🖊️ Modifier
+                        </button>
+                        
+                        <form action="?controller=partie&action=deleteUser" method="POST" class="delete-form">
+                            <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
+                        </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -35,5 +45,6 @@
     </div>
 </div>
 
+<script src="Utils/fonction_add_user.js"></script> 
 </body>
 </html>
