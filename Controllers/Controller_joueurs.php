@@ -17,33 +17,36 @@ class Controller_joueurs extends Controller
      */
     public function action_addUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
-            $pseudo = trim($_POST['pseudo']);
-            $numbers = explode(",", trim($_POST['numbers']));
-            $stars = explode(",", trim($_POST['stars']));
+        $model = Model::getModel();
+        $id_joueur = $_POST['id_joueur'] ?? null;
+        $pseudo = trim($_POST['pseudo']);
+        $numbers = explode(",", trim($_POST['numbers']));
+        $stars = explode(",", trim($_POST['stars']));
     
-            // Validation côté serveur
-            if (count($numbers) === 5 && count($stars) === 2) {
-                // Tri des numéros et étoiles pour une uniformité
-                sort($numbers);
-                sort($stars);
+        // Validation du nombre de numéros et d'étoiles
+        if (count($numbers) === 5 && count($stars) === 2) {
+            sort($numbers);
+            sort($stars);
+            $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
-                // Génération du ticket sous format "1-2-3-4-5 | 1-2"
-                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-    
-                $model = Model::getModel();
-                $success = $model->insertJoueurs_creer($pseudo, $ticket); // Nouvelle méthode pour insérer un joueur
-    
-                $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
-                $joueurs = $model->selectAllJoueurs_creer(); // Rafraîchit la liste des joueurs après ajout
-                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+            if ($id_joueur) {
+                // Mise à jour du joueur
+                $success = $model->updateJoueur($id_joueur, $pseudo, $ticket);
+                $message = $success ? "Utilisateur mis à jour avec succès !" : "Erreur lors de la mise à jour de l'utilisateur.";
             } else {
-                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
+                // Ajout d'un nouvel utilisateur
+                $success = $model->insertJoueurs_creer($pseudo, $ticket);
+                $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
             }
+    
+            // Rafraîchit la liste des joueurs et rend la vue
+            $joueurs = $model->selectAllJoueurs_creer();
+            $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
         } else {
-            $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
+            $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
         }
     }
+    
 
         public function action_deleteUser()
     {
@@ -57,36 +60,7 @@ class Controller_joueurs extends Controller
         exit();
     }
 
-    public function action_editUser()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
-            $id_joueur = (int)$_POST['id_joueur'];
-            $pseudo = trim($_POST['pseudo']);
-            $numbers = explode(",", trim($_POST['numbers']));
-            $stars = explode(",", trim($_POST['stars']));
-
-            // Validation côté serveur pour s'assurer du bon nombre de numéros et étoiles
-            if (count($numbers) === 5 && count($stars) === 2) {
-                // Génération du ticket sous format "1-2-3-4-5 | 1-2"
-                sort($numbers);
-                sort($stars);
-                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-
-                // Mise à jour dans la base de données
-                $model = Model::getModel();
-                $success = $model->updateJoueur($id_joueur, $pseudo, $ticket);
-
-                // Message de succès ou d'erreur
-                $message = $success ? "Utilisateur mis à jour avec succès !" : "Erreur lors de la mise à jour de l'utilisateur.";
-                $this->render("add_user", ['message' => $message]);
-            } else {
-                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
-            }
-        } else {
-            $this->action_error("Informations manquantes pour la mise à jour.");
-        }
-    }
-
+   
 
 }
 

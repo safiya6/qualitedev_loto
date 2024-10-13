@@ -41,6 +41,7 @@
     <div class="form-container">
         <h2>Ajouter un Utilisateur</h2>
         <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
+            <input type="hidden" id="id_joueur" name="id_joueur">
             <div class="form-group">
                 <label for="pseudo">Choisissez un pseudo :</label>
                 <input type="text" id="pseudo" name="pseudo" required>
@@ -64,12 +65,12 @@
                 <i>🎲</i> Générer aléatoirement
             </button>
 
-            <!-- Champs masqués pour stocker les numéros et les étoiles -->
             <input type="hidden" id="numbers" name="numbers">
             <input type="hidden" id="stars" name="stars">
 
             <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
         </form>
+
     </div>
 </div>
 

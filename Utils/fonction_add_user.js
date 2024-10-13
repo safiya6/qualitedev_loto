@@ -50,10 +50,9 @@ function prepareTicket() {
 
 function populateForm(id_joueur, pseudo, ticket) {
     console.log("Modification du joueur :", id_joueur);
-    console.log("Pseudo :", pseudo);
-    console.log("Ticket :", ticket);
 
-    // Met à jour le champ pseudo
+    // Remplit le champ caché avec l'identifiant du joueur
+    document.getElementById("id_joueur").value = id_joueur;
     document.getElementById("pseudo").value = pseudo;
 
     // Réinitialise les sélections et vide les ensembles
@@ -81,6 +80,8 @@ function populateForm(id_joueur, pseudo, ticket) {
         }
     });
 }
+
+
 
 
 

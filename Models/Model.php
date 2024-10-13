@@ -134,15 +134,16 @@ class Model
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
-        public function updateJoueur($id_joueur, $pseudo, $ticket)
+    public function updateJoueur($id_joueur, $pseudo, $ticket)
     {
         $req = $this->bd->prepare("UPDATE Joueurs_creer SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
         $req->bindValue(':pseudo', $pseudo);
         $req->bindValue(':ticket', $ticket);
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
+        return (bool)$req->rowCount();
     }
-
+    
 
 }
 
