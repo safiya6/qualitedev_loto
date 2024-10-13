@@ -6,17 +6,16 @@ class Controller_joueurs extends Controller
     public function action_default()
     {
         $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs_creer(); // Récupérer tous les joueurs
-        $message = isset($_SESSION['message']) ? $_SESSION['message'] : null;
-        unset($_SESSION['message']); // Effacer le message après affichage
+        $joueurs = $model->selectAllJoueurs_creer();
+        $message = $_SESSION['message'] ?? null;
+        unset($_SESSION['message']); // Efface le message après affichage
         $this->render("add_user", ['joueurs' => $joueurs, 'message' => $message]);
     }
 
     public function action_addUser()
     {
-        $_SESSION['message'] = ""; // Initialise ou vide le message de session
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Vérification des données du formulaire
             if (empty($_POST['pseudo']) || empty($_POST['numbers']) || empty($_POST['stars'])) {
                 $_SESSION['message'] = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
                 header("Location: ?controller=joueurs");
@@ -27,6 +26,14 @@ class Controller_joueurs extends Controller
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
 
+            // Validation du pseudo
+            if (strlen($pseudo) < 5 || strlen($pseudo) > 15 || preg_match_all('/\d/', $pseudo) > 2) {
+                $_SESSION['message'] = "Erreur : Le pseudo doit contenir entre 5 et 15 caractères et un maximum de 2 chiffres.";
+                header("Location: ?controller=joueurs");
+                exit();
+            }
+
+            // Validation des numéros et étoiles
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
@@ -35,16 +42,16 @@ class Controller_joueurs extends Controller
                 $model = Model::getModel();
                 $id_joueur = $_POST['id_joueur'] ?? null;
 
-                if ($id_joueur) {
-                    $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
-                } else {
-                    $success = $model->insertJoueurs_creer($pseudo, $ticket);
-                }
+                // Ajout ou modification du joueur
+                $success = $id_joueur 
+                    ? $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket)
+                    : $model->insertJoueurs_creer($pseudo, $ticket);
 
                 if (!$success) {
                     $_SESSION['message'] = "Erreur : pseudo ou ticket déjà existant.";
                 }
-                header("Location: ?controller=joueurs"); // Recharge pour afficher les joueurs sans message si succès
+
+                header("Location: ?controller=joueurs");
                 exit();
             } else {
                 $_SESSION['message'] = "Sélection incorrecte de numéros ou d'étoiles.";
@@ -53,6 +60,7 @@ class Controller_joueurs extends Controller
             }
         }
     }
+
     public function action_deleteUser()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
@@ -63,14 +71,5 @@ class Controller_joueurs extends Controller
         header("Location: ?controller=joueurs");
         exit();
     }
-
-    // Fonction de validation du pseudo
-    private function validatePseudo($pseudo)
-    {
-        $lengthValid = strlen($pseudo) >= 5 && strlen($pseudo) <= 15;
-        $numbersCount = preg_match_all('/\d/', $pseudo);
-        $numbersValid = $numbersCount <= 2;
-
-        return $lengthValid && $numbersValid;
-    }
 }
+?>

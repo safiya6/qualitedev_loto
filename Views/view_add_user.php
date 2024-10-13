@@ -1,11 +1,13 @@
 <?php require_once "view_begin.php"; ?>
 
-<?php if (!empty($message)): ?>
-    <script>
-        alert(<?= json_encode($message) ?>);
-    </script>
-<?php endif; ?>
 <div class="container">
+    <!-- Affichage du message d'erreur -->
+    <?php if (isset($message) && $message): ?>
+        <div id="error-message" style="display: block; color: red; margin-bottom: 20px;">
+            <?= htmlspecialchars($message) ?>
+        </div>
+    <?php endif; ?>
+
     <!-- Liste des utilisateurs -->
     <div class="users-list">
         <h3>Joueurs inscrits</h3>
@@ -44,18 +46,12 @@
 
     <!-- Formulaire d'ajout d'utilisateur -->
     <div class="form-container">
-
         <h2>Ajouter un Utilisateur</h2>
-        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket() && return validatePseudo()">
-            <input type="hidden" id="id_joueur" name="id_joueur">
+        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
             <div class="form-group">
                 <label for="pseudo">Choisissez un pseudo :</label>
                 <input type="text" id="pseudo" name="pseudo" required>
-                <button type="button" id="generate-pseudo" onclick="generateRandomPseudo()">
-                    🎲
-                </button>
             </div>
-
 
             <label>Choisissez vos numéros :</label>
             <div class="number-grid">
@@ -75,21 +71,14 @@
                 <i>🎲</i> Générer aléatoirement
             </button>
 
+            <!-- Champs masqués pour stocker les numéros et les étoiles -->
             <input type="hidden" id="numbers" name="numbers">
             <input type="hidden" id="stars" name="stars">
 
             <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
         </form>
-
     </div>
 </div>
-<?php if (isset($message)): ?>
-    <script>
-        document.getElementById("error-message").style.display = "block";
-        document.getElementById("error-message").innerText = <?= json_encode($message) ?>;
-    </script>
-<?php endif; ?>
-
 
 <script src="Utils/fonction_add_user.js"></script> 
 </body>
