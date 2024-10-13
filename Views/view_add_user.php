@@ -1,6 +1,10 @@
 <?php require_once "view_begin.php"; ?>
 
-
+<?php if (!empty($message)): ?>
+    <script>
+        alert(<?= json_encode($message) ?>);
+    </script>
+<?php endif; ?>
 <div class="container">
     <!-- Liste des utilisateurs -->
     <div class="users-list">
@@ -40,11 +44,7 @@
 
     <!-- Formulaire d'ajout d'utilisateur -->
     <div class="form-container">
-    <?php if (isset($message)): ?>
-        <div id="error-message" class="error-message">
-            <?= htmlspecialchars($message) ?>
-        </div>
-    <?php endif; ?>
+
         <h2>Ajouter un Utilisateur</h2>
         <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
             <input type="hidden" id="id_joueur" name="id_joueur">
