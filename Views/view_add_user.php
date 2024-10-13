@@ -13,7 +13,8 @@
                 <div class="data-row">
                     <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
                     <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
-                    <!-- Formulaire pour le bouton de suppression -->
+                    
+                    <!-- Delete Button Form -->
                     <form action="?controller=joueurs&action=deleteUser" method="POST" class="delete-form">
                         <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
                         <button type="submit" class="delete-button">
@@ -21,8 +22,14 @@
                                 <path d="M5.5 5.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-8zM4.118 4a1 1 0 0 1 .82-.4h6.144a1 1 0 0 1 .82.4l.845 1H3.273l.845-1zM1 4.5A.5.5 0 0 1 1.5 4h13a.5.5 0 0 1 .5.5V5h-15v-.5zM2 5.5v9A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-9H2z"/>
                             </svg>
                         </button>
-
                     </form>
+
+                    <!-- Edit Button -->
+                    <button onclick="populateForm(<?= htmlspecialchars(json_encode($joueur)) ?>)" class="edit-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708L7.207 11.793l-2.5.5a.5.5 0 0 1-.61-.61l.5-2.5L12.146.854zm-.646 1.646L4.5 9.5l-.354 1.768L5.268 12.5 13.5 4.268 11.5 2.5zM0 13a2 2 0 1 0 4 0h10.5a1.5 1.5 0 0 0 1.415-1h-15.33A2 2 0 0 0 0 13z"/>
+                        </svg>
+                    </button>
                 </div>
             <?php endforeach; ?>
         </div>

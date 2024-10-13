@@ -365,3 +365,17 @@ input[type="text"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile pour plus de profondeur */
 }
 
+.edit-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    margin-left: 5px;
+    font-size: 1.2rem;
+}
+
+.edit-button:hover, .delete-button:hover {
+    color: #354560;
+}
+
+

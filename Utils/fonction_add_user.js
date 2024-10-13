@@ -47,3 +47,17 @@ function prepareTicket() {
     document.getElementById("stars").value = [...selectedStars].join(",");
     return true;
 }
+
+function populateForm(joueur) {
+    document.getElementById("pseudo").value = joueur.pseudo;
+    document.getElementById("numbers").value = joueur.ticket; // Adjust depending on input structure
+
+    // Update the form action for editing
+    const form = document.querySelector(".form-container form");
+    form.action = "?controller=joueurs&action=editUser";
+    if (!document.getElementById("edit-id")) {
+        form.insertAdjacentHTML('beforeend', `<input type="hidden" id="edit-id" name="id_joueur" value="${joueur.id_joueur}">`);
+    } else {
+        document.getElementById("edit-id").value = joueur.id_joueur;
+    }
+}
