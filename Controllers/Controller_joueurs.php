@@ -57,6 +57,37 @@ class Controller_joueurs extends Controller
         exit();
     }
 
+    public function action_editUser()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
+            $id_joueur = (int)$_POST['id_joueur'];
+            $pseudo = trim($_POST['pseudo']);
+            $numbers = explode(",", trim($_POST['numbers']));
+            $stars = explode(",", trim($_POST['stars']));
+
+            // Validation côté serveur pour s'assurer du bon nombre de numéros et étoiles
+            if (count($numbers) === 5 && count($stars) === 2) {
+                // Génération du ticket sous format "1-2-3-4-5 | 1-2"
+                sort($numbers);
+                sort($stars);
+                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
+
+                // Mise à jour dans la base de données
+                $model = Model::getModel();
+                $success = $model->updateJoueur($id_joueur, $pseudo, $ticket);
+
+                // Message de succès ou d'erreur
+                $message = $success ? "Utilisateur mis à jour avec succès !" : "Erreur lors de la mise à jour de l'utilisateur.";
+                $this->render("add_user", ['message' => $message]);
+            } else {
+                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
+            }
+        } else {
+            $this->action_error("Informations manquantes pour la mise à jour.");
+        }
+    }
+
+
 }
 
 ?>
