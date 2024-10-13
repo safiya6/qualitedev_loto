@@ -34,6 +34,23 @@ class Model
         return self::$instance;
     }
 
+    public function isDuplicate($pseudo, $ticket, $excludeId = null)
+    {
+        $query = "SELECT COUNT(*) FROM Joueurs_creer WHERE (pseudo = :pseudo OR ticket = :ticket)";
+        if ($excludeId !== null) {
+            $query .= " AND id_joueur != :excludeId";
+        }
+
+        $req = $this->bd->prepare($query);
+        $req->bindValue(':pseudo', $pseudo);
+        $req->bindValue(':ticket', $ticket);
+        if ($excludeId !== null) {
+            $req->bindValue(':excludeId', $excludeId, PDO::PARAM_INT);
+        }
+        $req->execute();
+
+        return $req->fetchColumn() > 0;
+    }
     /**
      * Insère un joueur dans la table Joueurs.
      * @param string $pseudo
@@ -42,6 +59,11 @@ class Model
      */
     public function insertJoueurs_creer($pseudo, $ticket)
     {
+        // Vérifier les doublons
+        if ($this->isDuplicate($pseudo, $ticket)) {
+            return false; // Le doublon empêche l'insertion
+        }
+
         $req = $this->bd->prepare("INSERT INTO Joueurs_creer (pseudo, ticket) VALUES (:pseudo, :ticket)");
         $req->bindValue(':pseudo', $pseudo);
         $req->bindValue(':ticket', $ticket);
@@ -134,8 +156,13 @@ class Model
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
-    public function updateJoueur($id_joueur, $pseudo, $ticket)
+    public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
+         // Vérifier les doublons en excluant l'id actuel
+         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
+            return false; // Le doublon empêche la mise à jour
+        }
+
         $req = $this->bd->prepare("UPDATE Joueurs_creer SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
         $req->bindValue(':pseudo', $pseudo);
         $req->bindValue(':ticket', $ticket);

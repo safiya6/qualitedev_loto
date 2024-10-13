@@ -17,35 +17,43 @@ class Controller_joueurs extends Controller
      */
     public function action_addUser()
     {
-        $model = Model::getModel();
-        $id_joueur = $_POST['id_joueur'] ?? null;
-        $pseudo = trim($_POST['pseudo']);
-        $numbers = explode(",", trim($_POST['numbers']));
-        $stars = explode(",", trim($_POST['stars']));
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
+            $pseudo = trim($_POST['pseudo']);
+            $numbers = explode(",", trim($_POST['numbers']));
+            $stars = explode(",", trim($_POST['stars']));
     
-        // Validation du nombre de numéros et d'étoiles
-        if (count($numbers) === 5 && count($stars) === 2) {
-            sort($numbers);
-            sort($stars);
-            $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
+            if (count($numbers) === 5 && count($stars) === 2) {
+                sort($numbers);
+                sort($stars);
+                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
-            if ($id_joueur) {
-                // Mise à jour du joueur
-                $success = $model->updateJoueur($id_joueur, $pseudo, $ticket);
-                $message = $success ? "Utilisateur mis à jour avec succès !" : "Erreur lors de la mise à jour de l'utilisateur.";
+                $model = Model::getModel();
+                $id_joueur = $_POST['id_joueur'] ?? null; // Vérifie si c'est une mise à jour
+    
+                if ($id_joueur) {
+                    // Mise à jour d'un joueur existant
+                    $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
+                } else {
+                    // Insertion d'un nouveau joueur
+                    $success = $model->insertJoueurs_creer($pseudo, $ticket);
+                }
+    
+                if ($success) {
+                    $message = $id_joueur ? "Utilisateur mis à jour avec succès !" : "Utilisateur ajouté avec succès !";
+                } else {
+                    $message = "Erreur : pseudo ou ticket déjà existant.";
+                }
+    
+                $joueurs = $model->selectAllJoueurs_creer();
+                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
             } else {
-                // Ajout d'un nouvel utilisateur
-                $success = $model->insertJoueurs_creer($pseudo, $ticket);
-                $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
+                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
             }
-    
-            // Rafraîchit la liste des joueurs et rend la vue
-            $joueurs = $model->selectAllJoueurs_creer();
-            $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
         } else {
-            $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
+            $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
+    
     
 
         public function action_deleteUser()
