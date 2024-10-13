@@ -28,13 +28,11 @@ class Controller_joueurs extends Controller
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
                 $model = Model::getModel();
-                $id_joueur = $_POST['id_joueur'] ?? null; // Vérifie si c'est une mise à jour
+                $id_joueur = $_POST['id_joueur'] ?? null;
     
                 if ($id_joueur) {
-                    // Mise à jour d'un joueur existant
                     $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
                 } else {
-                    // Insertion d'un nouveau joueur
                     $success = $model->insertJoueurs_creer($pseudo, $ticket);
                 }
     
@@ -45,7 +43,7 @@ class Controller_joueurs extends Controller
                 }
     
                 $joueurs = $model->selectAllJoueurs_creer();
-                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+                $this->render("add_user", ['message' => $message]);
             } else {
                 $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
             }
@@ -53,6 +51,7 @@ class Controller_joueurs extends Controller
             $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
+    
     
     
 

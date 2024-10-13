@@ -1,4 +1,9 @@
 <?php require_once "view_begin.php"; ?>
+<?php if (!empty($message)): ?>
+    <script>
+        alert("<?= addslashes($message) ?>");
+    </script>
+<?php endif; ?>
 
 <div class="container">
     <!-- Liste des utilisateurs -->
