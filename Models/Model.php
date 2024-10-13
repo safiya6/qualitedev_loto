@@ -40,9 +40,9 @@ class Model
      * @param string|null $ticket
      * @return bool
      */
-    public function insertJoueur($pseudo, $ticket)
+    public function insertJoueurs_creer($pseudo, $ticket)
     {
-        $req = $this->bd->prepare("INSERT INTO Joueurs (pseudo, ticket) VALUES (:pseudo, :ticket)");
+        $req = $this->bd->prepare("INSERT INTO Joueurs_creer (pseudo, ticket) VALUES (:pseudo, :ticket)");
         $req->bindValue(':pseudo', $pseudo);
         $req->bindValue(':ticket', $ticket);
         $req->execute();
@@ -77,9 +77,9 @@ class Model
      * Sélectionne tous les joueurs de la table Joueurs, ordonnés par pseudo.
      * @return array
      */
-    public function selectAllJoueurs()
+    public function selectAllJoueurs_creer()
     {
-        $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY pseudo");
+        $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY pseudo");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -128,9 +128,9 @@ class Model
         return (bool)$req->rowCount();
     }
 
-        public function deleteJoueur($id_joueur)
+        public function deleteJoueurs_creer($id_joueur)
     {
-        $req = $this->bd->prepare("DELETE FROM Joueurs WHERE id_joueur = :id_joueur");
+        $req = $this->bd->prepare("DELETE FROM Joueurs_creer WHERE id_joueur = :id_joueur");
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }

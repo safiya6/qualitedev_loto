@@ -8,7 +8,7 @@ class Controller_joueurs extends Controller
     public function action_default()
     {
         $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs(); // Nouvelle méthode pour obtenir la liste des joueurs
+        $joueurs = $model->selectAllJoueurs_creer(); // Nouvelle méthode pour obtenir la liste des joueurs
         $this->render("add_user", ['joueurs' => $joueurs]);
     }
 
@@ -32,7 +32,7 @@ class Controller_joueurs extends Controller
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
     
                 $model = Model::getModel();
-                $success = $model->insertJoueur($pseudo, $ticket); // Nouvelle méthode pour insérer un joueur
+                $success = $model->insertJoueurs_creer($pseudo, $ticket); // Nouvelle méthode pour insérer un joueur
     
                 $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
                 $joueurs = $model->selectAllJoueurs(); // Rafraîchit la liste des joueurs après ajout
@@ -50,7 +50,7 @@ class Controller_joueurs extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
             $id_joueur = intval($_POST['id_joueur']);
             $model = Model::getModel();
-            $model->deleteJoueur($id_joueur); // Méthode du modèle pour supprimer un joueur
+            $model->deleteJoueurs_creer($id_joueur); // Méthode du modèle pour supprimer un joueur
         }
         // Redirection pour éviter la resoumission de formulaire en rechargeant la page
         header("Location: ?controller=joueurs");
