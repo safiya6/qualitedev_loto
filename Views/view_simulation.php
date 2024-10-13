@@ -4,7 +4,7 @@
     <h3>Sélectionner un Nombre de Joueurs à Afficher</h3>
     
     <!-- Formulaire pour sélectionner un nombre de joueurs -->
-    <form action="?controller=joueurs&action=selectRandomJoueurs" method="POST">
+    <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
         <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
         <input type="number" id="nombre" name="nombre" min="1" max="100" required>
         <button type="submit">Afficher les joueurs</button>
@@ -25,4 +25,5 @@
     <?php endif; ?>
 </div>
 
-<?php require_once "view_end.php"; ?>
+    </body>
+    </html>
