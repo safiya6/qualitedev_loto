@@ -53,23 +53,32 @@ function populateForm(id_joueur, pseudo, ticket) {
     console.log("Pseudo :", pseudo);
     console.log("Ticket :", ticket);
 
-    // Récupération des données pour les champs
+    // Met à jour le champ pseudo
     document.getElementById("pseudo").value = pseudo;
-    
-    // Désélectionner tous les boutons avant de sélectionner les nouveaux
+
+    // Réinitialise les sélections et vide les ensembles
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
+    selectedNumbers.clear();
+    selectedStars.clear();
 
     const [numbers, stars] = ticket.split(" | ");
     
-    // Sélection des numéros et des étoiles dans le formulaire
+    // Sélectionne les numéros et ajoute-les à selectedNumbers
     numbers.split("-").forEach(num => {
         const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-        if (button) button.classList.add("selected");
+        if (button) {
+            button.classList.add("selected");
+            selectedNumbers.add(parseInt(num));
+        }
     });
     
+    // Sélectionne les étoiles et ajoute-les à selectedStars
     stars.split("-").forEach(star => {
         const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-        if (button) button.classList.add("selected");
+        if (button) {
+            button.classList.add("selected");
+            selectedStars.add(parseInt(star));
+        }
     });
 }
 
