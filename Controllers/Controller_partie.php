@@ -3,7 +3,10 @@ session_start();
 
 class Controller_partie extends Controller
 {
-    
+    public function action_default()
+    {
+        $this->render("simulation");
+    }
     public function action_selectRandomJoueurs()
 {
     $model = Model::getModel();
