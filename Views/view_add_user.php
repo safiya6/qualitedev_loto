@@ -1,70 +1,96 @@
-<?php
-session_start();
+<?php require_once "view_begin.php"; ?>
 
-class Controller_joueurs extends Controller
-{
-    public function action_default()
-    {
-        $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs_creer(); // Récupérer tous les joueurs
-        $message = isset($_SESSION['message']) ? $_SESSION['message'] : null;
-        unset($_SESSION['message']); // Effacer le message après affichage
-        $this->render("add_user", ['joueurs' => $joueurs, 'message' => $message]);
-    }
+<?php if (!empty($message)): ?>
+    <script>
+        alert(<?= json_encode($message) ?>);
+    </script>
+<?php endif; ?>
+<div class="container">
+    <!-- Liste des utilisateurs -->
+    <div class="users-list">
+        <h3>Joueurs inscrits</h3>
+        <div class="header-row">
+            <div class="header-item">Pseudo</div>
+            <div class="header-item">Ticket</div>
+        </div>
+        <div class="data-rows">
+            <?php foreach ($joueurs as $joueur): ?>
+                <div class="data-row">
+                    <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
+                    <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+                    
+                    <!-- Delete Button Form -->
+                    <form action="?controller=joueurs&action=deleteUser" method="POST" class="delete-form">
+                        <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                        <button type="submit" class="delete-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-8zM4.118 4a1 1 0 0 1 .82-.4h6.144a1 1 0 0 1 .82.4l.845 1H3.273l.845-1zM1 4.5A.5.5 0 0 1 1.5 4h13a.5.5 0 0 1 .5.5V5h-15v-.5zM2 5.5v9A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-9H2z"/>
+                            </svg>
+                        </button>
+                    </form>
 
-    public function action_addUser()
-    {
-        $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs_creer(); // Récupère les joueurs pour l'affichage en cas d'erreur
+                    <!-- Edit Button -->
+                    <button type="button" class="edit-button" 
+                        onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146 0a.5.5 0 0 1 .352.146l2.5 2.5a.5.5 0 0 1 0 .708L13.207 4.646l-3-3L12.146.146A.5.5 0 0 1 12.146 0z"/>
+                            <path fill-rule="evenodd" d="M1 13.5V16h2.5l7-7-2.5-2.5-7 7zm.646-.146l7-7L10.5 7.207l-7 7H1v-1.5a.5.5 0 0 1 .146-.354z"/>
+                        </svg>
+                    </button>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification des données du formulaire
-            if (empty($_POST['pseudo']) || empty($_POST['numbers']) || empty($_POST['stars'])) {
-                $message = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
-                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
-                return;
-            }
+    <!-- Formulaire d'ajout d'utilisateur -->
+    <div class="form-container">
 
-            $pseudo = trim($_POST['pseudo']);
-            $numbers = explode(",", trim($_POST['numbers']));
-            $stars = explode(",", trim($_POST['stars']));
+        <h2>Ajouter un Utilisateur</h2>
+        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket() && return validatePseudo()">
+            <input type="hidden" id="id_joueur" name="id_joueur">
+            <div class="form-group">
+                <label for="pseudo">Choisissez un pseudo :</label>
+                <input type="text" id="pseudo" name="pseudo" required>
+                <button type="button" id="generate-pseudo" onclick="generateRandomPseudo()">
+                    🎲
+                </button>
+            </div>
 
-            if (count($numbers) === 5 && count($stars) === 2) {
-                sort($numbers);
-                sort($stars);
-                $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
 
-                $id_joueur = $_POST['id_joueur'] ?? null;
+            <label>Choisissez vos numéros :</label>
+            <div class="number-grid">
+                <?php for ($i = 1; $i <= 49; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
 
-                // Insertion ou mise à jour du joueur
-                if ($id_joueur) {
-                    $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
-                } else {
-                    $success = $model->insertJoueurs_creer($pseudo, $ticket);
-                }
+            <label>Choisissez vos étoiles :</label>
+            <div class="star-grid">
+                <?php for ($i = 1; $i <= 9; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
 
-                if ($success) {
-                    header("Location: ?controller=joueurs");
-                    exit(); // Redirection pour recharger la page sans message d'erreur
-                } else {
-                    $message = "Erreur : pseudo ou ticket déjà existant.";
-                }
-            } else {
-                $message = "Sélection incorrecte de numéros ou d'étoiles.";
-            }
+            <button type="button" class="generate-button" onclick="generateRandomSelection()">
+                <i>🎲</i> Générer aléatoirement
+            </button>
 
-            $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
-        }
-    }
+            <input type="hidden" id="numbers" name="numbers">
+            <input type="hidden" id="stars" name="stars">
 
-    public function action_deleteUser()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
-            $id_joueur = intval($_POST['id_joueur']);
-            $model = Model::getModel();
-            $model->deleteJoueurs_creer($id_joueur);
-        }
-        header("Location: ?controller=joueurs");
-        exit();
-    }
-}
+            <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
+        </form>
+
+    </div>
+</div>
+<?php if (isset($message)): ?>
+    <script>
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerText = <?= json_encode($message) ?>;
+    </script>
+<?php endif; ?>
+
+
+<script src="Utils/fonction_add_user.js"></script> 
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 
 class Controller_joueurs extends Controller
 {
@@ -12,41 +12,50 @@ class Controller_joueurs extends Controller
         $this->render("add_user", ['joueurs' => $joueurs, 'message' => $message]);
     }
 
-    public function action_addUser() {
+    public function action_addUser()
+    {
+        $model = Model::getModel();
+        $joueurs = $model->selectAllJoueurs_creer(); // Récupère les joueurs pour l'affichage en cas d'erreur
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Vérification des données du formulaire
             if (empty($_POST['pseudo']) || empty($_POST['numbers']) || empty($_POST['stars'])) {
-                $this->render("add_user", ['message' => "Erreur : Pseudo, numéros ou étoiles non spécifiés."]);
+                $message = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
+                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
                 return;
             }
-    
+
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
-    
+
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-    
-                $model = Model::getModel();
+
                 $id_joueur = $_POST['id_joueur'] ?? null;
-    
+
+                // Insertion ou mise à jour du joueur
                 if ($id_joueur) {
                     $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
                 } else {
                     $success = $model->insertJoueurs_creer($pseudo, $ticket);
                 }
-    
-                $message = $success ? "" : "Erreur : pseudo ou ticket déjà existant.";
-                $joueurs = $model->selectAllJoueurs_creer();
-                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+
+                if ($success) {
+                    header("Location: ?controller=joueurs");
+                    exit(); // Redirection pour recharger la page sans message d'erreur
+                } else {
+                    $message = "Erreur : pseudo ou ticket déjà existant.";
+                }
             } else {
-                $this->render("add_user", ['message' => "Sélection incorrecte de numéros ou d'étoiles."]);
+                $message = "Sélection incorrecte de numéros ou d'étoiles.";
             }
+
+            $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
         }
     }
-    
 
     public function action_deleteUser()
     {
