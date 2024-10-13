@@ -46,7 +46,7 @@
     <div class="form-container">
 
         <h2>Ajouter un Utilisateur</h2>
-        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
+        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket() && return validatePseudo()">
             <input type="hidden" id="id_joueur" name="id_joueur">
             <div class="form-group">
                 <label for="pseudo">Choisissez un pseudo :</label>
