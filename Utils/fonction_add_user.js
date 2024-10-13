@@ -48,46 +48,43 @@ function prepareTicket() {
     return true;
 }
 
-function populateForm(joueur) {
-    // Mettre à jour le pseudo
-    document.getElementById("pseudo").value = joueur.pseudo;
+function populateForm(id_joueur, pseudo, ticket) {
+    // Décompose le ticket en numéros et étoiles
+    const [numberStr, starStr] = ticket.split(" | ");
+    const numbers = numberStr.split("-").map(Number);
+    const stars = starStr.split("-").map(Number);
 
-    // Diviser le ticket pour obtenir les numéros et les étoiles
-    const [numbers, stars] = joueur.ticket.split(" | ");
-    const selectedNumbers = numbers.split("-");
-    const selectedStars = stars.split("-");
+    // Met à jour les champs du formulaire
+    document.getElementById('id_joueur').value = id_joueur;
+    document.getElementById('pseudo').value = pseudo;
 
-    // Réinitialiser toutes les sélections dans la grille des numéros et étoiles
-    document.querySelectorAll('.number-grid button').forEach(button => {
-        button.classList.remove('selected');
+    // Réinitialise les sélections actuelles
+    selectedNumbers.clear();
+    selectedStars.clear();
+
+    // Ajoute les numéros et étoiles du ticket aux ensembles sélectionnés
+    numbers.forEach(num => selectedNumbers.add(num));
+    stars.forEach(star => selectedStars.add(star));
+
+    // Met à jour l'affichage pour les numéros sélectionnés
+    document.querySelectorAll('.number-grid button').forEach(btn => {
+        const value = parseInt(btn.getAttribute('data-value'));
+        if (selectedNumbers.has(value)) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
     });
-    document.querySelectorAll('.star-grid button').forEach(button => {
-        button.classList.remove('selected');
+
+    // Met à jour l'affichage pour les étoiles sélectionnées
+    document.querySelectorAll('.star-grid button').forEach(btn => {
+        const value = parseInt(btn.getAttribute('data-value'));
+        if (selectedStars.has(value)) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
     });
-
-    // Sélectionner les numéros du ticket
-    selectedNumbers.forEach(num => {
-        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-        if (button) button.classList.add('selected');
-    });
-
-    // Sélectionner les étoiles du ticket
-    selectedStars.forEach(star => {
-        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-        if (button) button.classList.add('selected');
-    });
-
-    // Mettre à jour les champs cachés pour les valeurs à envoyer
-    document.getElementById("numbers").value = selectedNumbers.join(",");
-    document.getElementById("stars").value = selectedStars.join(",");
-
-    // Mettre à jour l'action du formulaire pour l'édition
-    const form = document.querySelector(".form-container form");
-    form.action = "?controller=joueurs&action=editUser";
-    if (!document.getElementById("edit-id")) {
-        form.insertAdjacentHTML('beforeend', `<input type="hidden" id="edit-id" name="id_joueur" value="${joueur.id_joueur}">`);
-    } else {
-        document.getElementById("edit-id").value = joueur.id_joueur;
-    }
 }
+
 
