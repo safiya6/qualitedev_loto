@@ -27,15 +27,15 @@
                         <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
 
                         <!-- Boutons de modification et suppression -->
-                        <button type="button" class="edit-button" 
-                            onclick="populateForm(<?= htmlspecialchars(json_encode($joueur['id_joueur'])) ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
+                        <!--<button type="button" class="edit-button" 
+                            onclick="populateForm(')">
                             🖊️ Modifier
                         </button>
                         
                         <form action="?controller=partie&action=deleteUser" method="POST" class="delete-form">
-                            <input type="hidden" name="id_joueur" value="<?= htmlspecialchars($joueur['id_joueur']) ?>">
+                            <input type="hidden" name="id_joueur" value="<>">
                             <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>
+                        </form>-->
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
