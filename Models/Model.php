@@ -182,7 +182,7 @@ class Model
     }
     
 
-}
+
 public function populateJoueurs_pred()
 {
     $pseudosExistants = [];
@@ -236,6 +236,6 @@ private function generateRandomTicket()
 
     return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
 }
-
+}
 
 ?>
