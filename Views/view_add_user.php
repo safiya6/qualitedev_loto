@@ -25,9 +25,11 @@
                     </form>
 
                     <!-- Edit Button -->
-                    <button onclick="populateForm(<?= htmlspecialchars(json_encode($joueur)) ?>)" class="edit-button">
+                    <button type="button" class="edit-button" 
+                        onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708L7.207 11.793l-2.5.5a.5.5 0 0 1-.61-.61l.5-2.5L12.146.854zm-.646 1.646L4.5 9.5l-.354 1.768L5.268 12.5 13.5 4.268 11.5 2.5zM0 13a2 2 0 1 0 4 0h10.5a1.5 1.5 0 0 0 1.415-1h-15.33A2 2 0 0 0 0 13z"/>
+                            <path d="M12.146 0a.5.5 0 0 1 .352.146l2.5 2.5a.5.5 0 0 1 0 .708L13.207 4.646l-3-3L12.146.146A.5.5 0 0 1 12.146 0z"/>
+                            <path fill-rule="evenodd" d="M1 13.5V16h2.5l7-7-2.5-2.5-7 7zm.646-.146l7-7L10.5 7.207l-7 7H1v-1.5a.5.5 0 0 1 .146-.354z"/>
                         </svg>
                     </button>
                 </div>

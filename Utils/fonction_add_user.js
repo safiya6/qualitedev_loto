@@ -49,43 +49,29 @@ function prepareTicket() {
 }
 
 function populateForm(id_joueur, pseudo, ticket) {
-    console.log("Modification du joueur :", id_joueur, pseudo, ticket); // Vérification
-    // Décompose le ticket en numéros et étoiles
-    const [numberStr, starStr] = ticket.split(" | ");
-    const numbers = numberStr.split("-").map(Number);
-    const stars = starStr.split("-").map(Number);
+    console.log("Modification du joueur :", id_joueur);
+    console.log("Pseudo :", pseudo);
+    console.log("Ticket :", ticket);
 
-    // Met à jour les champs du formulaire
-    document.getElementById('id_joueur').value = id_joueur;
-    document.getElementById('pseudo').value = pseudo;
+    // Récupération des données pour les champs
+    document.getElementById("pseudo").value = pseudo;
+    
+    // Désélectionner tous les boutons avant de sélectionner les nouveaux
+    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
 
-    // Réinitialise les sélections actuelles
-    selectedNumbers.clear();
-    selectedStars.clear();
-
-    // Ajoute les numéros et étoiles du ticket aux ensembles sélectionnés
-    numbers.forEach(num => selectedNumbers.add(num));
-    stars.forEach(star => selectedStars.add(star));
-
-    // Met à jour l'affichage pour les numéros sélectionnés
-    document.querySelectorAll('.number-grid button').forEach(btn => {
-        const value = parseInt(btn.getAttribute('data-value'));
-        if (selectedNumbers.has(value)) {
-            btn.classList.add('selected');
-        } else {
-            btn.classList.remove('selected');
-        }
+    const [numbers, stars] = ticket.split(" | ");
+    
+    // Sélection des numéros et des étoiles dans le formulaire
+    numbers.split("-").forEach(num => {
+        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
+        if (button) button.classList.add("selected");
     });
-
-    // Met à jour l'affichage pour les étoiles sélectionnées
-    document.querySelectorAll('.star-grid button').forEach(btn => {
-        const value = parseInt(btn.getAttribute('data-value'));
-        if (selectedStars.has(value)) {
-            btn.classList.add('selected');
-        } else {
-            btn.classList.remove('selected');
-        }
+    
+    stars.split("-").forEach(star => {
+        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
+        if (button) button.classList.add("selected");
     });
 }
+
 
 
