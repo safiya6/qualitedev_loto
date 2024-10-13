@@ -9,9 +9,17 @@
         <input type="number" id="nombre" name="nombre" min="1" max="100" required>
         <button type="submit">Afficher les joueurs</button>
     </form>
-    
+
     <?php if (!empty($joueurs)): ?>
         <h3>Joueurs Sélectionnés</h3>
+        
+        <!-- En-tête de la liste des joueurs -->
+        <div class="header-row">
+            <div class="header-item">Pseudo</div>
+            <div class="header-item">Ticket</div>
+        </div>
+
+        <!-- Liste des joueurs -->
         <div class="data-rows">
             <?php foreach ($joueurs as $joueur): ?>
                 <div class="data-row">
@@ -25,5 +33,5 @@
     <?php endif; ?>
 </div>
 
-    </body>
-    </html>
+</body>
+</html>
