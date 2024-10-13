@@ -51,131 +51,181 @@ nav {
     border-radius: 5px;
 }
 
-/* Style spécifique pour l'ajout d'utilisateur */
-.container {
+/* Hero section (header pleine page) */
+.hero {
+    height: 100vh;
+    background-image: url('header.webp');
+    background-size: cover;
+    background-position: center;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    opacity: 0;
+    animation: fadeInText 1.5s ease-out forwards;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.hero-text .big-text {
+    font-size: 10rem;
+    margin-bottom: 2rem;
+}
+
+.hero-text .small-text {
+    font-size: 4rem;
+    margin-top: 12rem;
+}
+
+/* Animation pour le texte du header */
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section des règles */
+.rules {
+    padding: 2rem;
+    background-color: white;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+    margin-top: 0;
+}
+
+.rules.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rules h2 {
+    font-size: 2rem;
+    color: #1f3b57;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.rules p {
+    font-size: 1.2rem;
+    line-height: 1.8;
     max-width: 800px;
-    margin: 50px auto;
+    margin: 0 auto;
+    padding: 1rem;
+    font-weight: 300;
+}
+
+/* Disposition en deux colonnes */
+.rules-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.rules-box, .image-box {
+    flex: 1;
+    max-width: 45%;
+}
+
+.rules-box {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.rules-box:hover {
+    transform: translateY(-10px);
+}
+
+.image-box img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.image-box img:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .rules-container {
+        flex-direction: column;
+    }
+
+    .rules-box, .image-box {
+        max-width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .nav-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-bar li {
+        margin: 10px 0;
+    }
+}
+
+/* Style spécifique à la page d'ajout d'utilisateur */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 100px auto;
     padding: 20px;
 }
 
-/* Style pour le message d'erreur */
-.alert-message {
-    color: #d9534f;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-    display: none;
-}
-
-/* Conteneurs de la liste des utilisateurs et du formulaire */
+/* Utilisateurs et formulaire box */
 .users-list, .form-container {
-    background-color: #ffffff;
+    background-color: #f8f9fa;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.users-list h3, .form-container h2 {
-    text-align: center;
-    color: #354560;
-    margin-bottom: 15px;
+.users-list:hover, .form-container:hover {
+    transform: translateY(-10px);
 }
 
-/* Formulaire d'ajout */
-.input-group {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
+.users-list {
+    width: 45%;
+    text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-input[type="text"] {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    flex: 1;
-}
-
-input[type="text"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
-
-/* Grilles de sélection */
-.number-grid, .star-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 15px;
-    justify-content: center;
-}
-
-.number-grid button, .star-grid button {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-/* Boutons des numéros */
-.number-grid button {
-    border: 1px solid #ff6f61;
-    color: #ff6f61;
-}
-
-/* Boutons des étoiles */
-.star-grid button {
-    border: 1px solid #f4b400;
-    color: #f4b400;
-}
-
-/* Effet de sélection */
-.number-grid button.selected, .star-grid button.selected {
-    background-color: currentColor;
-    color: #ffffff;
-}
-
-/* Bouton de génération aléatoire */
-.generate-button {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.generate-button:hover {
-    background-color: #45a049;
-}
-
-/* Boutons de suppression et d'édition */
-.delete-button, .edit-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s;
-}
-
-.delete-button:hover {
-    color: #d9534f;
-    background-color: rgba(217, 83, 79, 0.2);
-    border-radius: 50%;
-}
-
-.edit-button:hover {
-    color: #354560;
-    background-color: rgba(53, 69, 96, 0.2);
-    border-radius: 50%;
+.form-container {
+    width: 50%;
 }
 
 /* Titres des sections */
@@ -217,18 +267,122 @@ label {
     color: #333;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .form-container, .users-list {
-        width: 100%;
-    }
-
-    .generate-button {
-        width: 100%;
-    }
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
 }
+
+/* Grilles de sélection */
+.number-grid, .star-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.number-grid button, .star-grid button {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+/* Boutons des numéros */
+.number-grid button {
+    border: 1px solid red; /* Bordure rouge pour les numéros non sélectionnés */
+    color: red; /* Couleur de texte rouge pour les numéros */
+}
+
+/* Boutons des étoiles */
+.star-grid button {
+    border: 1px solid #cc9a00; /* Bordure jaune foncé pour les étoiles non sélectionnées */
+    color: #cc9a00; /* Couleur de texte jaune foncé pour les étoiles */
+}
+
+/* Effet de sélection pour les numéros */
+.number-grid button.selected {
+    background-color: red; /* Fond rouge pour les numéros sélectionnés */
+    color: white; /* Texte blanc */
+    border: 2px solid red; /* Bordure plus épaisse */
+}
+
+/* Effet de sélection pour les étoiles */
+.star-grid button.selected {
+    background-color: #cc9a00; /* Fond jaune foncé pour les étoiles sélectionnées */
+    color: white; /* Texte blanc */
+    border: 2px solid #cc9a00; /* Bordure plus épaisse */
+}
+
+.generate-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.generate-button:hover {
+    background-color: #45a049;
+}
+
+.selected {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* Style du bouton de suppression */
+.delete-form {
+    display: inline;
+    margin-left: 10px;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: #d9534f; 
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    border-radius: 50%; /* Donne une forme ronde au bouton */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-button:hover {
+    background-color: #d9544f3a; /* Légère teinte de fond pour plus de contraste */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile pour plus de profondeur */
+}
+
+.edit-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    margin-left: 5px;
+    font-size: 1.2rem;
+}
+
+.edit-button:hover, .delete-button:hover {
+    color: #354560;
+}
+
+#error-message{
+    
+    color: red;
+    margin-bottom: 20px;
+    display: none;
+}
+
+
