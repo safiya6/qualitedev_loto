@@ -13,6 +13,11 @@
                 <div class="data-row">
                     <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
                     <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+                    <!-- Formulaire pour le bouton de suppression -->
+                    <form action="?controller=joueurs&action=deleteUser" method="POST" class="delete-form">
+                        <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                        <button type="submit" class="delete-button">🗑️</button>
+                    </form>
                 </div>
             <?php endforeach; ?>
         </div>

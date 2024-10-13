@@ -127,6 +127,14 @@ class Model
         $req->execute();
         return (bool)$req->rowCount();
     }
+
+        public function deleteJoueur($id_joueur)
+    {
+        $req = $this->bd->prepare("DELETE FROM Joueurs WHERE id_joueur = :id_joueur");
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+    }
+
 }
 
 ?>

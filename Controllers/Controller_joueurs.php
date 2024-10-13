@@ -44,6 +44,19 @@ class Controller_joueurs extends Controller
             $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
+
+        public function action_deleteUser()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
+            $id_joueur = intval($_POST['id_joueur']);
+            $model = Model::getModel();
+            $model->deleteJoueur($id_joueur); // Méthode du modèle pour supprimer un joueur
+        }
+        // Redirection pour éviter la resoumission de formulaire en rechargeant la page
+        header("Location: ?controller=joueurs");
+        exit();
+    }
+
 }
 
 ?>
