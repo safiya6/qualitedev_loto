@@ -105,16 +105,15 @@ function generateRandomPseudo() {
 function validatePseudo() {
     const pseudo = document.getElementById("pseudo").value;
     const lengthValid = pseudo.length >= 5 && pseudo.length <= 15;
-    const numbersCount = (pseudo.match(/\d/g) || []).length; // Compte les chiffres dans le pseudo
+    const numbersCount = (pseudo.match(/\d/g) || []).length;
     const numbersValid = numbersCount <= 2;
 
     if (!lengthValid || !numbersValid) {
         alert("Le pseudo doit contenir entre 5 et 15 caractères et un maximum de 2 chiffres.");
-        return false;
+        return false; // Empêche la soumission du formulaire si le pseudo est invalide
     }
-    return true;
+    return true; // Le pseudo est valide
 }
-
 
 
 
