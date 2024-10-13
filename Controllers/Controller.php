@@ -7,7 +7,6 @@
  */
 abstract class Controller
 {
-    ini_set('memory_limit', '256M'); // Augmentez à 256M ou plus si nécessaire
     /**
      * Constructeur. Lance l'action correspondante.
      * 
@@ -16,6 +15,8 @@ abstract class Controller
      */
     public function __construct()
     {
+        ini_set('memory_limit', '256M'); // Augmentez à 256M ou plus si nécessaire
+
         if (isset($_GET['action']) && method_exists($this, "action_" . $_GET["action"])) {
             $action = "action_" . $_GET["action"];
             $this->$action();
