@@ -166,19 +166,53 @@ class Model
 
         return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
     }
-
-    public function insertJoueurEnCours($id_joueur, $id_partie)
-    {
-        $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur_pred, id_partie, ticket) VALUES (:id_joueur_pred, :id_partie, :ticket)");
-        $req->bindValue(':id_joueur_pred', $id_joueur); // Retirez l'espace ici
-        $req->bindValue(':id_partie', $id_partie);
-        $req->execute();
-    }
-    
+   
 
     public function selectAllJoueursEnCours()
     {
         $req = $this->bd->query("SELECT * FROM Joueurs_en_cours ORDER BY id_joueur");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function insertJoueurEnCoursPred($id_joueur_pred)
+    {
+        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_pred) VALUES (:id_joueur_pred)");
+        $req->bindValue(':id_joueur_pred', $id_joueur_pred, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    // Insertion d’un joueur de `joueurs_creer` dans `joueurs_en_cours`
+    public function insertJoueurEnCoursCreer($id_joueur_creer)
+    {
+        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_creer) VALUES (:id_joueur_creer)");
+        $req->bindValue(':id_joueur_creer', $id_joueur_creer, PDO::PARAM_INT);        $req->execute();
+    }
+
+    // Récupération des joueurs de `joueurs_pred` dans `joueurs_en_cours`
+    public function selectJoueursEnCoursPred()
+    {
+        $req = $this->bd->query("
+            SELECT 
+                jp.id_joueur AS id_joueur_pred,
+                jp.pseudo AS pseudo,
+                jp.ticket AS ticket
+            FROM joueurs_en_cours je
+            JOIN joueurs_pred jp ON je.id_joueur_pred = jp.id_joueur
+        ");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Récupération des joueurs de `joueurs_creer` dans `joueurs_en_cours`
+    public function selectJoueursEnCoursCreer()
+    {
+        $req = $this->bd->query("
+            SELECT 
+                jc.id_joueur AS id_joueur_creer,
+                jc.pseudo AS pseudo,
+                jc.ticket AS ticket
+            FROM joueurs_en_cours je
+            JOIN joueurs_creer jc ON je.id_joueur_creer = jc.id_joueur
+        ");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 

@@ -18,11 +18,11 @@ class Controller_partie extends Controller
 
         // Insère les joueurs sélectionnés dans Joueurs_en_cours
         foreach ($joueurs as $joueur) {
-            $model->insertJoueurEnCours($joueur['id_joueur'], $joueur['ticket']);
+            $model-> insertJoueurEnCoursPred($joueur['id_joueur']);
         }
 
         // Affiche tous les joueurs en cours
-        $joueursEnCours = $model->selectAllJoueursEnCours();
+        $joueursEnCours = $model->selectJoueursEnCoursPred();
         $this->render("simulation", ['joueurs' => $joueursEnCours]);
     }
 
