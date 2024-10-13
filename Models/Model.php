@@ -227,4 +227,11 @@ class Model
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
+        public function deleteJoueurEnCours($id_joueur)
+    {
+        $req = $this->bd->prepare("DELETE FROM joueurs_en_cours WHERE id_joueur_pred = :id_joueur");
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+    }
+
 }
