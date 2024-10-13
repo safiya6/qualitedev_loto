@@ -29,7 +29,7 @@
                         <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
                         
                         <form action="?controller=partie&action=deleteUser" method="POST" class="delete-form">
-                            <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                            <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur_pred'] ?>">
                             <button type="submit" class="delete-button">🗑️ Supprimer</button>
                         </form>
                     </div>
