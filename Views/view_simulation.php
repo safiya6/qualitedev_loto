@@ -28,12 +28,12 @@
 
                         <!-- Boutons de modification et suppression -->
                         <button type="button" class="edit-button" 
-                            onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
+                            onclick="populateForm(<?= htmlspecialchars(json_encode($joueur['id_joueur'])) ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
                             🖊️ Modifier
                         </button>
                         
                         <form action="?controller=partie&action=deleteUser" method="POST" class="delete-form">
-                            <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                            <input type="hidden" name="id_joueur" value="<?= htmlspecialchars($joueur['id_joueur']) ?>">
                             <button type="submit" class="delete-button">🗑️ Supprimer</button>
                         </form>
                     </div>
