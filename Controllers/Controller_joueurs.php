@@ -42,8 +42,9 @@ class Controller_joueurs extends Controller
                     $message = "Erreur : pseudo ou ticket déjà existant.";
                 }
     
+                // Rafraîchissement de la liste des joueurs après ajout ou modification
                 $joueurs = $model->selectAllJoueurs_creer();
-                $this->render("add_user", ['message' => $message]);
+                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
             } else {
                 $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
             }
@@ -51,6 +52,7 @@ class Controller_joueurs extends Controller
             $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
     }
+    
     
     
     
