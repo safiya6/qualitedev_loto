@@ -66,7 +66,7 @@ class Controller_joueurs extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
             $id_joueur = intval($_POST['id_joueur']);
             $model = Model::getModel();
-            $model->deleteJoueurs_creer($id_joueur);
+            $model->deleteJoueurs_en_cours($id_joueur);
         }
         header("Location: ?controller=joueurs");
         exit();

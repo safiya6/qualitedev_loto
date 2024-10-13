@@ -104,9 +104,9 @@ class Model
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function deleteJoueurs_creer($id_joueur)
+    public function deleteJoueurs_en_cours($id_joueur)
     {
-        $req = $this->bd->prepare("DELETE FROM Joueurs_creer WHERE id_joueur = :id_joueur");
+        $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours WHERE id_joueur = :id_joueur");
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
