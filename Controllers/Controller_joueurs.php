@@ -35,7 +35,7 @@ class Controller_joueurs extends Controller
                 $success = $model->insertJoueurs_creer($pseudo, $ticket); // Nouvelle méthode pour insérer un joueur
     
                 $message = $success ? "Utilisateur ajouté avec succès !" : "Erreur lors de l'ajout de l'utilisateur.";
-                $joueurs = $model->selectAllJoueurs(); // Rafraîchit la liste des joueurs après ajout
+                $joueurs = $model->selectAllJoueurs_creer(); // Rafraîchit la liste des joueurs après ajout
                 $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
             } else {
                 $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
