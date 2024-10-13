@@ -14,46 +14,51 @@ class Controller_joueurs extends Controller
 
     public function action_addUser()
     {
-        $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs_creer(); // Récupère les joueurs pour l'affichage en cas d'erreur
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Vérification des données du formulaire
             if (empty($_POST['pseudo']) || empty($_POST['numbers']) || empty($_POST['stars'])) {
-                $message = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
-                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
-                return;
+                $_SESSION['message'] = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
+                header("Location: ?controller=joueurs");
+                exit();
             }
 
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
 
+            // Validation du pseudo
+            if (!$this->validatePseudo($pseudo)) {
+                $_SESSION['message'] = "Erreur : Le pseudo doit contenir entre 5 et 15 caractères et un maximum de 2 chiffres.";
+                header("Location: ?controller=joueurs");
+                exit();
+            }
+
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
 
+                $model = Model::getModel();
                 $id_joueur = $_POST['id_joueur'] ?? null;
 
-                // Insertion ou mise à jour du joueur
                 if ($id_joueur) {
                     $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
                 } else {
                     $success = $model->insertJoueurs_creer($pseudo, $ticket);
                 }
 
-                if ($success) {
-                    header("Location: ?controller=joueurs");
-                    exit(); // Redirection pour recharger la page sans message d'erreur
-                } else {
-                    $message = "Erreur : pseudo ou ticket déjà existant.";
+                if (!$success) {
+                    $_SESSION['message'] = "Erreur : pseudo ou ticket déjà existant.";
                 }
+                
+                // Rediriger pour éviter l'affichage intempestif du message d'erreur
+                header("Location: ?controller=joueurs");
+                exit();
             } else {
-                $message = "Sélection incorrecte de numéros ou d'étoiles.";
+                $_SESSION['message'] = "Sélection incorrecte de numéros ou d'étoiles.";
+                header("Location: ?controller=joueurs");
+                exit();
             }
-
-            $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
         }
     }
 
@@ -66,5 +71,15 @@ class Controller_joueurs extends Controller
         }
         header("Location: ?controller=joueurs");
         exit();
+    }
+
+    // Fonction de validation du pseudo
+    private function validatePseudo($pseudo)
+    {
+        $lengthValid = strlen($pseudo) >= 5 && strlen($pseudo) <= 15;
+        $numbersCount = preg_match_all('/\d/', $pseudo);
+        $numbersValid = $numbersCount <= 2;
+
+        return $lengthValid && $numbersValid;
     }
 }
