@@ -25,7 +25,7 @@
                     <div class="data-row">
                         <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
-
+                        <?php var_dump($joueur);?>
                         <!-- Boutons de modification et suppression -->
                         <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
                         
