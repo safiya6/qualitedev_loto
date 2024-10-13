@@ -21,38 +21,38 @@ class Controller_joueurs extends Controller
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
-    
+
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-    
+
                 $model = Model::getModel();
                 $id_joueur = $_POST['id_joueur'] ?? null;
-    
+
                 if ($id_joueur) {
                     $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
                 } else {
                     $success = $model->insertJoueurs_creer($pseudo, $ticket);
                 }
-    
-                // S'il y a une erreur (par exemple, doublon), renvoie le message, sinon rien
+
                 if (!$success) {
-                    $message = "Erreur : pseudo ou ticket déjà existant.";
-                    $joueurs = $model->selectAllJoueurs_creer();
-                    $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+                    echo json_encode(['status' => 'error', 'message' => "Erreur : pseudo ou ticket déjà existant."]);
+                    exit;
                 } else {
                     $joueurs = $model->selectAllJoueurs_creer();
-                    $this->render("add_user", ['joueurs' => $joueurs]); // Aucune alerte en cas de succès
+                    $this->render("add_user", ['joueurs' => $joueurs]);
+                    exit;
                 }
             } else {
-                $this->action_error("Sélection incorrecte de numéros ou d'étoiles.");
+                echo json_encode(['status' => 'error', 'message' => "Sélection incorrecte de numéros ou d'étoiles."]);
+                exit;
             }
-        } else {
-            $this->action_error("Pseudo, numéros ou étoiles non spécifiés.");
         }
+        echo json_encode(['status' => 'error', 'message' => "Pseudo, numéros ou étoiles non spécifiés."]);
+        exit;
     }
-    
+
     
     
     
