@@ -378,4 +378,11 @@ input[type="text"] {
     color: #354560;
 }
 
+#error-message{
+    
+    color: red;
+    margin-bottom: 20px;
+    display: none;
+}
+
 

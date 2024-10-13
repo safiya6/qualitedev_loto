@@ -51,6 +51,7 @@
 
     <!-- Formulaire d'ajout d'utilisateur -->
     <div class="form-container">
+    <div id="error-message"></div>
         <h2>Ajouter un Utilisateur</h2>
         <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
             <input type="hidden" id="id_joueur" name="id_joueur">
@@ -85,6 +86,13 @@
 
     </div>
 </div>
+<?php if (isset($message)): ?>
+    <script>
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").innerText = <?= json_encode($message) ?>;
+    </script>
+<?php endif; ?>
+
 
 <script src="Utils/fonction_add_user.js"></script> 
 </body>

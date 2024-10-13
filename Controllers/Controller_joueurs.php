@@ -30,26 +30,26 @@ class Controller_joueurs extends Controller
                 $model = Model::getModel();
                 $id_joueur = $_POST['id_joueur'] ?? null;
     
-                // Mise à jour ou insertion selon le cas
                 $success = $id_joueur 
                     ? $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket)
                     : $model->insertJoueurs_creer($pseudo, $ticket);
     
-                // Retour JSON en cas d'erreur
+                // Message en cas d'erreur
                 if (!$success) {
-                    echo json_encode(["status" => "error", "message" => "Erreur : pseudo ou ticket déjà existant."]);
-                    exit();
+                    $message = "Erreur : pseudo ou ticket déjà existant.";
+                    $joueurs = $model->selectAllJoueurs_creer();
+                    $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+                    return;
                 }
-    
-                echo json_encode(["status" => "success"]);
-                exit();
             } else {
-                echo json_encode(["status" => "error", "message" => "Sélection incorrecte de numéros ou d'étoiles."]);
-                exit();
+                $message = "Sélection incorrecte de numéros ou d'étoiles.";
+                $joueurs = $model->selectAllJoueurs_creer();
+                $this->render("add_user", ['message' => $message, 'joueurs' => $joueurs]);
+                return;
             }
         }
     
-        // Requête GET pour afficher la page
+        // Chargement normal de la page
         $joueurs = Model::getModel()->selectAllJoueurs_creer();
         $this->render("add_user", ["joueurs" => $joueurs]);
     }
