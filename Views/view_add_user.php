@@ -1,17 +1,6 @@
 <?php require_once "view_begin.php"; ?>
-<script>
-    // Afficher l'alerte uniquement s'il y a une erreur
-    <?php if (!empty($message)): ?>
-        alert("<?= $message ?>");
-    <?php endif; ?>
-</script>
 
 
-<?php if (!empty($message)): ?>
-    <script>
-        alert("<?= addslashes($message) ?>");
-    </script>
-<?php endif; ?>
 <div class="container">
     <!-- Liste des utilisateurs -->
     <div class="users-list">
