@@ -2,11 +2,7 @@
 
 <div class="container">
     <!-- Affichage du message d'erreur -->
-    <?php if (isset($message) && $message): ?>
-        <div id="error-message" style="display: block; color: red; margin-bottom: 20px;">
-            <?= htmlspecialchars($message) ?>
-        </div>
-    <?php endif; ?>
+  
 
     <!-- Liste des utilisateurs -->
     <div class="users-list">
@@ -52,7 +48,11 @@
                 <label for="pseudo">Choisissez un pseudo :</label>
                 <input type="text" id="pseudo" name="pseudo" required>
             </div>
-
+            <?php if (isset($message) && $message): ?>
+                <div id="error-message" style="display: block; color: red; margin-bottom: 20px;">
+                    <?= htmlspecialchars($message) ?>
+                </div>
+            <?php endif; ?>
             <label>Choisissez vos numéros :</label>
             <div class="number-grid">
                 <?php for ($i = 1; $i <= 49; $i++): ?>

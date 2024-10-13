@@ -76,11 +76,21 @@ class Model
      * @param int $nombre
      * @return array
      */
-    public function selectRandomJoueurs($nombre)
+    public function selectRandomJoueurs_pred($nombre)
     {
-        $req = $this->bd->query("SELECT * FROM Joueurs ORDER BY RANDOM() LIMIT $nombre");
+        // Vérifier si la table est vide
+        $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
+        $count = $req->fetch(PDO::FETCH_ASSOC)['count'];
+    
+        if ($count == 0) {
+            $this->populateJoueurs_pred();
+        }
+    
+        // Sélectionner un nombre aléatoire de joueurs
+        $req = $this->bd->query("SELECT * FROM Joueurs_pred ORDER BY RANDOM() LIMIT $nombre");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     /**
      * Sélectionne un joueur en fonction de son pseudo.
@@ -173,5 +183,59 @@ class Model
     
 
 }
+public function populateJoueurs_pred()
+{
+    $pseudosExistants = [];
+    for ($i = 0; $i < 100; $i++) {
+        do {
+            $pseudo = $this->generateRandomPseudo();
+        } while (in_array($pseudo, $pseudosExistants));
+
+        $ticket = $this->generateRandomTicket();
+        $pseudosExistants[] = $pseudo;
+
+        $req = $this->bd->prepare("INSERT INTO Joueurs_pred (pseudo, ticket) VALUES (:pseudo, :ticket)");
+        $req->bindValue(':pseudo', $pseudo);
+        $req->bindValue(':ticket', $ticket);
+        $req->execute();
+    }
+}
+
+// Fonction de génération de pseudo aléatoire
+private function generateRandomPseudo()
+{
+    $letters = 'abcdefghijklmnopqrstuvwxyz';
+    $numbers = '0123456789';
+    $pseudo = '';
+
+    $letterLength = rand(3, 13);
+    for ($i = 0; $i < $letterLength; $i++) {
+        $pseudo .= $letters[rand(0, strlen($letters) - 1)];
+    }
+
+    $numLength = rand(0, 2);
+    for ($i = 0; $i < $numLength; $i++) {
+        $pseudo .= $numbers[rand(0, strlen($numbers) - 1)];
+    }
+
+    return $pseudo;
+}
+
+// Fonction de génération de ticket aléatoire
+private function generateRandomTicket()
+{
+    $numbers = range(1, 49);
+    shuffle($numbers);
+    $ticketNumbers = array_slice($numbers, 0, 5);
+    sort($ticketNumbers);
+
+    $stars = range(1, 9);
+    shuffle($stars);
+    $ticketStars = array_slice($stars, 0, 2);
+    sort($ticketStars);
+
+    return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
+}
+
 
 ?>

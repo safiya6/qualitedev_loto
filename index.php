@@ -9,7 +9,7 @@ require_once "Controllers/Controller.php";
 
 
 //Liste des contrôleurs
-$controllers = ['joueurs','accueil'];
+$controllers = ['joueurs','accueil','partie'];
 //Nom du contrôleur par défaut
 $controller_default = "accueil";
 
