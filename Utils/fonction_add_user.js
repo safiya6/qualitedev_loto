@@ -49,6 +49,7 @@ function prepareTicket() {
 }
 
 function populateForm(id_joueur, pseudo, ticket) {
+    console.log("Modification du joueur :", id_joueur, pseudo, ticket); // Vérification
     // Décompose le ticket en numéros et étoiles
     const [numberStr, starStr] = ticket.split(" | ");
     const numbers = numberStr.split("-").map(Number);
