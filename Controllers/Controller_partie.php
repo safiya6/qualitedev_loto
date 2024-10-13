@@ -23,7 +23,7 @@ class Controller_partie extends Controller
     $joueurs = $model->selectRandomJoueurs_pred($nombre);
 
     // Affiche les joueurs
-    $this->render("simualtion", ['joueurs' => $joueurs]);
+    $this->render("simulation", ['joueurs' => $joueurs]);
     }
 }
 ?>
