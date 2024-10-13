@@ -14,8 +14,9 @@ class Controller_joueurs extends Controller
 
     public function action_addUser()
     {
+        $_SESSION['message'] = ""; // Initialise ou vide le message de session
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification des données du formulaire
             if (empty($_POST['pseudo']) || empty($_POST['numbers']) || empty($_POST['stars'])) {
                 $_SESSION['message'] = "Erreur : Pseudo, numéros ou étoiles non spécifiés.";
                 header("Location: ?controller=joueurs");
@@ -25,13 +26,6 @@ class Controller_joueurs extends Controller
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
-
-            // Validation du pseudo
-            if (!$this->validatePseudo($pseudo)) {
-                $_SESSION['message'] = "Erreur : Le pseudo doit contenir entre 5 et 15 caractères et un maximum de 2 chiffres.";
-                header("Location: ?controller=joueurs");
-                exit();
-            }
 
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
@@ -50,9 +44,7 @@ class Controller_joueurs extends Controller
                 if (!$success) {
                     $_SESSION['message'] = "Erreur : pseudo ou ticket déjà existant.";
                 }
-                
-                // Rediriger pour éviter l'affichage intempestif du message d'erreur
-                header("Location: ?controller=joueurs");
+                header("Location: ?controller=joueurs"); // Recharge pour afficher les joueurs sans message si succès
                 exit();
             } else {
                 $_SESSION['message'] = "Sélection incorrecte de numéros ou d'étoiles.";
@@ -61,7 +53,6 @@ class Controller_joueurs extends Controller
             }
         }
     }
-
     public function action_deleteUser()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
