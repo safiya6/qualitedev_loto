@@ -81,26 +81,27 @@ function populateForm(id_joueur, pseudo, ticket) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector("form").onsubmit = function(event) {
-        event.preventDefault();
-        const formData = new FormData(this);
+function generateRandomPseudo() {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    let pseudo = "";
 
-        fetch("?controller=joueurs&action=addUser", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "error") {
-                alert(data.message); // Affiche seulement les erreurs
-            } else {
-                location.reload(); // Recharge pour mettre à jour les joueurs sans message de succès
-            }
-        })
-        .catch(error => console.error("Erreur:", error));
-    };
-});
+    // Génère une partie aléatoire de lettres
+    const letterLength = Math.floor(Math.random() * (15 - 5 + 1) + 3); // entre 3 et 13 lettres
+    for (let i = 0; i < letterLength; i++) {
+        pseudo += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // Ajoute jusqu'à 2 chiffres à la fin du pseudo
+    const numLength = Math.floor(Math.random() * 3); // entre 0 et 2 chiffres
+    for (let i = 0; i < numLength; i++) {
+        pseudo += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+
+    // Remplit l'input avec le pseudo généré
+    document.getElementById("pseudo").value = pseudo;
+}
+
 
 
 
