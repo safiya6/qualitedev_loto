@@ -17,42 +17,45 @@ class Controller_joueurs extends Controller
      */
     public function action_addUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Vérification et traitement des données de formulaire
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
-
+    
+            // Validation des numéros et des étoiles
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-
+    
                 $model = Model::getModel();
                 $id_joueur = $_POST['id_joueur'] ?? null;
-
-                if ($id_joueur) {
-                    $success = $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
-                } else {
-                    $success = $model->insertJoueurs_creer($pseudo, $ticket);
-                }
-
+    
+                // Insertion ou mise à jour
+                $success = $id_joueur 
+                    ? $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket)
+                    : $model->insertJoueurs_creer($pseudo, $ticket);
+    
+                // Réponse JSON en cas de duplication
                 if (!$success) {
-                    echo json_encode(['status' => 'error', 'message' => "Erreur : pseudo ou ticket déjà existant."]);
-                    exit;
-                } else {
-                    $joueurs = $model->selectAllJoueurs_creer();
-                    $this->render("add_user", ['joueurs' => $joueurs]);
-                    exit;
+                    echo json_encode(["status" => "error", "message" => "Erreur : pseudo ou ticket déjà existant."]);
+                    exit();
                 }
+    
+                echo json_encode(["status" => "success"]);
+                exit();
             } else {
-                echo json_encode(['status' => 'error', 'message' => "Sélection incorrecte de numéros ou d'étoiles."]);
-                exit;
+                echo json_encode(["status" => "error", "message" => "Sélection incorrecte de numéros ou d'étoiles."]);
+                exit();
             }
         }
-        echo json_encode(['status' => 'error', 'message' => "Pseudo, numéros ou étoiles non spécifiés."]);
-        exit;
+    
+        // Si requête en GET, on affiche la page sans JSON
+        $joueurs = Model::getModel()->selectAllJoueurs_creer();
+        $this->render("add_user", ["joueurs" => $joueurs]);
     }
-
+    
     
     
     

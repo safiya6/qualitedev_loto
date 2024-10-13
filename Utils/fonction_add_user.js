@@ -80,24 +80,27 @@ function populateForm(id_joueur, pseudo, ticket) {
         }
     });
 }
-document.querySelector("form").onsubmit = function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    
-    fetch("?controller=joueurs&action=addUser", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === "error") {
-            alert(data.message);
-        } else {
-            location.reload(); // Recharge la page pour mettre à jour les joueurs sans message de succès
-        }
-    })
-    .catch(error => console.error("Erreur:", error));
-};
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form").onsubmit = function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch("?controller=joueurs&action=addUser", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "error") {
+                alert(data.message);
+            } else {
+                location.reload(); // Recharge pour mettre à jour les joueurs sans message de succès
+            }
+        })
+        .catch(error => console.error("Erreur:", error));
+    };
+});
+
 
 
 
