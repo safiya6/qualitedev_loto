@@ -21,6 +21,7 @@ class Model
         return self::$instance;
     }
 
+    // Vérification des doublons
     public function isDuplicate($pseudo, $ticket, $excludeId = null)
     {
         $query = "SELECT COUNT(*) FROM Joueurs_creer WHERE (pseudo = :pseudo OR ticket = :ticket)";
@@ -39,6 +40,7 @@ class Model
         return $req->fetchColumn() > 0;
     }
 
+    // Insertion dans Joueurs_creer
     public function insertJoueurs_creer($pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket)) {
@@ -52,6 +54,7 @@ class Model
         return (bool)$req->rowCount();
     }
 
+    // Sélection aléatoire dans Joueurs_pred
     public function selectRandomJoueurs_pred($nombre)
     {
         $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
@@ -65,6 +68,7 @@ class Model
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Population de la table Joueurs_pred
     public function populateJoueurs_pred_lots()
     {
         try {
@@ -98,12 +102,7 @@ class Model
         }
     }
 
-    public function selectAllJoueurs_creer()
-    {
-        $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY pseudo");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    // Suppression d'un joueur dans Joueurs_en_cours
     public function deleteJoueurs_en_cours($id_joueur)
     {
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours WHERE id_joueur = :id_joueur");
@@ -111,6 +110,7 @@ class Model
         $req->execute();
     }
 
+    // Mise à jour dans Joueurs_creer
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
@@ -125,7 +125,7 @@ class Model
         return (bool)$req->rowCount();
     }
 
-
+    // Suppression de tous les joueurs en cours
     public function deleteAllJoueursEnCours()
     {
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
@@ -133,6 +133,58 @@ class Model
         return (bool)$req->rowCount();
     }
 
+    // Sélection des joueurs en cours
+    public function selectAllJoueursEnCours()
+    {
+        $req = $this->bd->query("SELECT * FROM Joueurs_en_cours ORDER BY id_joueur");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Insertion d'un joueur de Joueurs_pred dans Joueurs_en_cours
+    public function insertJoueurEnCoursPred($id_joueur_pred)
+    {
+        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_pred) VALUES (:id_joueur_pred)");
+        $req->bindValue(':id_joueur_pred', $id_joueur_pred, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    // Insertion d'un joueur de Joueurs_creer dans Joueurs_en_cours
+    public function insertJoueurEnCoursCreer($id_joueur_creer)
+    {
+        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_creer) VALUES (:id_joueur_creer)");
+        $req->bindValue(':id_joueur_creer', $id_joueur_creer, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    // Récupération des joueurs de Joueurs_pred dans Joueurs_en_cours
+    public function selectJoueursEnCoursPred()
+    {
+        $req = $this->bd->query("
+            SELECT 
+                jp.id_joueur AS id_joueur_pred,
+                jp.pseudo AS pseudo,
+                jp.ticket AS ticket
+            FROM joueurs_en_cours je
+            JOIN joueurs_pred jp ON je.id_joueur_pred = jp.id_joueur
+        ");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Récupération des joueurs de Joueurs_creer dans Joueurs_en_cours
+    public function selectJoueursEnCoursCreer()
+    {
+        $req = $this->bd->query("
+            SELECT 
+                jc.id_joueur AS id_joueur_creer,
+                jc.pseudo AS pseudo,
+                jc.ticket AS ticket
+            FROM joueurs_en_cours je
+            JOIN joueurs_creer jc ON je.id_joueur_creer = jc.id_joueur
+        ");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Génération de pseudo aléatoire
     private function generateRandomPseudo()
     {
         $letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -152,6 +204,7 @@ class Model
         return $pseudo;
     }
 
+    // Génération de ticket aléatoire
     private function generateRandomTicket()
     {
         $numbers = range(1, 49);
@@ -166,54 +219,4 @@ class Model
 
         return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
     }
-   
-
-    public function selectAllJoueursEnCours()
-    {
-        $req = $this->bd->query("SELECT * FROM Joueurs_en_cours ORDER BY id_joueur");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function insertJoueurEnCoursPred($id_joueur_pred)
-    {
-        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_pred) VALUES (:id_joueur_pred)");
-        $req->bindValue(':id_joueur_pred', $id_joueur_pred, PDO::PARAM_INT);
-        $req->execute();
-    }
-
-    // Insertion d’un joueur de `joueurs_creer` dans `joueurs_en_cours`
-    public function insertJoueurEnCoursCreer($id_joueur_creer)
-    {
-        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_creer) VALUES (:id_joueur_creer)");
-        $req->bindValue(':id_joueur_creer', $id_joueur_creer, PDO::PARAM_INT);        $req->execute();
-    }
-
-    // Récupération des joueurs de `joueurs_pred` dans `joueurs_en_cours`
-    public function selectJoueursEnCoursPred()
-    {
-        $req = $this->bd->query("
-            SELECT 
-                jp.id_joueur AS id_joueur_pred,
-                jp.pseudo AS pseudo,
-                jp.ticket AS ticket
-            FROM joueurs_en_cours je
-            JOIN joueurs_pred jp ON je.id_joueur_pred = jp.id_joueur
-        ");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Récupération des joueurs de `joueurs_creer` dans `joueurs_en_cours`
-    public function selectJoueursEnCoursCreer()
-    {
-        $req = $this->bd->query("
-            SELECT 
-                jc.id_joueur AS id_joueur_creer,
-                jc.pseudo AS pseudo,
-                jc.ticket AS ticket
-            FROM joueurs_en_cours je
-            JOIN joueurs_creer jc ON je.id_joueur_creer = jc.id_joueur
-        ");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
-
 }

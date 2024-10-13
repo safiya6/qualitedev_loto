@@ -103,30 +103,35 @@ function generateRandomPseudo() {
 }
 
 
-    function showEditForm(id, pseudo, ticket) {
-        document.getElementById('edit-id_joueur').value = id;
-        document.getElementById('edit-pseudo').value = pseudo;
-        
-        const [numbers, stars] = ticket.split(" | ");
-        selectedNumbers.clear();
-        selectedStars.clear();
-        
-        document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
+function showEditForm(id, pseudo, ticket) {
+    document.getElementById('edit-id_joueur').value = id;
+    document.getElementById('edit-pseudo').value = pseudo;
 
-        numbers.split("-").forEach(num => {
-            const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-            if (button) button.classList.add("selected");
+    // Reset selections
+    selectedNumbers.clear();
+    selectedStars.clear();
+    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
+
+    const [numbers, stars] = ticket.split(" | ");
+    numbers.split("-").forEach(num => {
+        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
+        if (button) {
+            button.classList.add("selected");
             selectedNumbers.add(parseInt(num));
-        });
+        }
+    });
 
-        stars.split("-").forEach(star => {
-            const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-            if (button) button.classList.add("selected");
+    stars.split("-").forEach(star => {
+        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
+        if (button) {
+            button.classList.add("selected");
             selectedStars.add(parseInt(star));
-        });
+        }
+    });
 
-        document.getElementById("edit-form-container").style.display = "block";
-    }
+    document.getElementById("edit-form-container").style.display = "block";
+}
+
 
 
 
