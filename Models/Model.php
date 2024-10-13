@@ -125,16 +125,6 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    public function insertJoueurEnCours($id_joueur, $id_partie, $ticket, $gains = 0.00)
-    {
-        $req = $this->bd->prepare("INSERT INTO Joueurs_en_cours (id_joueur, id_partie, ticket, gains) VALUES (:id_joueur, :id_partie, :ticket, :gains)");
-        $req->bindValue(':id_joueur', $id_joueur);
-        $req->bindValue(':id_partie', $id_partie);
-        $req->bindValue(':ticket', $ticket);
-        $req->bindValue(':gains', $gains);
-        $req->execute();
-        return (bool)$req->rowCount();
-    }
 
     public function deleteAllJoueursEnCours()
     {
