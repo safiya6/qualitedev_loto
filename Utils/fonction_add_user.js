@@ -80,6 +80,7 @@ function populateForm(id_joueur, pseudo, ticket) {
         }
     });
 }
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("form").onsubmit = function(event) {
         event.preventDefault();
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.status === "error") {
-                alert(data.message);
+                alert(data.message); // Affiche seulement les erreurs
             } else {
                 location.reload(); // Recharge pour mettre à jour les joueurs sans message de succès
             }
@@ -100,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Erreur:", error));
     };
 });
+
 
 
 
