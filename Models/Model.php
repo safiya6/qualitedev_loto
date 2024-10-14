@@ -55,7 +55,7 @@ class Model
     public function selectRandomJoueurs_pred($nombre) {
         // Sélectionne les joueurs non choisis (choisi = false)
         $query = "SELECT * FROM joueurs WHERE choisi = false ORDER BY RAND() LIMIT :nombre";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->bd->prepare($query);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_INT);
         $stmt->execute();
         $joueurs = $stmt->fetchAll();
@@ -74,7 +74,7 @@ class Model
     // Méthode pour réinitialiser les joueurs à `choisi = false` si nécessaire
     public function resetChoisi() {
         $query = "UPDATE joueurs SET choisi = false";
-        $this->db->exec($query);
+        $this->bd->exec($query);
     }
 
     public function populateJoueurs_pred_lots()
