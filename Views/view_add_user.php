@@ -1,58 +1,53 @@
 <?php require_once "view_begin.php"; ?>
 
 <div class="container">
-    <!-- Affichage du message d'erreur -->
-  
+    <h3>Sélectionner un Nombre de Joueurs</h3>
 
-    <!-- Liste des utilisateurs -->
+    <!-- Formulaire pour sélectionner un nombre de joueurs -->
+    <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
+        <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
+        <input type="number" id="nombre" name="nombre" min="1" max="100" required>
+        <button type="submit" class="generate-button">Afficher les joueurs</button>
+    </form>
+
+    <!-- Liste des joueurs en cours -->
     <div class="users-list">
-        <h3>Joueurs inscrits</h3>
+        <h3>Joueurs en Cours</h3>
+
         <div class="header-row">
             <div class="header-item">Pseudo</div>
             <div class="header-item">Ticket</div>
         </div>
-        <div class="data-rows">
-            <?php foreach ($joueurs as $joueur): ?>
-                <div class="data-row">
-                    <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
-                    <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
-                    
-                    <!-- Delete Button Form -->
-                    <form action="?controller=joueurs&action=deleteUser" method="POST" class="delete-form">
-                        <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
-                        <button type="submit" class="delete-button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-8zM4.118 4a1 1 0 0 1 .82-.4h6.144a1 1 0 0 1 .82.4l.845 1H3.273l.845-1zM1 4.5A.5.5 0 0 1 1.5 4h13a.5.5 0 0 1 .5.5V5h-15v-.5zM2 5.5v9A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-9H2z"/>
-                            </svg>
-                        </button>
-                    </form>
 
-                    <!-- Edit Button -->
-                    <button type="button" class="edit-button" 
-                        onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146 0a.5.5 0 0 1 .352.146l2.5 2.5a.5.5 0 0 1 0 .708L13.207 4.646l-3-3L12.146.146A.5.5 0 0 1 12.146 0z"/>
-                            <path fill-rule="evenodd" d="M1 13.5V16h2.5l7-7-2.5-2.5-7 7zm.646-.146l7-7L10.5 7.207l-7 7H1v-1.5a.5.5 0 0 1 .146-.354z"/>
-                        </svg>
-                    </button>
-                </div>
-            <?php endforeach; ?>
+        <div class="data-rows" id="data-rows">
+            <?php if (!empty($joueurs)): ?>
+                <?php foreach ($joueurs as $joueur): ?>
+                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>">
+                        <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
+                        <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+                        <!-- Boutons de modification et suppression -->
+                        <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
+
+                        <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?>)">🗑️ Supprimer</button>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Aucun joueur à afficher.</p>
+            <?php endif; ?>
         </div>
     </div>
 
-    <!-- Formulaire d'ajout d'utilisateur -->
-    <div class="form-container">
-        <h2>Ajouter un Utilisateur</h2>
-        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
+    <!-- Formulaire de modification caché au départ -->
+    <div id="edit-form-container" class="form-container" style="display: none;">
+        <h2>Modifier un Utilisateur</h2>
+        <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
+            <input type="hidden" id="edit-id_joueur" name="id_joueur">
             <div class="form-group">
-                <label for="pseudo">Choisissez un pseudo :</label>
-                <input type="text" id="pseudo" name="pseudo" required>
+                <label for="edit-pseudo">Pseudo :</label>
+                <input type="text" id="edit-pseudo" name="pseudo" required>
             </div>
-            <?php if (isset($message) && $message): ?>
-                <div id="error-message" style="display: block; color: red; margin-bottom: 20px;">
-                    <?= htmlspecialchars($message) ?>
-                </div>
-            <?php endif; ?>
+            <div id="error-message" style="display: none; color: red; margin-bottom: 20px;"></div>
+
             <label>Choisissez vos numéros :</label>
             <div class="number-grid">
                 <?php for ($i = 1; $i <= 49; $i++): ?>
@@ -67,19 +62,36 @@
                 <?php endfor; ?>
             </div>
 
-            <button type="button" class="generate-button" onclick="generateRandomSelection()">
-                <i>🎲</i> Générer aléatoirement
-            </button>
-
-            <!-- Champs masqués pour stocker les numéros et les étoiles -->
+            <button type="button" class="generate-button" onclick="generateRandomSelection()">🎲 Générer aléatoirement</button>
             <input type="hidden" id="numbers" name="numbers">
             <input type="hidden" id="stars" name="stars">
-
-            <button type="submit" class="generate-button">Ajouter l'utilisateur</button>
+            <button type="submit" class="generate-button">Modifier l'utilisateur</button>
         </form>
     </div>
 </div>
 
-<script src="Utils/fonction_add_user.js"></script> 
+<script src="Utils/fonction_add_user.js"></script>
+<script>
+function deleteUser(id_joueur) {
+    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
+    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const row = document.querySelector(`.data-row[data-id='${id_joueur}']`);
+            if (row) row.remove();
+        } else {
+            alert("Erreur lors de la suppression du joueur.");
+        }
+    })
+    .catch(error => console.error("Erreur AJAX:", error));
+}
+</script>
+
 </body>
 </html>
