@@ -39,11 +39,10 @@ function generateRandomSelection() {
 }
 
 function loadPlayers() {
-    const nombre = document.getElementById("nombre").value;
-    fetch(`?controller=partie&action=selectRandomJoueurs&nombre=${nombre}`)
+    fetch("?controller=partie&action=selectRandomJoueurs")
         .then(response => response.text())
         .then(html => {
-            document.getElementById("player-list").innerHTML = html;
+            document.querySelector(".data-rows").innerHTML = html;
         })
         .catch(error => console.error("Erreur lors du chargement des joueurs:", error));
 }
@@ -87,14 +86,17 @@ function submitEditForm() {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `id_joueur=${id_joueur}&pseudo=${pseudo}&numbers=${numbers}&stars=${stars}`,
+        body: `id_joueur=${id_joueur}&pseudo=${encodeURIComponent(pseudo)}&numbers=${numbers}&stars=${stars}`,
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert(data.message);
-            document.getElementById("edit-form-container").style.display = "none";
             loadPlayers();
+            document.getElementById("edit-form-container").style.display = "none";
+            document.getElementById("success-message").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("success-message").style.display = "none";
+            }, 2000);
         } else {
             document.getElementById("error-message").innerText = data.message;
             document.getElementById("error-message").style.display = "block";
@@ -106,11 +108,10 @@ function submitEditForm() {
 function deleteUser(id_joueur) {
     if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
 
-    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    fetch(`?controller=partie&action=deleteUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `id_joueur=${id_joueur}`
     })
     .then(response => response.json())
     .then(data => {
