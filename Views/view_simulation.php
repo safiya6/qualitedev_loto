@@ -4,14 +4,15 @@
     <h3>Sélectionner un Nombre de Joueurs</h3>
 
     <!-- Formulaire pour sélectionner un nombre de joueurs -->
-    <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
-        <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-        <input type="number" id="nombre" name="nombre" min="1" max="100" required>
-        <button type="submit" class="generate-button">Afficher les joueurs</button>
-    </form>
-
+   
     <!-- Liste des joueurs en cours -->
     <div class="users-list">
+        <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
+            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
+            <input type="number" id="nombre" name="nombre" min="1" max="100" required>
+            <button type="submit" class="generate-button">Afficher les joueurs</button>
+        </form>
+
         <h3>Joueurs en Cours</h3>
 
         <div class="header-row">
