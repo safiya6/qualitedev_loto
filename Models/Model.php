@@ -54,7 +54,7 @@ class Model
 
     public function selectRandomJoueurs_pred($nombre) {
         // Sélectionne les joueurs non choisis (choisi = false)
-        $query = "SELECT * FROM joueurs_pred WHERE choisi = false ORDER BY RAND() LIMIT :nombre";
+        $query = "SELECT * FROM joueurs_pred WHERE choisi = false ORDER BY RANDOM() LIMIT :nombre";
         $stmt = $this->bd->prepare($query);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_INT);
         $stmt->execute();
