@@ -156,6 +156,45 @@ function deleteUser(id_joueur) {
     .catch(error => console.error("Erreur AJAX:", error));
 }
 
+function submitEditForm() {
+    const id_joueur = document.getElementById("edit-id_joueur").value;
+    const pseudo = document.getElementById("edit-pseudo").value;
+    const numbers = [...selectedNumbers].join(",");
+    const stars = [...selectedStars].join(",");
+
+    fetch("?controller=partie&action=editUser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `id_joueur=${id_joueur}&pseudo=${pseudo}&numbers=${numbers}&stars=${stars}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            document.getElementById("edit-form-container").style.display = "none";
+            // Recharge partielle pour mettre à jour la liste des joueurs
+            loadPlayers();
+        } else {
+            document.getElementById("error-message").innerText = data.message;
+            document.getElementById("error-message").style.display = "block";
+        }
+    })
+    .catch(error => console.error("Erreur:", error));
+}
+
+// Charge partiellement la liste des joueurs sans rechargement de la page
+function loadPlayers() {
+    fetch("?controller=partie&action=selectRandomJoueurs")
+    .then(response => response.text())
+    .then(html => {
+        document.querySelector(".data-rows").innerHTML = html;
+    })
+    .catch(error => console.error("Erreur lors du chargement des joueurs:", error));
+}
+
+
 
 
 

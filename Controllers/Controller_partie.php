@@ -43,7 +43,7 @@ class Controller_partie extends Controller
 
     public function action_editUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_joueur'], $_POST['pseudo'], $_POST['numbers'], $_POST['stars'])) {
             $id_joueur = (int)$_POST['id_joueur'];
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
@@ -55,11 +55,15 @@ class Controller_partie extends Controller
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
 
                 $model = Model::getModel();
-                $model->updateJoueurPred($id_joueur, $pseudo, $ticket);
+                $success = $model->updateJoueurPred($id_joueur, $pseudo, $ticket);
 
-                header("Location: ?controller=partie");
-                exit();
+                // Réponse JSON pour AJAX
+                echo json_encode(['success' => $success, 'message' => $success ? "Modification réussie" : "Erreur : pseudo ou ticket déjà existant"]);
+                exit;
             }
         }
+        echo json_encode(['success' => false, 'message' => 'Données non spécifiées ou invalides.']);
+        exit;
     }
+
 }

@@ -234,4 +234,21 @@ class Model
         $req->execute();
     }
 
+    public function updateJoueurPred($id_joueur, $pseudo, $ticket)
+    {
+        // Vérification de duplicata
+        if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
+            return false;
+        }
+
+        $req = $this->bd->prepare("UPDATE Joueurs_pred SET pseudo = :pseudo, ticket = :ticket WHERE id_joueur = :id_joueur");
+        $req->bindValue(':pseudo', $pseudo);
+        $req->bindValue(':ticket', $ticket);
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+
+        return (bool)$req->rowCount();
+    }
+
+
 }
