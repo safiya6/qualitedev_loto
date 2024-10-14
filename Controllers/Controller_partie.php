@@ -8,7 +8,8 @@ class Controller_partie extends Controller
         $this->render("simulation");
     }
 
-    public function action_selectRandomJoueurs() {
+    public function action_selectRandomJoueurs()
+    {
         $model = Model::getModel();
         $nombre = isset($_POST['nombre']) ? (int)$_POST['nombre'] : 10;
         $nombre = max(1, min($nombre, 100));
@@ -20,7 +21,25 @@ class Controller_partie extends Controller
         }
 
         $joueursEnCours = $model->selectJoueursEnCoursPred();
-        $this->render("simulation", ['joueurs' => $joueursEnCours]);
+
+        // Vérifier si la requête est AJAX
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            ob_start();
+            foreach ($joueursEnCours as $joueur) {
+                echo "<div class='data-row'>
+                        <div class='user-item'>" . htmlspecialchars($joueur['pseudo']) . "</div>
+                        <div class='ticket-item'>" . htmlspecialchars($joueur['ticket']) . "</div>
+                        <button type='button' class='edit-button' onclick='showEditForm(" . $joueur['id_joueur'] . ", \"" . htmlspecialchars($joueur['pseudo'], ENT_QUOTES) . "\", \"" . htmlspecialchars($joueur['ticket'], ENT_QUOTES) . "\")'>🖊️ Modifier</button>
+                        <button type='button' class='delete-button' onclick='deleteUser(" . $joueur['id_joueur'] . ")'>🗑️ Supprimer</button>
+                    </div>";
+            }
+            $output = ob_get_clean();
+            echo json_encode(['success' => true, 'html' => $output]);
+            exit;
+        } else {
+            // Si ce n'est pas une requête AJAX, renvoyer toute la vue
+            $this->render("simulation", ['joueurs' => $joueursEnCours]);
+        }
     }
 
     public function action_deleteUser()
@@ -40,9 +59,10 @@ class Controller_partie extends Controller
         }
     }
 
-
     public function action_editUser()
     {
+        header('Content-Type: application/json');
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_joueur'], $_POST['pseudo'], $_POST['numbers'], $_POST['stars'])) {
             $id_joueur = (int)$_POST['id_joueur'];
             $pseudo = trim($_POST['pseudo']);
@@ -57,7 +77,6 @@ class Controller_partie extends Controller
                 $model = Model::getModel();
                 $success = $model->updateJoueurPred($id_joueur, $pseudo, $ticket);
 
-                // Réponse JSON pour AJAX
                 echo json_encode(['success' => $success, 'message' => $success ? "Modification réussie" : "Erreur : pseudo ou ticket déjà existant"]);
                 exit;
             }
@@ -65,5 +84,4 @@ class Controller_partie extends Controller
         echo json_encode(['success' => false, 'message' => 'Données non spécifiées ou invalides.']);
         exit;
     }
-
 }
