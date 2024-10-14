@@ -25,14 +25,21 @@ class Controller_partie extends Controller
 
     public function action_deleteUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
-            $id_joueur = intval($_POST['id_joueur']);
+        header('Content-Type: application/json');
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_GET['id_joueur'])) {
+            $id_joueur = intval($_GET['id_joueur']);
             $model = Model::getModel();
-            $model->deleteJoueurEnCours($id_joueur);
+            $model->deleteJoueurs_en_cours($id_joueur);
+
+            echo json_encode(['success' => true]);
+            exit;
+        } else {
+            echo json_encode(['success' => false]);
+            exit;
         }
-        header("Location: ?controller=partie");
-        exit();
     }
+
 
     public function action_editUser()
     {

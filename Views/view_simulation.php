@@ -19,19 +19,17 @@
             <div class="header-item">Ticket</div>
         </div>
 
-        <div class="data-rows">
+        <div class="data-rows" id="data-rows">
             <?php if (!empty($joueurs)): ?>
                 <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row">
+                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>">
                         <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
+
                         <!-- Boutons de modification et suppression -->
                         <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
                         
-                        <form action="?controller=partie&action=deleteUser" method="POST" class="delete-form">
-                            <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur_pred'] ?>">
-                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>
+                        <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?>)">🗑️ Supprimer</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -74,6 +72,28 @@
 </div>
 
 <script src="Utils/fonction_add_user.js"></script>
+<script>
+function deleteUser(id_joueur) {
+    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
+
+    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const row = document.querySelector(`.data-row[data-id='${id_joueur}']`);
+            if (row) row.remove();
+        } else {
+            alert("Erreur lors de la suppression du joueur.");
+        }
+    })
+    .catch(error => console.error("Erreur AJAX:", error));
+}
+</script>
 
 </body>
 </html>

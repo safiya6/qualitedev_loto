@@ -132,6 +132,31 @@ function showEditForm(id, pseudo, ticket) {
     document.getElementById("edit-form-container").style.display = "block";
 }
 
+function deleteUser(id_joueur) {
+    // Demande de confirmation avant la suppression
+    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
+
+    // Envoi de la requête AJAX en utilisant fetch
+    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json()) // Récupère la réponse JSON du serveur
+    .then(data => {
+        if (data.success) {
+            // Si la suppression a réussi, supprimer la ligne correspondante
+            const row = document.querySelector(`.data-row[data-id='${id_joueur}']`);
+            if (row) row.remove();
+        } else {
+            alert("Erreur lors de la suppression du joueur.");
+        }
+    })
+    .catch(error => console.error("Erreur AJAX:", error));
+}
+
+
 
 
 
