@@ -5,7 +5,9 @@ class Controller_partie extends Controller
 {
     public function action_default()
     {
-        $this->render("simulation");
+        $model = Model::getModel();
+        $joueursEnCours = $model->selectJoueursEnCoursPred();
+        $this->render("simulation", ['joueurs' => $joueursEnCours]);
     }
 
     public function action_selectRandomJoueurs() {
@@ -19,23 +21,18 @@ class Controller_partie extends Controller
             $model->insertJoueurEnCoursPred($joueur['id_joueur']);
         }
 
-        $joueursEnCours = $model->selectJoueursEnCoursPred();
-        $this->render("simulation", ['joueurs' => $joueursEnCours]);
+        header("Location: ?controller=partie");
+        exit();
     }
 
     public function action_deleteUser()
     {
-        header('Content-Type: application/json');
-        
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_GET['id_joueur'])) {
             $id_joueur = intval($_GET['id_joueur']);
             $model = Model::getModel();
             $model->deleteJoueurs_en_cours($id_joueur);
-            echo json_encode(['success' => true]);
-            exit;
-        } else {
-            echo json_encode(['success' => false]);
-            exit;
+            header("Location: ?controller=partie");
+            exit();
         }
     }
 
