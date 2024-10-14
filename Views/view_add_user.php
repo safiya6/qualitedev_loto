@@ -22,8 +22,8 @@
                     <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
                     
                     <!-- Delete Button -->
-                    <button type="button" class="delete-button" 
-                            onclick="deleteUser(<?= $joueur['id_joueur'] ?>)">
+                    <form action="?controller=joueurs&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                    <button type="submit" class="delete-button" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-8zM4.118 4a1 1 0 0 1 .82-.4h6.144a1 1 0 0 1 .82.4l.845 1H3.273l.845-1zM1 4.5A.5.5 0 0 1 1.5 4h13a.5.5 0 0 1 .5.5V5h-15v-.5zM2 5.5v9A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-9H2z"/>
                         </svg>
