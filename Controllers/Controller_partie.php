@@ -7,7 +7,7 @@ class Controller_partie extends Controller
     {
         $model = Model::getModel();
         $joueursEnCours = $model->selectJoueursEnCoursPred();
-        $joueurs_creer = $model->selectAllJoueursCreer();
+        $joueurs_creer = $model->selectAllJoueurs_creer();
         $this->render("simulation", ['joueurs' => $joueursEnCours,
         'joueurs_creer' => $joueurs_creer]);
     }
