@@ -52,17 +52,29 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    public function selectRandomJoueurs_pred($nombre)
-    {
-        $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
-        $count = $req->fetch(PDO::FETCH_ASSOC)['count'];
+    public function selectRandomJoueurs_pred($nombre) {
+        // Sélectionne les joueurs non choisis (choisi = false)
+        $query = "SELECT * FROM joueurs WHERE choisi = false ORDER BY RAND() LIMIT :nombre";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_INT);
+        $stmt->execute();
+        $joueurs = $stmt->fetchAll();
 
-        if ($count == 0) {
-            $this->populateJoueurs_pred_lots();
+        // Met à jour l'état de `choisi` pour les joueurs sélectionnés
+        foreach ($joueurs as $joueur) {
+            $updateQuery = "UPDATE joueurs SET choisi = true WHERE id_joueur = :id_joueur";
+            $updateStmt = $this->db->prepare($updateQuery);
+            $updateStmt->bindParam(':id_joueur', $joueur['id_joueur'], PDO::PARAM_INT);
+            $updateStmt->execute();
         }
 
-        $req = $this->bd->query("SELECT * FROM Joueurs_pred ORDER BY RANDOM() LIMIT $nombre");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
+        return $joueurs;
+    }
+
+    // Méthode pour réinitialiser les joueurs à `choisi = false` si nécessaire
+    public function resetChoisi() {
+        $query = "UPDATE joueurs SET choisi = false";
+        $this->db->exec($query);
     }
 
     public function populateJoueurs_pred_lots()

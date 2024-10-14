@@ -14,16 +14,13 @@ class Controller_partie extends Controller
         $model = Model::getModel();
         $nombre = isset($_POST['nombre']) ? (int)$_POST['nombre'] : 10;
         $nombre = max(1, min($nombre, 100));
-
+    
+        // Sélectionne les joueurs non choisis et les met à jour comme "choisi = true"
         $joueurs = $model->selectRandomJoueurs_pred($nombre);
-
-        foreach ($joueurs as $joueur) {
-            $model->insertJoueurEnCoursPred($joueur['id_joueur']);
-        }
-
-        header("Location: ?controller=partie");
-        exit();
+    
+        $this->render("simulation", ['joueurs' => $joueurs]);
     }
+    
 
     public function action_deleteUser()
     {
