@@ -66,6 +66,7 @@
         <h2>Modifier un Utilisateur</h2>
         <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
             <input type="hidden" id="edit-id_joueur" name="id_joueur">
+            <input type="hidden" id="type-joueur" name="type_joueur"> <!-- Ajout du champ caché -->
             <label for="edit-pseudo">Pseudo :</label>
             <input type="text" id="edit-pseudo" name="pseudo" required>
             <div id="error-message"></div>
@@ -87,6 +88,7 @@
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
         </form>
     </div>
+
 </div>
 
 <script src="Utils/fonction_add_user.js"></script>
