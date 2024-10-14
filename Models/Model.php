@@ -309,11 +309,6 @@ class Model
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function setChoisiTrue($id)
-    {
-        $req = $this->bd->prepare("UPDATE Joueurs_creer SET choisi = true WHERE id_joueur = ?");
-        $req->execute([$id]);
-    }
     public function countJoueursEnCours()
     {
         $req = $this->bd->query("SELECT COUNT(*) as count FROM joueurs_en_cours");
