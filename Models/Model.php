@@ -296,6 +296,60 @@ class Model
         $req->execute([$id_joueur]);
     }
 
+        public function selectAllJoueurs_creer()
+    {
+        $req = $this->bd->query("SELECT * FROM Joueurs_creer WHERE choisi = false");
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function selectRandomJoueurs_creer($nombre)
+    {
+        $req = $this->bd->prepare("SELECT * FROM Joueurs_creer WHERE choisi = false ORDER BY RANDOM() LIMIT :nombre");
+        $req->bindParam(':nombre', $nombre, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function selectSpecificJoueurs_creer(array $ids)
+    {
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $req = $this->bd->prepare("SELECT * FROM Joueurs_creer WHERE id_joueur IN ($inQuery)");
+        $req->execute($ids);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function setChoisiTrue($id)
+    {
+        $req = $this->bd->prepare("UPDATE Joueurs_creer SET choisi = true WHERE id_joueur = ?");
+        $req->execute([$id]);
+    }
+    public function countJoueursEnCours()
+    {
+        $req = $this->bd->query("SELECT COUNT(*) as count FROM joueurs_en_cours");
+        return (int) $req->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function selectSpecificJoueurs_creer(array $ids)
+    {
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $req = $this->bd->prepare("SELECT * FROM Joueurs_creer WHERE id_joueur IN ($inQuery) AND choisi = false");
+        $req->execute($ids);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function setChoisiTrue($id)
+    {
+        $req = $this->bd->prepare("UPDATE Joueurs_creer SET choisi = true WHERE id_joueur = ?");
+        $req->execute([$id]);
+    }
+
+    public function insertJoueurEnCours($id_joueur, $pseudo, $ticket)
+    {
+        $req = $this->bd->prepare("INSERT INTO joueurs_en_cours (id_joueur_pred, pseudo, ticket) VALUES (?, ?, ?)");
+        $req->execute([$id_joueur, $pseudo, $ticket]);
+    }
+
+
 
 
 }

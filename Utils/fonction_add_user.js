@@ -184,3 +184,9 @@ function selectRandom() {
         }
     }
 }
+
+ // Fonction pour cocher toutes les cases
+ function selectAllCheckboxes(checkbox) {
+    const checkboxes = document.querySelectorAll('.select-checkbox');
+    checkboxes.forEach((cb) => cb.checked = checkbox.checked);
+}

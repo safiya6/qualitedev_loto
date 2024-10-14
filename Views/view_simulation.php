@@ -1,56 +1,47 @@
 <?php require_once "view_begin.php"; ?>
 
-<div class="container" >
+<div class="container">
+    <!-- Formulaire de sélection de joueurs aléatoires -->
     <div class="selection">
-    <h3>Sélectionner un Nombre de Joueurs</h3>
-
-    <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-        <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-        <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
-        <button type="submit" class="generate-button">Afficher les joueurs</button>
-    </form>
-     
+        <h3>Sélectionner un Nombre de Joueurs</h3>
+        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
+            <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
+            <button type="submit" class="generate-button">Afficher les joueurs</button>
+        </form>
+    </div>
+    
+    <!-- Section de sélection des joueurs créés -->
     <div class="container">
-    <h3>Liste des Joueurs Créés</h3>
-
-    <!-- Formulaire pour sélectionner des joueurs -->
-    <form id="selection-form" action="?controller=partie&action=selectJoueurs" method="POST">
-        <div class="users-list">
-            <h4>Joueurs</h4>
-
-            <!-- En-tête de la liste des joueurs -->
-            <div class="header-row">
-                <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
-                <label for="select-all">Sélectionner tous</label>
-            </div>
-
-            <!-- Liste des joueurs avec cases à cocher -->
-            <?php foreach ($joueurs_creer as $joueur): ?>
-                <div class="data-row">
-                    <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
-                    <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></span>
+        <h3>Liste des Joueurs Créés</h3>
+        <form id="selection-form" action="?controller=partie&action=selectJoueurs" method="POST">
+            <div class="users-list">
+                <h4>Joueurs</h4>
+                <div class="header-row">
+                    <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
+                    <label for="select-all">Sélectionner tous</label>
                 </div>
-            <?php endforeach; ?>
-        </div>
+                <?php foreach ($joueurs_creer as $joueur): ?>
+                    <div class="data-row">
+                        <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
+                        <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <label for="nombre">Nombre de joueurs à sélectionner aléatoirement :</label>
+            <input type="number" id="nombre" name="nombre" min="1" max="<?= count($joueurs_creer) ?>" required>
+            <button type="button" onclick="selectRandom()">Sélectionner Aléatoirement</button>
+            <button type="submit" name="select_all">Sélectionner tous</button>
+        </form>
+    </div>
 
-        <!-- Options de sélection -->
-        <label for="nombre">Nombre de joueurs à sélectionner aléatoirement :</label>
-        <input type="number" id="nombre" name="nombre" min="1" max="<?= count($joueurs_creer) ?>" required>
-
-        <!-- Boutons d'action -->
-        <button type="button" onclick="selectRandom()">Sélectionner Aléatoirement</button>
-        <button type="submit" name="select_all">Sélectionner tous</button>
-    </form>
-</div>  
-</div> 
     <!-- Liste des joueurs en cours -->
-    <div class="users-list" >
+    <div class="users-list">
         <h3>Joueurs en Cours</h3>
-
         <?php if (!empty($joueurs)): ?>
-            <div class="data-rows" id="data-rows" >
+            <div class="data-rows" id="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>" >
+                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>">
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         <div style="display: flex; flex-direction: column; gap: 5px;">
@@ -66,28 +57,25 @@
     </div>
 
     <!-- Formulaire de modification caché au départ -->
-    <div id="edit-form-container" class="form-container">
+    <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>
         <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
             <input type="hidden" id="edit-id_joueur" name="id_joueur">
             <label for="edit-pseudo">Pseudo :</label>
-            <input type="text" id="edit-pseudo" name="pseudo" required >
-            <div id="error-message" ></div>
-
+            <input type="text" id="edit-pseudo" name="pseudo" required>
+            <div id="error-message"></div>
             <label>Choisissez vos numéros :</label>
-            <div class="number-grid" >
+            <div class="number-grid">
                 <?php for ($i = 1; $i <= 49; $i++): ?>
                     <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
                 <?php endfor; ?>
             </div>
-
             <label>Choisissez vos étoiles :</label>
-            <div class="star-grid" >
+            <div class="star-grid">
                 <?php for ($i = 1; $i <= 9; $i++): ?>
                     <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
                 <?php endfor; ?>
             </div>
-
             <button type="button" class="generate-button" onclick="generateRandomSelection()">🎲 Générer aléatoirement</button>
             <input type="hidden" id="numbers" name="numbers">
             <input type="hidden" id="stars" name="stars">

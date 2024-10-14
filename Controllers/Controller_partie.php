@@ -7,7 +7,8 @@ class Controller_partie extends Controller
     {
         $model = Model::getModel();
         $joueursEnCours = $model->selectJoueursEnCoursPred();
-        $this->render("simulation", ['joueurs' => $joueursEnCours]);
+        $this->render("simulation", ['joueurs' => $joueursEnCours,
+        'joueurs_creer' => $joueurs_creer]);
     }
 
     public function action_selectRandomJoueurs() {
@@ -19,6 +20,8 @@ class Controller_partie extends Controller
 
         foreach ($joueurs as $joueur) {
             $model->insertJoueurEnCoursPred($joueur['id_joueur']);
+            $model->setChoisiTrue($joueur['id_joueur']);
+            
         }
 
         header("Location: ?controller=partie");
@@ -59,33 +62,32 @@ class Controller_partie extends Controller
         }
     }
 
-    public function action_selectJoueurs()
+    public function action_addSelectedJoueursCreer()
     {
-        $model = Model::getModel();
-        
-        // Si "Sélectionner tous" est cliqué
-        if (isset($_POST['select_all'])) {
-            $joueurs = $model->selectAllJoueurs_creer();
-        } else {
-            // Sinon, récupérer les joueurs sélectionnés aléatoirement
-            $selected_joueurs = $_POST['selected_joueurs'] ?? [];
-            $nombre = (int)$_POST['nombre'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_joueurs'])) {
+            $model = Model::getModel();
 
-            if ($nombre > 0 && $nombre <= count($selected_joueurs)) {
-                shuffle($selected_joueurs);
-                $selected_joueurs = array_slice($selected_joueurs, 0, $nombre);
+            // Obtenir les joueurs sélectionnés et vérifier qu'ils sont moins de 100 au total
+            $count_en_cours = $model->countJoueursEnCours();
+            $remaining_slots = 100 - $count_en_cours;
+
+            if ($remaining_slots > 0) {
+                $selectedIds = $_POST['selected_joueurs'];
+                $nombre_manual = min(count($selectedIds), $remaining_slots);
+                $selectedJoueurs = $model->selectSpecificJoueurs_creer(array_slice($selectedIds, 0, $nombre_manual));
+
+                // Marquer les joueurs sélectionnés comme `choisi = true` et ajouter à `joueurs_en_cours`
+                foreach ($selectedJoueurs as $joueur) {
+                    $model->setChoisiTrue($joueur['id_joueur']);
+                    $model->insertJoueurEnCours($joueur['id_joueur'], $joueur['pseudo'], $joueur['ticket']);
+                }
+            } else {
+                $_SESSION['message'] = "La table joueurs_en_cours est pleine (maximum 100 joueurs).";
             }
-
-            $joueurs = $model->selectJoueursByIds($selected_joueurs);
         }
 
-        // Mise à jour en base pour marquer les joueurs sélectionnés
-        foreach ($joueurs as $joueur) {
-            $model->setChoisiTrue($joueur['id_joueur']);
-        }
-
-        // Afficher la vue
-        $this->render("simulation", ['joueurs' => $joueurs]);
+        header("Location: ?controller=partie");
+        exit();
     }
-
 }
+
