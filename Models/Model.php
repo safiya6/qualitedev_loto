@@ -184,11 +184,6 @@ class Model
         return implode('-', $ticketNumbers) . ' | ' . implode('-', $ticketStars);
     }
 
-    public function selectAllJoueursEnCours()
-    {
-        $req = $this->bd->query("SELECT * FROM Joueurs_en_cours ORDER BY id_joueur");
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     public function insertJoueurEnCoursPred($id_joueur_pred)
     {
@@ -298,7 +293,7 @@ class Model
 
         public function selectAllJoueurs_creer()
     {
-        $req = $this->bd->query("SELECT * FROM Joueurs_creer WHERE choisi = false");
+        $req = $this->bd->query("SELECT * FROM Joueurs_creer ORDER BY id_joueur");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
