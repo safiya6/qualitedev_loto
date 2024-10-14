@@ -52,31 +52,35 @@ class Model
         return (bool)$req->rowCount();
     }
 
-    public function selectRandomJoueurs_pred($nombre) {
-        // Sélectionne les joueurs non choisis (choisi = false)
-        $query = "SELECT * FROM joueurs_pred WHERE choisi = false ORDER BY RANDOM() LIMIT :nombre";
-        $stmt = $this->bd->prepare($query);
-        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_INT);
-        $stmt->execute();
-        $joueurs = $stmt->fetchAll();
-
-        // Met à jour l'état de `choisi` pour les joueurs sélectionnés
-        foreach ($joueurs as $joueur) {
-            $updateQuery = "UPDATE joueurs_pred SET choisi = true WHERE id_joueur = :id_joueur";
-            $updateStmt = $this->db->prepare($updateQuery);
-            $updateStmt->bindParam(':id_joueur', $joueur['id_joueur'], PDO::PARAM_INT);
-            $updateStmt->execute();
+    public function selectRandomJoueurs_pred($nombre)
+    {
+        // Vérifie si la table Joueurs_pred est vide
+        $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
+        $count = $req->fetch(PDO::FETCH_ASSOC)['count'];
+    
+        if ($count == 0) {
+            // Remplit la table Joueurs_pred si elle est vide
+            $this->populateJoueurs_pred_lots();
         }
-
+    
+        // Sélectionne des joueurs non choisis (choisi = false) de manière aléatoire, limite par $nombre
+        $req = $this->bd->prepare("SELECT * FROM Joueurs_pred WHERE choisi = false ORDER BY RANDOM() LIMIT :nombre");
+        $req->bindParam(':nombre', $nombre, PDO::PARAM_INT);
+        $req->execute();
+    
+        $joueurs = $req->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Met à jour la colonne `choisi` pour les joueurs sélectionnés, afin d'éviter les doublons
+        $ids = array_column($joueurs, 'id_joueur');
+        if (!empty($ids)) {
+            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            $updateQuery = $this->bd->prepare("UPDATE Joueurs_pred SET choisi = true WHERE id_joueur IN ($placeholders)");
+            $updateQuery->execute($ids);
+        }
+    
         return $joueurs;
     }
-
-    // Méthode pour réinitialiser les joueurs à `choisi = false` si nécessaire
-    public function resetChoisi() {
-        $query = "UPDATE joueurs_pred SET choisi = false";
-        $this->bd->exec($query);
-    }
-
+    
     public function populateJoueurs_pred_lots()
     {
         try {
