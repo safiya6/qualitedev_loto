@@ -17,8 +17,7 @@
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows" id="data-rows" >
                 <?php foreach ($joueurs as $joueur): ?>
-                    <?php var_dump($joueur)?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>" >
+                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>" >
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         <div style="display: flex; flex-direction: column; gap: 5px;">
