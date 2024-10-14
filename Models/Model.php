@@ -203,14 +203,18 @@ class Model
     {
         $req = $this->bd->query("
             SELECT 
-                jp.id_joueur AS id_joueur_pred,
-                jp.pseudo AS pseudo,
-                jp.ticket AS ticket
+                je.id_joueur,
+                COALESCE(jc.pseudo, jp.pseudo) AS pseudo,
+                COALESCE(jc.ticket, jp.ticket) AS ticket,
+                je.id_joueur_creer,
+                je.id_joueur_pred
             FROM joueurs_en_cours je
-            JOIN joueurs_pred jp ON je.id_joueur_pred = jp.id_joueur
+            LEFT JOIN joueurs_creer jc ON je.id_joueur_creer = jc.id_joueur
+            LEFT JOIN joueurs_pred jp ON je.id_joueur_pred = jp.id_joueur
         ");
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function selectJoueursEnCoursCreer()
     {
