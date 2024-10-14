@@ -9,7 +9,40 @@
         <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
         <button type="submit" class="generate-button">Afficher les joueurs</button>
     </form>
-    </div>    
+     
+    <div class="container">
+    <h3>Liste des Joueurs Créés</h3>
+
+    <!-- Formulaire pour sélectionner des joueurs -->
+    <form id="selection-form" action="?controller=partie&action=selectJoueurs" method="POST">
+        <div class="users-list">
+            <h4>Joueurs</h4>
+
+            <!-- En-tête de la liste des joueurs -->
+            <div class="header-row">
+                <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
+                <label for="select-all">Sélectionner tous</label>
+            </div>
+
+            <!-- Liste des joueurs avec cases à cocher -->
+            <?php foreach ($joueurs_creer as $joueur): ?>
+                <div class="data-row">
+                    <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
+                    <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Options de sélection -->
+        <label for="nombre">Nombre de joueurs à sélectionner aléatoirement :</label>
+        <input type="number" id="nombre" name="nombre" min="1" max="<?= count($joueurs_creer) ?>" required>
+
+        <!-- Boutons d'action -->
+        <button type="button" onclick="selectRandom()">Sélectionner Aléatoirement</button>
+        <button type="submit" name="select_all">Sélectionner tous</button>
+    </form>
+</div>  
+</div> 
     <!-- Liste des joueurs en cours -->
     <div class="users-list" >
         <h3>Joueurs en Cours</h3>

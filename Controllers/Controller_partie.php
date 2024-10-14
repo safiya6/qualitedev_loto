@@ -58,4 +58,34 @@ class Controller_partie extends Controller
             }
         }
     }
+
+    public function action_selectJoueurs()
+    {
+        $model = Model::getModel();
+        
+        // Si "Sélectionner tous" est cliqué
+        if (isset($_POST['select_all'])) {
+            $joueurs = $model->selectAllJoueurs_creer();
+        } else {
+            // Sinon, récupérer les joueurs sélectionnés aléatoirement
+            $selected_joueurs = $_POST['selected_joueurs'] ?? [];
+            $nombre = (int)$_POST['nombre'];
+
+            if ($nombre > 0 && $nombre <= count($selected_joueurs)) {
+                shuffle($selected_joueurs);
+                $selected_joueurs = array_slice($selected_joueurs, 0, $nombre);
+            }
+
+            $joueurs = $model->selectJoueursByIds($selected_joueurs);
+        }
+
+        // Mise à jour en base pour marquer les joueurs sélectionnés
+        foreach ($joueurs as $joueur) {
+            $model->setChoisiTrue($joueur['id_joueur']);
+        }
+
+        // Afficher la vue
+        $this->render("simulation", ['joueurs' => $joueurs]);
+    }
+
 }

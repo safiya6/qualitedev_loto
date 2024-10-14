@@ -279,4 +279,23 @@ class Model
     }
 
 
+    public function selectJoueursByIds(array $ids)
+    {
+        if (empty($ids)) return [];
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $req = $this->bd->prepare("SELECT * FROM Joueurs_pred WHERE id_joueur IN ($placeholders)");
+        $req->execute($ids);
+
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function setChoisiTrue($id_joueur)
+    {
+        $req = $this->bd->prepare("UPDATE Joueurs_pred SET choisi = true WHERE id_joueur = ?");
+        $req->execute([$id_joueur]);
+    }
+
+
+
 }

@@ -154,3 +154,33 @@ function deleteUser(id_joueur) {
     })
     .catch(error => console.error("Erreur AJAX:", error));
 }
+
+  // Fonction pour sélectionner toutes les cases à cocher
+  function selectAllCheckboxes(checkbox) {
+    const checkboxes = document.querySelectorAll('.select-checkbox');
+    checkboxes.forEach((cb) => cb.checked = checkbox.checked);
+}
+
+// Fonction pour sélectionner un nombre aléatoire de joueurs cochés
+function selectRandom() {
+    const checkboxes = Array.from(document.querySelectorAll('.select-checkbox')).filter(cb => cb.checked);
+    const nombre = document.getElementById('nombre').value;
+
+    if (nombre > checkboxes.length) {
+        alert("Nombre sélectionné dépasse les joueurs disponibles !");
+        return;
+    }
+
+    // Réinitialisation des cases cochées
+    checkboxes.forEach(cb => cb.checked = false);
+
+    // Sélection aléatoire
+    const selected = [];
+    while (selected.length < nombre) {
+        const index = Math.floor(Math.random() * checkboxes.length);
+        if (!selected.includes(index)) {
+            selected.push(index);
+            checkboxes[index].checked = true;
+        }
+    }
+}
