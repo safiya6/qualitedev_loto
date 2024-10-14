@@ -49,6 +49,7 @@
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <!-- Boutons Modifier et Supprimer -->
                             <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
                             <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur'] ?>)">🗑️ Supprimer</button>
                         </div>
