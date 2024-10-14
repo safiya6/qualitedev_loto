@@ -48,66 +48,28 @@ function prepareTicket() {
     return true;
 }
 
-function populateForm(id_joueur, pseudo, ticket) {
-    console.log("Modification du joueur :", id_joueur);
-
-    // Remplit le champ caché avec l'identifiant du joueur
-    document.getElementById("id_joueur").value = id_joueur;
-    document.getElementById("pseudo").value = pseudo;
-
-    // Réinitialise les sélections et vide les ensembles
-    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
-    selectedNumbers.clear();
-    selectedStars.clear();
-
-    const [numbers, stars] = ticket.split(" | ");
-    
-    // Sélectionne les numéros et ajoute-les à selectedNumbers
-    numbers.split("-").forEach(num => {
-        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedNumbers.add(parseInt(num));
-        }
-    });
-    
-    // Sélectionne les étoiles et ajoute-les à selectedStars
-    stars.split("-").forEach(star => {
-        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedStars.add(parseInt(star));
-        }
-    });
-}
-
 function generateRandomPseudo() {
     const letters = "abcdefghijklmnopqrstuvwxyz";
     const numbers = "0123456789";
     let pseudo = "";
 
-    // Génère une partie aléatoire de lettres
-    const letterLength = Math.floor(Math.random() * (15 - 5 + 1) + 3); // entre 3 et 13 lettres
+    const letterLength = Math.floor(Math.random() * (15 - 5 + 1) + 3);
     for (let i = 0; i < letterLength; i++) {
         pseudo += letters.charAt(Math.floor(Math.random() * letters.length));
     }
 
-    // Ajoute jusqu'à 2 chiffres à la fin du pseudo
-    const numLength = Math.floor(Math.random() * 3); // entre 0 et 2 chiffres
+    const numLength = Math.floor(Math.random() * 3);
     for (let i = 0; i < numLength; i++) {
         pseudo += numbers.charAt(Math.floor(Math.random() * numbers.length));
     }
 
-    // Remplit l'input avec le pseudo généré
     document.getElementById("pseudo").value = pseudo;
 }
-
 
 function showEditForm(id, pseudo, ticket) {
     document.getElementById('edit-id_joueur').value = id;
     document.getElementById('edit-pseudo').value = pseudo;
 
-    // Reset selections
     selectedNumbers.clear();
     selectedStars.clear();
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
@@ -133,22 +95,18 @@ function showEditForm(id, pseudo, ticket) {
 }
 
 function deleteUser(id_joueur) {
-    // Demande de confirmation avant la suppression
     if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
 
-    // Envoi de la requête AJAX en utilisant fetch
     fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json()) // Récupère la réponse JSON du serveur
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Si la suppression a réussi, supprimer la ligne correspondante
-            const row = document.querySelector(`.data-row[data-id='${id_joueur}']`);
-            if (row) row.remove();
+            loadPlayers(); // Recharge partielle pour garder la liste des joueurs
         } else {
             alert("Erreur lors de la suppression du joueur.");
         }
@@ -174,7 +132,6 @@ function submitEditForm() {
         if (data.success) {
             alert(data.message);
             document.getElementById("edit-form-container").style.display = "none";
-            // Recharge partielle pour mettre à jour la liste des joueurs
             loadPlayers();
         } else {
             document.getElementById("error-message").innerText = data.message;
@@ -184,7 +141,6 @@ function submitEditForm() {
     .catch(error => console.error("Erreur:", error));
 }
 
-// Charge partiellement la liste des joueurs sans rechargement de la page
 function loadPlayers() {
     fetch("?controller=partie&action=selectRandomJoueurs")
     .then(response => response.text())
@@ -193,15 +149,3 @@ function loadPlayers() {
     })
     .catch(error => console.error("Erreur lors du chargement des joueurs:", error));
 }
-
-
-
-
-
-
-
-
-
-
-
-

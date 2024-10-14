@@ -67,6 +67,7 @@
             <input type="hidden" id="stars" name="stars">
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
         </form>
+        <div id="success-message" style="display: none; color: green; margin-top: 20px;">Modification réussie!</div>
     </div>
 </div>
 
