@@ -43,25 +43,32 @@ class Controller_partie extends Controller
 
     public function action_editUser()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars']) && isset($_POST['type_joueur'])) {
             $id_joueur = (int)$_POST['id_joueur'];
             $pseudo = trim($_POST['pseudo']);
             $numbers = explode(",", trim($_POST['numbers']));
             $stars = explode(",", trim($_POST['stars']));
-
+            $type_joueur = $_POST['type_joueur']; // indique s'il s'agit de Joueurs_pred ou Joueurs_creer
+    
             if (count($numbers) === 5 && count($stars) === 2) {
                 sort($numbers);
                 sort($stars);
                 $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
-
+    
                 $model = Model::getModel();
-                $model->updateJoueurPred($id_joueur, $pseudo, $ticket);
-
+    
+                if ($type_joueur === 'pred') {
+                    $model->updateJoueurPred($id_joueur, $pseudo, $ticket);
+                } elseif ($type_joueur === 'creer') {
+                    $model->updateJoueurs_creer($id_joueur, $pseudo, $ticket);
+                }
+    
                 header("Location: ?controller=partie");
                 exit();
             }
         }
     }
+    
 
     public function action_addSelectedJoueursCreer()
 {

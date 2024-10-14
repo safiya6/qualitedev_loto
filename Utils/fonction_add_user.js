@@ -103,16 +103,20 @@ function generateRandomPseudo() {
 }
 
 
-function showEditForm(id, pseudo, ticket) {
-    document.getElementById('edit-id_joueur').value = id;
-    document.getElementById('edit-pseudo').value = pseudo;
+function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
+    // Remplit le champ caché avec l'identifiant du joueur
+    document.getElementById("edit-id_joueur").value = id_joueur;
+    document.getElementById("edit-pseudo").value = pseudo;
+    document.getElementById("type-joueur").value = type_joueur;
 
-    // Reset selections
+    // Réinitialise les sélections et vide les ensembles
+    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
     selectedNumbers.clear();
     selectedStars.clear();
-    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
 
     const [numbers, stars] = ticket.split(" | ");
+
+    // Sélectionne les numéros et ajoute-les à selectedNumbers
     numbers.split("-").forEach(num => {
         const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
         if (button) {
@@ -121,6 +125,7 @@ function showEditForm(id, pseudo, ticket) {
         }
     });
 
+    // Sélectionne les étoiles et ajoute-les à selectedStars
     stars.split("-").forEach(star => {
         const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
         if (button) {
@@ -132,34 +137,6 @@ function showEditForm(id, pseudo, ticket) {
     document.getElementById("edit-form-container").style.display = "block";
 }
 
-function deleteUser(id_joueur) {
-    // Demande de confirmation avant la suppression
-    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
-    // Envoi de la requête AJAX en utilisant fetch
-    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json()) // Récupère la réponse JSON du serveur
-    .then(data => {
-        if (data.success) {
-            // Si la suppression a réussi, supprimer la ligne correspondante
-            const row = document.querySelector(`.data-row[data-id='${id_joueur}']`);
-            if (row) row.remove();
-        } else {
-            alert("Erreur lors de la suppression du joueur.");
-        }
-    })
-    .catch(error => console.error("Erreur AJAX:", error));
-}
-
-  // Fonction pour sélectionner toutes les cases à cocher
-  function selectAllCheckboxes(checkbox) {
-    const checkboxes = document.querySelectorAll('.select-checkbox');
-    checkboxes.forEach((cb) => cb.checked = checkbox.checked);
-}
 
 // Fonction pour sélectionner un nombre aléatoire de joueurs cochés
 function selectRandom() {

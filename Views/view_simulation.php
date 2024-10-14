@@ -1,59 +1,56 @@
 <?php require_once "view_begin.php"; ?>
 
 <div class="container">
-    <!-- Formulaire de sélection de joueurs aléatoires -->
+
+    <!-- Section de sélection de joueurs aléatoires -->
     <div class="selection">
         <h3>Sélectionner un Nombre de Joueurs</h3>
-        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" class="selection-form">
             <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
+            <input type="number" id="nombre" name="nombre" min="1" max="100" required>
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
     </div>
     
     <!-- Section de sélection des joueurs créés -->
-    <div class="container">
-    <!-- Section de sélection des joueurs créés -->
-    <h3>Liste des Joueurs Créés</h3>
-    <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
-        <div class="users-list">
-            <h4>Joueurs</h4>
-            <div class="header-row">
-                <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
-                <label for="select-all">Sélectionner tous</label>
+    <div class="selection-joueurs-crees">
+        <h3>Liste des Joueurs Créés</h3>
+        <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
+            <div class="users-list">
+                <h4>Joueurs</h4>
+                <div class="header-row">
+                    <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
+                    <label for="select-all">Sélectionner tous</label>
+                </div>
+                
+                <!-- Liste des joueurs créés avec cases à cocher -->
+                <?php if (!empty($joueurs_creer)): ?>
+                    <?php foreach ($joueurs_creer as $joueur): ?>
+                        <div class="data-row">
+                            <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
+                            <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?> - <?= htmlspecialchars($joueur['ticket']) ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Aucun joueur créé à afficher.</p>
+                <?php endif; ?>
             </div>
-            
-            <!-- Liste des joueurs créés avec cases à cocher -->
-            <?php if (!empty($joueurs_creer)): ?>
-                <?php foreach ($joueurs_creer as $joueur): ?>
-                    <div class="data-row">
-                        <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
-                        <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?> - <?= htmlspecialchars($joueur['ticket']) ?></span>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Aucun joueur créé à afficher.</p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Bouton pour valider la sélection -->
-        <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
-    </form>
-</div>
-
+            <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
+        </form>
+    </div>
 
     <!-- Liste des joueurs en cours -->
-    <div class="users-list">
+    <div class="joueurs-en-cours">
         <h3>Joueurs en Cours</h3>
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows" id="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?>">
+                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>">
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <div style="display: flex; flex-direction: column; gap: 5px;">
-                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-                            <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?>)">🗑️ Supprimer</button>
+                        <div class="actions">
+                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
+                            <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>)">🗑️ Supprimer</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
