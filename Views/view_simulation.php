@@ -1,19 +1,18 @@
 <?php require_once "view_begin.php"; ?>
 
 <div class="container">
-
-    <!-- Section de sélection de joueurs aléatoires -->
+    <!-- Formulaire de sélection de joueurs aléatoires -->
     <div class="selection">
         <h3>Sélectionner un Nombre de Joueurs</h3>
-        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" class="selection-form">
+        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
             <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" id="nombre" name="nombre" min="1" max="100" required>
+            <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
     </div>
     
     <!-- Section de sélection des joueurs créés -->
-    <div class="selection-joueurs-crees">
+    <div class="container">
         <h3>Liste des Joueurs Créés</h3>
         <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
             <div class="users-list">
@@ -35,22 +34,23 @@
                     <p>Aucun joueur créé à afficher.</p>
                 <?php endif; ?>
             </div>
+            <!-- Bouton pour valider la sélection -->
             <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
         </form>
     </div>
 
     <!-- Liste des joueurs en cours -->
-    <div class="joueurs-en-cours">
+    <div class="users-list">
         <h3>Joueurs en Cours</h3>
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows" id="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>">
+                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <div class="actions">
-                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-                            <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?? $joueur['id_joueur_creer'] ?>)">🗑️ Supprimer</button>
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
+                            <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur'] ?>)">🗑️ Supprimer</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
