@@ -328,6 +328,17 @@ class Model
         $req->execute([$id_joueur, $pseudo, $ticket]);
     }
 
+    public function insertJoueurEnCoursFromCreer($id_joueur_creer)
+{
+    $req = $this->bd->prepare("
+        INSERT INTO Joueurs_en_cours (id_joueur, id_joueur_creer, gains) 
+        VALUES (:id_joueur, :id_joueur_creer, 0.00)
+        ON CONFLICT (id_joueur_creer) DO NOTHING
+    ");
+    $req->execute(['id_joueur' => $id_joueur_creer, 'id_joueur_creer' => $id_joueur_creer]);
+}
+
+
 
 
 

@@ -64,31 +64,24 @@ class Controller_partie extends Controller
     }
 
     public function action_addSelectedJoueursCreer()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_joueurs'])) {
-            $model = Model::getModel();
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_joueurs'])) {
+        $model = Model::getModel();
 
-            // Obtenir les joueurs sélectionnés et vérifier qu'ils sont moins de 100 au total
-            $count_en_cours = $model->countJoueursEnCours();
-            $remaining_slots = 100 - $count_en_cours;
+        // Obtenir les joueurs sélectionnés
+        $selectedIds = $_POST['selected_joueurs'];
 
-            if ($remaining_slots > 0) {
-                $selectedIds = $_POST['selected_joueurs'];
-                $nombre_manual = min(count($selectedIds), $remaining_slots);
-                $selectedJoueurs = $model->selectSpecificJoueurs_creer(array_slice($selectedIds, 0, $nombre_manual));
-
-                // Marquer les joueurs sélectionnés comme `choisi = true` et ajouter à `joueurs_en_cours`
-                foreach ($selectedJoueurs as $joueur) {
-                    $model->setChoisiTrueJoueurs($joueur['id_joueur']);
-                    $model->insertJoueurEnCours($joueur['id_joueur'], $joueur['pseudo'], $joueur['ticket']);
-                }
-            } else {
-                $_SESSION['message'] = "La table joueurs_en_cours est pleine (maximum 100 joueurs).";
-            }
+        foreach ($selectedIds as $id_joueur_creer) {
+            // Insérer le joueur dans Joueurs_en_cours avec id_joueur_creer
+            $model->insertJoueurEnCoursFromCreer($id_joueur_creer);
         }
 
-        header("Location: ?controller=partie");
-        exit();
+        $_SESSION['message'] = count($selectedIds) . " joueurs ont été ajoutés à la partie en cours.";
     }
+
+    header("Location: ?controller=partie");
+    exit();
+}
+
 }
 

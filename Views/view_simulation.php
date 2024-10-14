@@ -13,6 +13,7 @@
     
     <!-- Section de sélection des joueurs créés -->
     <div class="container">
+    <!-- Section de sélection des joueurs créés -->
     <h3>Liste des Joueurs Créés</h3>
     <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
         <div class="users-list">
@@ -21,27 +22,22 @@
                 <input type="checkbox" id="select-all" onclick="selectAllCheckboxes(this)">
                 <label for="select-all">Sélectionner tous</label>
             </div>
+            
+            <!-- Liste des joueurs créés avec cases à cocher -->
             <?php if (!empty($joueurs_creer)): ?>
                 <?php foreach ($joueurs_creer as $joueur): ?>
                     <div class="data-row">
                         <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
-                        <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></span>
+                        <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?> - <?= htmlspecialchars($joueur['ticket']) ?></span>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>Aucun joueur créé à afficher.</p>
             <?php endif; ?>
         </div>
-        
-        <label for="nombre">Nombre de joueurs à sélectionner aléatoirement :</label>
-        <input type="number" id="nombre" name="nombre" min="1" max="<?= count($joueurs_creer) ?>" required>
-        
-        <!-- Boutons d'action -->
-        <button type="button" onclick="selectRandom()">Sélectionner Aléatoirement</button>
-        <button type="submit" name="select_all">Sélectionner tous</button>
-        
-        <!-- Nouveau bouton pour valider la sélection -->
-        <button type="submit" name="validate_selection" class="generate-button">Ajouter les joueurs sélectionnés</button>
+
+        <!-- Bouton pour valider la sélection -->
+        <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
     </form>
 </div>
 
