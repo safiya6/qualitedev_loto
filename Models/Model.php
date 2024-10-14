@@ -57,30 +57,34 @@ class Model
         // Vérifie si la table Joueurs_pred est vide
         $req = $this->bd->query("SELECT COUNT(*) as count FROM Joueurs_pred");
         $count = $req->fetch(PDO::FETCH_ASSOC)['count'];
-    
+
         if ($count == 0) {
             // Remplit la table Joueurs_pred si elle est vide
             $this->populateJoueurs_pred_lots();
         }
-    
+
         // Sélectionne des joueurs non choisis (choisi = false) de manière aléatoire, limite par $nombre
         $req = $this->bd->prepare("SELECT * FROM Joueurs_pred WHERE choisi = false ORDER BY RANDOM() LIMIT :nombre");
         $req->bindParam(':nombre', $nombre, PDO::PARAM_INT);
         $req->execute();
-    
+
         $joueurs = $req->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Met à jour la colonne `choisi` pour les joueurs sélectionnés, afin d'éviter les doublons
-        $ids = array_column($joueurs, 'id_joueur');
-        if (!empty($ids)) {
+
+        // Met à jour la colonne `choisi` pour les joueurs sélectionnés
+        if (!empty($joueurs)) {
+            $ids = array_column($joueurs, 'id_joueur');
             $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            
+            // Préparation de la requête de mise à jour
             $updateQuery = $this->bd->prepare("UPDATE Joueurs_pred SET choisi = true WHERE id_joueur IN ($placeholders)");
+            
+            // Exécution de la mise à jour avec les IDs des joueurs sélectionnés
             $updateQuery->execute($ids);
         }
-    
+
         return $joueurs;
     }
-    
+
     public function populateJoueurs_pred_lots()
     {
         try {
