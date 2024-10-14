@@ -301,13 +301,6 @@ class Model
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function selectSpecificJoueurs_creer(array $ids)
-    {
-        $inQuery = implode(',', array_fill(0, count($ids), '?'));
-        $req = $this->bd->prepare("SELECT * FROM Joueurs_creer WHERE id_joueur IN ($inQuery)");
-        $req->execute($ids);
-        return $req->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     public function countJoueursEnCours()
     {
