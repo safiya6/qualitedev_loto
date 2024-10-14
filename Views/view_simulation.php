@@ -51,8 +51,10 @@
                         <div style="display: flex; flex-direction: column; gap: 5px;">
                             <!-- Boutons Modifier et Supprimer -->
                             <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-                            <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur'] ?>)">🗑️ Supprimer</button>
-                        </div>
+<!-- Formulaire de suppression -->
+                            <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
+                        </form>                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
