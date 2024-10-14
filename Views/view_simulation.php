@@ -4,10 +4,10 @@
     <h3>Sélectionner un Nombre de Joueurs</h3>
     
     <!-- Formulaire pour sélectionner un nombre de joueurs -->
-    <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
+    <form id="player-selection-form" action="?controller=partie&action=selectRandomJoueurs" method="POST">
         <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
         <input type="number" id="nombre" name="nombre" min="1" max="100" required>
-        <button type="submit" class="generate-button">Afficher les joueurs</button>
+        <button type="button" class="generate-button" onclick="loadPlayers()">Afficher les joueurs</button>
     </form>
 
     <!-- Liste des joueurs en cours -->
@@ -19,21 +19,8 @@
             <div class="header-item">Ticket</div>
         </div>
 
-        <div class="data-rows">
-            <?php if (!empty($joueurs)): ?>
-                <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row">
-                        <div class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?></div>
-                        <div class="ticket-item"><?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <!-- Boutons de modification et suppression -->
-                        <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur_pred'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-                        
-                        <button type="button" class="delete-button" onclick="deleteUser(<?= $joueur['id_joueur_pred'] ?>)">🗑️ Supprimer</button>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Aucun joueur à afficher.</p>
-            <?php endif; ?>
+        <div class="data-rows" id="player-list">
+            <!-- La liste des joueurs sera chargée dynamiquement ici -->
         </div>
     </div>
 

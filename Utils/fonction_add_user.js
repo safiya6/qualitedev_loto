@@ -38,32 +38,14 @@ function generateRandomSelection() {
     });
 }
 
-function prepareTicket() {
-    if (selectedNumbers.size !== 5 || selectedStars.size !== 2) {
-        alert("Veuillez sélectionner 5 numéros et 2 étoiles.");
-        return false;
-    }
-    document.getElementById("numbers").value = [...selectedNumbers].join(",");
-    document.getElementById("stars").value = [...selectedStars].join(",");
-    return true;
-}
-
-function generateRandomPseudo() {
-    const letters = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    let pseudo = "";
-
-    const letterLength = Math.floor(Math.random() * (15 - 5 + 1) + 3);
-    for (let i = 0; i < letterLength; i++) {
-        pseudo += letters.charAt(Math.floor(Math.random() * letters.length));
-    }
-
-    const numLength = Math.floor(Math.random() * 3);
-    for (let i = 0; i < numLength; i++) {
-        pseudo += numbers.charAt(Math.floor(Math.random() * numbers.length));
-    }
-
-    document.getElementById("pseudo").value = pseudo;
+function loadPlayers() {
+    const nombre = document.getElementById("nombre").value;
+    fetch(`?controller=partie&action=selectRandomJoueurs&nombre=${nombre}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("player-list").innerHTML = html;
+        })
+        .catch(error => console.error("Erreur lors du chargement des joueurs:", error));
 }
 
 function showEditForm(id, pseudo, ticket) {
@@ -94,26 +76,6 @@ function showEditForm(id, pseudo, ticket) {
     document.getElementById("edit-form-container").style.display = "block";
 }
 
-function deleteUser(id_joueur) {
-    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
-
-    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            loadPlayers(); // Recharge partielle pour garder la liste des joueurs
-        } else {
-            alert("Erreur lors de la suppression du joueur.");
-        }
-    })
-    .catch(error => console.error("Erreur AJAX:", error));
-}
-
 function submitEditForm() {
     const id_joueur = document.getElementById("edit-id_joueur").value;
     const pseudo = document.getElementById("edit-pseudo").value;
@@ -141,11 +103,22 @@ function submitEditForm() {
     .catch(error => console.error("Erreur:", error));
 }
 
-function loadPlayers() {
-    fetch("?controller=partie&action=selectRandomJoueurs")
-    .then(response => response.text())
-    .then(html => {
-        document.querySelector(".data-rows").innerHTML = html;
+function deleteUser(id_joueur) {
+    if (!confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) return;
+
+    fetch(`?controller=partie&action=deleteUser&id_joueur=${id_joueur}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
-    .catch(error => console.error("Erreur lors du chargement des joueurs:", error));
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadPlayers();
+        } else {
+            alert("Erreur lors de la suppression du joueur.");
+        }
+    })
+    .catch(error => console.error("Erreur AJAX:", error));
 }
