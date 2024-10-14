@@ -78,7 +78,7 @@ class Controller_partie extends Controller
 
                 // Marquer les joueurs sélectionnés comme `choisi = true` et ajouter à `joueurs_en_cours`
                 foreach ($selectedJoueurs as $joueur) {
-                    $model->setChoisiTrue($joueur['id_joueur']);
+                    $model->setChoisiTrueJoueurs($joueur['id_joueur']);
                     $model->insertJoueurEnCours($joueur['id_joueur'], $joueur['pseudo'], $joueur['ticket']);
                 }
             } else {

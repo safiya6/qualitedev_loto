@@ -328,7 +328,7 @@ class Model
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function setChoisiTrue($id)
+    public function setChoisiTrueJoueurs($id)
     {
         $req = $this->bd->prepare("UPDATE Joueurs_creer SET choisi = true WHERE id_joueur = ?");
         $req->execute([$id]);
