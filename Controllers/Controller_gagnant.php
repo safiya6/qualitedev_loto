@@ -210,5 +210,5 @@ class Controller_gagnant extends Controller
         return $ticket;
     }
 }
-}
+
 ?>
