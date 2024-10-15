@@ -21,7 +21,7 @@ class Controller_gagnant extends Controller
         }
 
         // Appeler la fonction pour calculer les scores
-        $ticket =$this->action_generateRandomTicket()
+        $ticket = $this->action_generateRandomTicket()
         $this->action_calculateScores($ticket);
         $topWinners = $this->action_getTopWinners();
         $this->action_distributeGains(3000000);
