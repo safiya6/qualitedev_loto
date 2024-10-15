@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+include_once __DIR__ . '/credentials.php';
+
 class Model
 {
     private $bd;
