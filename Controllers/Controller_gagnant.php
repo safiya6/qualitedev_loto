@@ -19,6 +19,7 @@ class Controller_gagnant extends Controller
     }
 
     // Appeler la fonction pour calculer les scores
+    $this->action_calculateScores();
     $this->getTop10Winners();
     var_dump($_SESSION['top10Winners']);
     // Afficher les joueurs avec les scores pour vérifier
