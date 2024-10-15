@@ -22,12 +22,12 @@ class Controller_gagnant extends Controller
 
         // Appeler la fonction pour calculer les scores
         $this->action_calculateScores();
-        $topWinners = $this->getTopWinners();
-        $this->distributeGains(3000000);
+        $topWinners = $this->action_getTopWinners();
+        $this->action_distributeGains(3000000);
         var_dump($_SESSION['topWinners']);
     }
 
-    private function sortTicket($ticket)
+    private function action_sortTicket($ticket)
     {
         // Séparer les numéros et les étoiles
         list($numbers, $stars) = explode(" | ", $ticket);
@@ -57,7 +57,7 @@ class Controller_gagnant extends Controller
         if (isset($_SESSION['currentPlayers'])) {
             foreach ($_SESSION['currentPlayers'] as $id_joueur => $joueur) {
                 // Calcul du score pour chaque joueur en fonction de son ticket
-                $scoreData = $this->calculateScore($joueur['ticket'], $winningTicket);
+                $scoreData = $this->action_calculateScore($joueur['ticket'], $winningTicket);
     
                 // Mise à jour des scores dans la session pour chaque joueur
                 $_SESSION['currentPlayers'][$id_joueur]['numero_egalite'] = $scoreData['numero_egalite'];
@@ -69,7 +69,7 @@ class Controller_gagnant extends Controller
         }
     }
     
-    private function calculateScore($userTicket, $winningTicket)
+    private function action_calculateScore($userTicket, $winningTicket)
     {
         // Séparer les numéros et les étoiles des deux tickets
         list($userNumbers, $userStars) = explode(" | ", $userTicket);
@@ -103,7 +103,7 @@ class Controller_gagnant extends Controller
         ];
     }
 
-    public function getTopWinners()
+    public function action_getTopWinners()
     {
         // Vérifier que la session contient les joueurs
         if (!isset($_SESSION['currentPlayers']) || empty($_SESSION['currentPlayers'])) {
@@ -140,7 +140,7 @@ class Controller_gagnant extends Controller
         return array_slice($players, 0, min(10, count($players)));
     }
 
-    public function distributeGains($totalGains)
+    public function action_distributeGains($totalGains)
     {
         // Récupérer les gagnants de la session
         if (!isset($_SESSION['topWinners']) || empty($_SESSION['topWinners'])) {
