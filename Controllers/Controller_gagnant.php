@@ -5,6 +5,26 @@ class Controller_gagnant extends Controller
      * Fonction qui trie les numéros et les étoiles d'un ticket dans l'ordre décroissant
      * et le recompose sous forme de chaîne.
      */
+
+     public function action_default()
+{
+    // Initialisation du modèle
+    $model = Model::getModel();
+    
+    // Vider et remplir la session avec les joueurs en cours (si nécessaire)
+    $_SESSION['currentPlayers'] = [];  // Vider
+    $joueursEnCours = $model->selectJoueursEnCoursPred();
+    foreach ($joueursEnCours as $joueur) {
+        $_SESSION['currentPlayers'][$joueur['id_joueur']] = $joueur;
+    }
+
+    // Appeler la fonction pour calculer les scores
+    $this->action_calculateScores();
+
+    // Afficher les joueurs avec les scores pour vérifier
+    var_dump($_SESSION['currentPlayers']);
+}
+
     private function sortTicket($ticket)
     {
         // Séparer les numéros et les étoiles
@@ -24,23 +44,6 @@ class Controller_gagnant extends Controller
         $sortedTicket = implode("-", $numbers) . " | " . implode("-", $stars);
         
         return $sortedTicket;
-    }
-
-    public function action_default()
-    {
-        // Vérifier que la session est initialisée
-        session_start();
-
-        if (!empty($_SESSION['currentPlayers'])) {
-            foreach ($_SESSION['currentPlayers'] as $id_joueur => $joueur) {
-                $sortedTicket = $this->sortTicket($joueur['ticket']);
-                $_SESSION['currentPlayers'][$id_joueur]['ticket'] = $sortedTicket;
-            }
-            
-            var_dump($_SESSION['currentPlayers']); // Affichage pour vérifier
-        } else {
-            echo "Aucun joueur en cours.";
-        }
     }
 
     public function action_calculateScores()
