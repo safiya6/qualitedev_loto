@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use App\Controller_gagnant;
+use App\Controllers\Controller_gagnant;
 
 class ControllerGagnantTest extends TestCase
 {

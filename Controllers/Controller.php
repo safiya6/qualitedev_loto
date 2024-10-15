@@ -1,4 +1,6 @@
 <?php
+namespace App\Controllers;
+
 /**
  * @brief Classe abstraite Controller
  * 
