@@ -1,7 +1,5 @@
 <?php
 //namespace App\Controllers;
-//use App\Models\Model;
-
 
 class Controller_gagnant extends Controller
 {
@@ -10,26 +8,24 @@ class Controller_gagnant extends Controller
      * et le recompose sous forme de chaîne.
      */
 
-     public function action_default()
-{
-    // Initialisation du modèle
-    $model = Model::getModel();
-    
-    // Vider et remplir la session avec les joueurs en cours (si nécessaire)
-    $_SESSION['currentPlayers'] = [];  // Vider
-    $joueursEnCours = $model->selectJoueursEnCoursPred();
-    foreach ($joueursEnCours as $joueur) {
-        $_SESSION['currentPlayers'][$joueur['id_joueur']] = $joueur;
-    }
+    public function action_default()
+    {
+        // Initialisation du modèle
+        $model = Model::getModel();
+        
+        // Vider et remplir la session avec les joueurs en cours (si nécessaire)
+        $_SESSION['currentPlayers'] = [];  // Vider
+        $joueursEnCours = $model->selectJoueursEnCoursPred();
+        foreach ($joueursEnCours as $joueur) {
+            $_SESSION['currentPlayers'][$joueur['id_joueur']] = $joueur;
+        }
 
-    // Appeler la fonction pour calculer les scores
-    $this->action_calculateScores();
-    $this->getTop10Winners();
-    $this->distributeGains(3000000);
-    var_dump($_SESSION['top10Winners']);
-    // Afficher les joueurs avec les scores pour vérifier
-    //var_dump($_SESSION['currentPlayers']);
-}
+        // Appeler la fonction pour calculer les scores
+        $this->action_calculateScores();
+        $topWinners = $this->getTopWinners();
+        $this->distributeGains(3000000);
+        var_dump($_SESSION['topWinners']);
+    }
 
     private function sortTicket($ticket)
     {
@@ -68,15 +64,11 @@ class Controller_gagnant extends Controller
                 $_SESSION['currentPlayers'][$id_joueur]['etoile_egalite'] = $scoreData['etoile_egalite'];
                 $_SESSION['currentPlayers'][$id_joueur]['ecart'] = $scoreData['ecart'];
             }
-    
-            // Affichage pour vérification des scores dans la session
-            //var_dump($_SESSION['currentPlayers']);
         } else {
             echo "Aucun joueur en cours.";
         }
     }
     
-    // Appel de la fonction calculateScore qui reste inchangée
     private function calculateScore($userTicket, $winningTicket)
     {
         // Séparer les numéros et les étoiles des deux tickets
@@ -111,81 +103,95 @@ class Controller_gagnant extends Controller
         ];
     }
 
-    public function getTop10Winners()
-{
-    // Vérifier que la session contient les joueurs
-    if (!isset($_SESSION['currentPlayers']) || empty($_SESSION['currentPlayers'])) {
-        echo "Aucun joueur en cours.";
-        return [];
+    public function getTopWinners()
+    {
+        // Vérifier que la session contient les joueurs
+        if (!isset($_SESSION['currentPlayers']) || empty($_SESSION['currentPlayers'])) {
+            echo "Aucun joueur en cours.";
+            return [];
+        }
+
+        // Récupérer les joueurs de la session
+        $players = $_SESSION['currentPlayers'];
+
+        // Trier les joueurs en fonction des critères définis
+        usort($players, function($a, $b) {
+            // Comparer d'abord par le nombre de numéros en commun (décroissant)
+            if ($a['numero_egalite'] !== $b['numero_egalite']) {
+                return $b['numero_egalite'] - $a['numero_egalite'];
+            }
+            
+            // Ensuite, par le nombre d'étoiles en commun (décroissant)
+            if ($a['etoile_egalite'] !== $b['etoile_egalite']) {
+                return $b['etoile_egalite'] - $a['etoile_egalite'];
+            }
+            
+            // Ensuite, par l'écart total (croissant)
+            if ($a['ecart'] !== $b['ecart']) {
+                return $a['ecart'] - $b['ecart'];
+            }
+
+            // En cas d'égalité parfaite, retourner 0 (ex æquo)
+            return 0;
+        });
+
+        // Limiter à 10 gagnants maximum
+        return array_slice($players, 0, min(10, count($players)));
     }
 
-    // Récupérer les joueurs de la session
-    $players = $_SESSION['currentPlayers'];
-
-    // Trier les joueurs en fonction des critères définis
-    usort($players, function($a, $b) {
-        // Comparer d'abord par le nombre de numéros en commun (décroissant)
-        if ($a['numero_egalite'] !== $b['numero_egalite']) {
-            return $b['numero_egalite'] - $a['numero_egalite'];
-        }
-        
-        // Ensuite, par le nombre d'étoiles en commun (décroissant)
-        if ($a['etoile_egalite'] !== $b['etoile_egalite']) {
-            return $b['etoile_egalite'] - $a['etoile_egalite'];
-        }
-        
-        // Ensuite, par l'écart total (croissant)
-        if ($a['ecart'] !== $b['ecart']) {
-            return $a['ecart'] - $b['ecart'];
+    public function distributeGains($totalGains)
+    {
+        // Récupérer les gagnants de la session
+        if (!isset($_SESSION['topWinners']) || empty($_SESSION['topWinners'])) {
+            echo "Aucun gagnant à distribuer.";
+            return;
         }
 
-        // En cas d'égalité parfaite, retourner 0 (ex æquo)
-        return 0;
-    });
+        $topWinners = $_SESSION['topWinners'];
+        $numWinners = count($topWinners);
+        if ($numWinners == 0) {
+            echo "Aucun joueur n'a participé.";
+            return;
+        }
 
-    // Prendre les 10 premiers joueurs comme gagnants
-    $top10Winners = array_slice($players, 0, 10);
+        // Pourcentages initiaux de gains pour les 10 places
+        $initialPercentages = [40, 20, 12, 7, 6, 5, 4, 3, 2, 1];
+        $gainPercentages = array_slice($initialPercentages, 0, $numWinners);
 
-    // Retourner les gagnants ou les afficher pour vérification
-    $_SESSION['top10Winners'] = $top10Winners; // Pour stockage en session si besoin
-    return $top10Winners;
-}
+        // Ajuster les pourcentages si moins de 10 joueurs pour que le total soit toujours 100%
+        $totalPercentage = array_sum($gainPercentages);
+        $multiplier = 100 / $totalPercentage;
+        $gainPercentages = array_map(function ($percentage) use ($multiplier) {
+            return $percentage * $multiplier;
+        }, $gainPercentages);
 
+        // Répartir les gains
+        $i = 0;
+        while ($i < count($topWinners)) {
+            $equalCount = 1;
+            $cumulativePercentage = $gainPercentages[$i];
 
-public function distributeGains($totalGains)
-{
-    if (!isset($_SESSION['top10Winners']) || empty($_SESSION['top10Winners'])) {
-        echo "Aucun gagnant trouvé.";
-        return;
+            // Trouver le nombre de joueurs à égalité
+            while ($i + $equalCount < count($topWinners) &&
+                $topWinners[$i]['numero_egalite'] === $topWinners[$i + $equalCount]['numero_egalite'] &&
+                $topWinners[$i]['etoile_egalite'] === $topWinners[$i + $equalCount]['etoile_egalite'] &&
+                $topWinners[$i]['ecart'] === $topWinners[$i + $equalCount]['ecart']) {
+                $cumulativePercentage += $gainPercentages[$i + $equalCount];
+                $equalCount++;
+            }
+
+            // Calculer les gains équitablement répartis pour les joueurs à égalité
+            $gainPerPlayer = ($totalGains * ($cumulativePercentage / 100)) / $equalCount;
+            for ($j = 0; $j < $equalCount; $j++) {
+                $topWinners[$i + $j]['gain'] = $gainPerPlayer;
+            }
+
+            // Passer au prochain groupe de gagnants
+            $i += $equalCount;
+        }
+
+        // Stocker dans la session
+        $_SESSION['topWinners'] = $topWinners;
     }
-
-    // Pourcentage des gains pour chaque position
-    $gainDistribution = [40, 20, 12, 7, 6, 5, 4, 3, 2, 1];
-    $top10Winners = $_SESSION['top10Winners'];
-
-    $i = 0;
-    while ($i < count($top10Winners)) {
-        $currentPlace = $i;
-        $equalCount = 1;
-        $cumulativePercentage = $gainDistribution[$currentPlace];
-
-        // Vérifier les égalités avec les prochains gagnants
-        while ($i + 1 < count($top10Winners) && $top10Winners[$i]['numero_egalite'] === $top10Winners[$i + 1]['numero_egalite'] && $top10Winners[$i]['etoile_egalite'] === $top10Winners[$i + 1]['etoile_egalite'] && $top10Winners[$i]['ecart'] === $top10Winners[$i + 1]['ecart']) {
-            $equalCount++;
-            $i++;
-            $cumulativePercentage += $gainDistribution[$i];
-        }
-
-        // Répartition des gains équitablement entre les gagnants à égalité
-        $individualGain = ($cumulativePercentage / $equalCount) * ($totalGains / 100);
-        for ($j = $currentPlace; $j <= $i; $j++) {
-            $_SESSION['top10Winners'][$j]['gain'] = $individualGain;
-        }
-
-        $i++;
-    }
-}
-    
 }
 ?>
-
