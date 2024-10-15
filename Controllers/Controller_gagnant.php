@@ -65,7 +65,7 @@ class Controller_gagnant extends Controller
             }
     
             // Affichage pour vérification des scores dans la session
-            var_dump($_SESSION['currentPlayers']);
+            //var_dump($_SESSION['currentPlayers']);
         } else {
             echo "Aucun joueur en cours.";
         }
