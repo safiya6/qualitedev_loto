@@ -21,7 +21,8 @@ class Controller_gagnant extends Controller
         }
 
         // Appeler la fonction pour calculer les scores
-        $this->action_calculateScores();
+        $ticket =$this->action_generateRandomTicket()
+        $this->action_calculateScores($ticket);
         $topWinners = $this->action_getTopWinners();
         $this->action_distributeGains(3000000);
         var_dump($_SESSION['topWinners']);
@@ -48,10 +49,9 @@ class Controller_gagnant extends Controller
         return $sortedTicket;
     }
 
-    public function action_calculateScores()
+    public function action_calculateScores( $winningTicket)
     {
         // Ticket gagnant (exemple). Vous pouvez le définir dynamiquement ou l'importer depuis une source.
-        $winningTicket = "5-15-9-30-1 | 8-3"; 
     
         // Vérifiez si la session des joueurs en cours existe
         if (isset($_SESSION['currentPlayers'])) {
@@ -194,5 +194,21 @@ class Controller_gagnant extends Controller
         // Stocker dans la session
         $_SESSION['topWinners'] = $topWinners;
     }
+
+    public function action_generateRandomTicket()
+    {
+        // Générer 5 numéros aléatoires distincts entre 1 et 50
+        $numbers = array_rand(array_flip(range(1, 50)), 5);
+        sort($numbers);
+        
+        // Générer 2 étoiles aléatoires distinctes entre 1 et 12
+        $stars = array_rand(array_flip(range(1, 12)), 2);
+        sort($stars);
+
+        // Recomposer le ticket
+        $ticket = implode("-", $numbers) . " | " . implode("-", $stars);
+        return $ticket;
+    }
+}
 }
 ?>
