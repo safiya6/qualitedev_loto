@@ -25,7 +25,7 @@ class Controller_gagnant extends Controller
     // Appeler la fonction pour calculer les scores
     $this->action_calculateScores();
     $this->getTop10Winners();
-    $this->distributeGains();
+    $this->distributeGains(3000000);
     var_dump($_SESSION['top10Winners']);
     // Afficher les joueurs avec les scores pour vérifier
     //var_dump($_SESSION['currentPlayers']);
@@ -151,7 +151,8 @@ class Controller_gagnant extends Controller
     return $top10Winners;
 }
 
-public function distributeGains()
+
+public function distributeGains($totalGains)
 {
     if (!isset($_SESSION['top10Winners']) || empty($_SESSION['top10Winners'])) {
         echo "Aucun gagnant trouvé.";
@@ -161,7 +162,6 @@ public function distributeGains()
     // Pourcentage des gains pour chaque position
     $gainDistribution = [40, 20, 12, 7, 6, 5, 4, 3, 2, 1];
     $top10Winners = $_SESSION['top10Winners'];
-    $totalGains = 100; // Supposons que le total des gains est 100
 
     $i = 0;
     while ($i < count($top10Winners)) {
@@ -185,8 +185,6 @@ public function distributeGains()
         $i++;
     }
 }
-
-    
     
 }
 ?>
