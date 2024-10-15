@@ -92,7 +92,7 @@
     </div>
 
 </div>
-
+<button href="?controller=gagnant">Lancer un Tirage</button>
 <script src="Utils/fonction_add_user.js"></script>
 </body>
 </html>
