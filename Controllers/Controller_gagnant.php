@@ -25,7 +25,7 @@ class Controller_gagnant extends Controller
         $this->action_calculateScores($ticket);
         $topWinners = $this->action_getTopWinners();
         $this->action_distributeGains(3000000);
-        var_dump($_SESSION['topWinners']);
+        $this-> $this->render("tirage");
     }
 
     private function action_sortTicket($ticket)
