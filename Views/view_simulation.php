@@ -90,9 +90,9 @@
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
         </form>
     </div>
+    <a href="?controller=gagnant" class="button">Lancer un Tirage</a>
 
 </div>
-<button href="?controller=gagnant">Lancer un Tirage</button>
 <script src="Utils/fonction_add_user.js"></script>
 </body>
 </html>
