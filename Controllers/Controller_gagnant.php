@@ -1,5 +1,5 @@
 <?php
-class Controller_game extends Controller
+class Controller_gagnant extends Controller
 {
     /**
      * Fonction qui trie les numéros et les étoiles d'un ticket dans l'ordre décroissant.
