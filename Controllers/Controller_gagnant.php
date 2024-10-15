@@ -28,22 +28,18 @@ class Controller_gagnant extends Controller
 
     public function action_default()
     {
-        // Vérifier si la session des joueurs en cours existe
-        if (isset($_SESSION['currentPlayers'])) {
-            // Parcourir chaque joueur dans la session et trier leur ticket
+        // Vérifier que la session est initialisée
+        session_start();
+
+        if (!empty($_SESSION['currentPlayers'])) {
             foreach ($_SESSION['currentPlayers'] as $id_joueur => $joueur) {
-                // Trier le ticket du joueur
                 $sortedTicket = $this->sortTicket($joueur['ticket']);
-                
-                // Mettre à jour le ticket trié dans la session
                 $_SESSION['currentPlayers'][$id_joueur]['ticket'] = $sortedTicket;
             }
             
-            // Affichage pour vérifier les tickets triés des joueurs
-            var_dump($_SESSION['currentPlayers']);
+            var_dump($_SESSION['currentPlayers']); // Affichage pour vérifier
         } else {
             echo "Aucun joueur en cours.";
-            var_dump($_SESSION['currentPlayers']);
         }
     }
 }

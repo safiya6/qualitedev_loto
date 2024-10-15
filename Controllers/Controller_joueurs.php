@@ -3,15 +3,19 @@ session_start();
 
 class Controller_joueurs extends Controller
 {
-    public function action_default()
     {
-        $model = Model::getModel();
-        $joueurs = $model->selectAllJoueurs_creer();
-        $message = $_SESSION['message'] ?? null;
-        unset($_SESSION['message']); // Efface le message après affichage
-        $this->render("add_user", ['joueurs' => $joueurs, 'message' => $message]);
+        public function action_default()
+        {
+            $model = Model::getModel();
+            $joueurs = $model->selectAllJoueurs_creer();
+            $_SESSION['currentPlayers'] = $joueurs; // Remplir les joueurs dans la session
+            $message = $_SESSION['message'] ?? null;
+            unset($_SESSION['message']); // Efface le message après affichage
+            $this->render("add_user", ['joueurs' => $joueurs, 'message' => $message]);
+        }
+    
+        // Autres fonctions restent inchangées
     }
-
     public function action_addUser()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
