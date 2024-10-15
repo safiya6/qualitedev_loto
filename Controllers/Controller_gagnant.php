@@ -25,6 +25,7 @@ class Controller_gagnant extends Controller
     // Appeler la fonction pour calculer les scores
     $this->action_calculateScores();
     $this->getTop10Winners();
+    $this->distributeGains();
     var_dump($_SESSION['top10Winners']);
     // Afficher les joueurs avec les scores pour vérifier
     //var_dump($_SESSION['currentPlayers']);
@@ -148,6 +149,41 @@ class Controller_gagnant extends Controller
     // Retourner les gagnants ou les afficher pour vérification
     $_SESSION['top10Winners'] = $top10Winners; // Pour stockage en session si besoin
     return $top10Winners;
+}
+
+public function distributeGains()
+{
+    if (!isset($_SESSION['top10Winners']) || empty($_SESSION['top10Winners'])) {
+        echo "Aucun gagnant trouvé.";
+        return;
+    }
+
+    // Pourcentage des gains pour chaque position
+    $gainDistribution = [40, 20, 12, 7, 6, 5, 4, 3, 2, 1];
+    $top10Winners = $_SESSION['top10Winners'];
+    $totalGains = 100; // Supposons que le total des gains est 100
+
+    $i = 0;
+    while ($i < count($top10Winners)) {
+        $currentPlace = $i;
+        $equalCount = 1;
+        $cumulativePercentage = $gainDistribution[$currentPlace];
+
+        // Vérifier les égalités avec les prochains gagnants
+        while ($i + 1 < count($top10Winners) && $top10Winners[$i]['numero_egalite'] === $top10Winners[$i + 1]['numero_egalite'] && $top10Winners[$i]['etoile_egalite'] === $top10Winners[$i + 1]['etoile_egalite'] && $top10Winners[$i]['ecart'] === $top10Winners[$i + 1]['ecart']) {
+            $equalCount++;
+            $i++;
+            $cumulativePercentage += $gainDistribution[$i];
+        }
+
+        // Répartition des gains équitablement entre les gagnants à égalité
+        $individualGain = ($cumulativePercentage / $equalCount) * ($totalGains / 100);
+        for ($j = $currentPlace; $j <= $i; $j++) {
+            $_SESSION['top10Winners'][$j]['gain'] = $individualGain;
+        }
+
+        $i++;
+    }
 }
 
     
