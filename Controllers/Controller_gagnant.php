@@ -19,10 +19,10 @@ class Controller_gagnant extends Controller
     }
 
     // Appeler la fonction pour calculer les scores
-    $this->action_calculateScores();
-
+    $this->getTop10Winners();
+    var_dump($_SESSION['top10Winners']);
     // Afficher les joueurs avec les scores pour vérifier
-    var_dump($_SESSION['currentPlayers']);
+    //var_dump($_SESSION['currentPlayers']);
 }
 
     private function sortTicket($ticket)
@@ -104,6 +104,47 @@ class Controller_gagnant extends Controller
             'ecart' => $ecart
         ];
     }
+
+    public function getTop10Winners()
+{
+    // Vérifier que la session contient les joueurs
+    if (!isset($_SESSION['currentPlayers']) || empty($_SESSION['currentPlayers'])) {
+        echo "Aucun joueur en cours.";
+        return [];
+    }
+
+    // Récupérer les joueurs de la session
+    $players = $_SESSION['currentPlayers'];
+
+    // Trier les joueurs en fonction des critères définis
+    usort($players, function($a, $b) {
+        // Comparer d'abord par le nombre de numéros en commun (décroissant)
+        if ($a['numero_egalite'] !== $b['numero_egalite']) {
+            return $b['numero_egalite'] - $a['numero_egalite'];
+        }
+        
+        // Ensuite, par le nombre d'étoiles en commun (décroissant)
+        if ($a['etoile_egalite'] !== $b['etoile_egalite']) {
+            return $b['etoile_egalite'] - $a['etoile_egalite'];
+        }
+        
+        // Ensuite, par l'écart total (croissant)
+        if ($a['ecart'] !== $b['ecart']) {
+            return $a['ecart'] - $b['ecart'];
+        }
+
+        // En cas d'égalité parfaite, retourner 0 (ex æquo)
+        return 0;
+    });
+
+    // Prendre les 10 premiers joueurs comme gagnants
+    $top10Winners = array_slice($players, 0, 10);
+
+    // Retourner les gagnants ou les afficher pour vérification
+    $_SESSION['top10Winners'] = $top10Winners; // Pour stockage en session si besoin
+    return $top10Winners;
+}
+
     
     
 }
