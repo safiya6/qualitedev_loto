@@ -39,7 +39,7 @@ class Controller_game extends Controller
         // Affichage des tickets triés pour vérification
         var_dump($userTicket);
         var_dump($sortedUserTicket); // "25-18-12-7-3 | 9-2"
-        var_dump($winningTicket)
+        var_dump($winningTicket);
         var_dump($sortedWinningTicket); // "30-15-9-5-1 | 8-3"
     }
 }
