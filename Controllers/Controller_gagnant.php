@@ -43,6 +43,7 @@ class Controller_gagnant extends Controller
             var_dump($_SESSION['currentPlayers']);
         } else {
             echo "Aucun joueur en cours.";
+            var_dump($_SESSION['currentPlayers']);
         }
     }
 }
