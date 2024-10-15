@@ -136,6 +136,7 @@ class Controller_gagnant extends Controller
         });
 
         // Limiter à 10 gagnants maximum
+        $_SESSION['topWinners']=array_slice($players, 0, min(10, count($players)));
         return array_slice($players, 0, min(10, count($players)));
     }
 
