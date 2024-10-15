@@ -3,7 +3,7 @@ session_start();
 
 class Controller_joueurs extends Controller
 {
-    {
+    
         public function action_default()
         {
             $model = Model::getModel();
@@ -15,7 +15,7 @@ class Controller_joueurs extends Controller
         }
     
         // Autres fonctions restent inchangées
-    }
+    
     public function action_addUser()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
