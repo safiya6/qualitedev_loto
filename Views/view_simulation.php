@@ -23,7 +23,6 @@
                 $type_joueur = isset($joueur['id_joueur_creer']) && $joueur['id_joueur_creer'] !== null ? 'creer' : 'pred';
                 ?>
                 <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
-                    <?php var_dump($joueur); ?>
                     <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                     <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                     <div style="display: flex; flex-direction: column; gap: 5px;">
@@ -83,7 +82,7 @@
 
     <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>
-        <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
+        <form action="?controller=partie&action=editUser" method="POST" >
             <input type="hidden" id="edit-id_joueur" name="id_joueur">
             <input type="hidden" id="type-joueur" name="type_joueur">
             <label for="edit-pseudo">Pseudo :</label>
