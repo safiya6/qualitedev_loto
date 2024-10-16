@@ -47,9 +47,9 @@
         </form>
     </div>
 
-    <!-- Edit/Add Form (Hidden by Default, Shows on Edit) -->
-    <div class="form-container">
-    <h2> Modifier un Utilisateur</h2>
+    <!-- Formulaire de modification avec ID pour ciblage -->
+<div id="user-form-container" style="display: none;">
+    <h2>Modifier un Utilisateur</h2>
     <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
         <input type="hidden" id="id_joueur" name="id_joueur">
         <input type="hidden" id="type_joueur" name="type_joueur">
@@ -78,7 +78,6 @@
             <i>🎲</i> Générer aléatoirement
         </button>
 
-        <!-- Champs masqués pour stocker les numéros et les étoiles -->
         <input type="hidden" id="numbers" name="numbers">
         <input type="hidden" id="stars" name="stars">
 
