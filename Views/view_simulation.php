@@ -11,6 +11,31 @@
         </form>
     </div>
     
+    
+    <!-- Liste des joueurs en cours -->
+    <div class="users-list" id="user-list-id">
+        <h3>Joueurs en Cours</h3>
+        <?php if (!empty($joueurs)): ?>
+            <div class="data-rows" id="data-rows">
+                <?php foreach ($joueurs as $joueur): ?>
+                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
+                        <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
+                        <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <!-- Boutons Modifier et Supprimer -->
+                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
+                            <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                                <button type="submit" class="delete-button">🗑️ Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p>Aucun joueur à afficher.</p>
+        <?php endif; ?>
+    </div>
+
     <!-- Section de sélection des joueurs créés -->
     <div class="selection-container" id="selection-container-id">
         <h3>Liste des Joueurs Créés</h3>
@@ -39,29 +64,6 @@
         </form>
     </div>
 
-    <!-- Liste des joueurs en cours -->
-    <div class="users-list" id="user-list-id">
-        <h3>Joueurs en Cours</h3>
-        <?php if (!empty($joueurs)): ?>
-            <div class="data-rows" id="data-rows">
-                <?php foreach ($joueurs as $joueur): ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
-                        <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
-                        <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <div style="display: flex; flex-direction: column; gap: 5px;">
-                            <!-- Boutons Modifier et Supprimer -->
-                            <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-                            <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
-                                <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                            </form>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p>Aucun joueur à afficher.</p>
-        <?php endif; ?>
-    </div>
 
     <!-- Formulaire de modification caché au départ -->
     <div id="edit-form-container" class="form-container" style="display: none;">
