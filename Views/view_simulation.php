@@ -76,9 +76,9 @@
     </div>
 
 
-    <div id="overlay" class="overlay" style="display: block;" onclick="hideEditForm()"></div>
+    <div id="overlay" class="overlay" style="display: none;" onclick="hideEditForm()"></div>
 
-    <div id="edit-form-container" class="form-container" style="display: none;">
+    <div id="edit-form-container" class="form-container" style="display: block;">
         <h2>Modifier un Utilisateur</h2>
         <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
         <input type="hidden" id="edit-id_joueur" name="id_joueur">
