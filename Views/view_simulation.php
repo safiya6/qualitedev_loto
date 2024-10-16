@@ -9,9 +9,7 @@
             <input type="number" id="nombre" name="nombre" min="1" max="100" required style="width: 50px;">
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
-    </div>
-    <?php var_dump($_POST)?>
-    
+    </div>    
     <!-- Liste des joueurs en cours -->
     <div class="users-list" id="user-list-id">
         <h3>Joueurs en Cours</h3>
@@ -78,7 +76,7 @@
     </div>
 
 
-    <div id="overlay" class="overlay" style="display: none;" onclick="hideEditForm()"></div>
+    <div id="overlay" class="overlay" style="display: block;" onclick="hideEditForm()"></div>
 
     <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>

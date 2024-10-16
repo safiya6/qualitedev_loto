@@ -45,8 +45,17 @@ function prepareTicket() {
     }
     document.getElementById("numbers").value = [...selectedNumbers].join(",");
     document.getElementById("stars").value = [...selectedStars].join(",");
-    return true;
+
+    // Affichage des valeurs pour validation
+    console.log("ID Joueur:", document.getElementById("edit-id_joueur").value);
+    console.log("Pseudo:", document.getElementById("edit-pseudo").value);
+    console.log("Type Joueur:", document.getElementById("type-joueur").value);
+    console.log("Numéros:", document.getElementById("numbers").value);
+    console.log("Étoiles:", document.getElementById("stars").value);
+
+    return true; // Renvoie true pour soumettre le formulaire
 }
+
 
 function populateForm(id_joueur, pseudo, ticket) {
     // Remplit le champ caché avec l'identifiant du joueur
