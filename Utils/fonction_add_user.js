@@ -45,24 +45,70 @@ function prepareTicket() {
     }
     document.getElementById("numbers").value = [...selectedNumbers].join(",");
     document.getElementById("stars").value = [...selectedStars].join(",");
-    
-    // Debugging information
-    console.log("ID Joueur:", document.getElementById("edit-id_joueur").value);
-    console.log("Pseudo:", document.getElementById("edit-pseudo").value);
-    console.log("Type Joueur:", document.getElementById("type-joueur").value);
-    console.log("Numéros:", document.getElementById("numbers").value);
-    console.log("Étoiles:", document.getElementById("stars").value);
-
     return true;
+}
+
+function populateForm(id_joueur, pseudo, ticket) {
+    // Remplit le champ caché avec l'identifiant du joueur
+    document.getElementById("id_joueur").value = id_joueur;
+    document.getElementById("action_type").value = "update"; // Définit l'action à "update" pour modification
+    document.getElementById("pseudo").value = pseudo;
+
+    // Réinitialise les sélections et vide les ensembles
+    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
+    selectedNumbers.clear();
+    selectedStars.clear();
+
+    const [numbers, stars] = ticket.split(" | ");
+
+    // Sélectionne les numéros et ajoute-les à selectedNumbers
+    numbers.split("-").forEach(num => {
+        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
+        if (button) {
+            button.classList.add("selected");
+            selectedNumbers.add(parseInt(num));
+        }
+    });
+
+    // Sélectionne les étoiles et ajoute-les à selectedStars
+    stars.split("-").forEach(star => {
+        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
+        if (button) {
+            button.classList.add("selected");
+            selectedStars.add(parseInt(star));
+        }
+    });
 }
 
 
 
+function generateRandomPseudo() {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    let pseudo = "";
+
+    // Génère une partie aléatoire de lettres
+    const letterLength = Math.floor(Math.random() * (15 - 5 + 1) + 3); // entre 3 et 13 lettres
+    for (let i = 0; i < letterLength; i++) {
+        pseudo += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // Ajoute jusqu'à 2 chiffres à la fin du pseudo
+    const numLength = Math.floor(Math.random() * 3); // entre 0 et 2 chiffres
+    for (let i = 0; i < numLength; i++) {
+        pseudo += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+
+    // Remplit l'input avec le pseudo généré
+    document.getElementById("pseudo").value = pseudo;
+}
+
+
 function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
-    // Remplit les champs cachés
+    // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("edit-id_joueur").value = id_joueur;
     document.getElementById("edit-pseudo").value = pseudo;
-    document.getElementById("type-joueur").value = type_joueur; // Définit le type de joueur
+    document.getElementById("type-joueur").value = type_joueur;
 
     // Réinitialise les sélections et vide les ensembles
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
@@ -89,13 +135,38 @@ function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
         }
     });
 
-    // Affiche le formulaire de modification
-    document.getElementById("overlay").style.display = "block";
     document.getElementById("edit-form-container").style.display = "block";
 }
 
 
-function hideEditForm() {
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("edit-form-container").style.display = "none";
+// Fonction pour sélectionner un nombre aléatoire de joueurs cochés
+function selectRandom() {
+    const checkboxes = Array.from(document.querySelectorAll('.select-checkbox')).filter(cb => cb.checked);
+    const nombre = document.getElementById('nombre').value;
+
+    if (nombre > checkboxes.length) {
+        alert("Nombre sélectionné dépasse les joueurs disponibles !");
+        return;
+    }
+
+    // Réinitialisation des cases cochées
+    checkboxes.forEach(cb => cb.checked = false);
+
+    // Sélection aléatoire
+    const selected = [];
+    while (selected.length < nombre) {
+        const index = Math.floor(Math.random() * checkboxes.length);
+        if (!selected.includes(index)) {
+            selected.push(index);
+            checkboxes[index].checked = true;
+        }
+    }
 }
+
+ // Fonction pour cocher toutes les cases
+ function selectAllCheckboxes(checkbox) {
+    const checkboxes = document.querySelectorAll('.select-checkbox');
+    checkboxes.forEach((cb) => cb.checked = checkbox.checked);
+}
+
+
