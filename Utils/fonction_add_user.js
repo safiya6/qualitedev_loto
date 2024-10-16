@@ -53,6 +53,7 @@ function populateForm(id_joueur, pseudo, ticket) {
 
     // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("id_joueur").value = id_joueur;
+    document.getElementById("action_type").value = "update"; // Mettre à jour le type d'action pour une modification
     document.getElementById("pseudo").value = pseudo;
 
     // Réinitialise les sélections et vide les ensembles
@@ -80,6 +81,7 @@ function populateForm(id_joueur, pseudo, ticket) {
         }
     });
 }
+
 
 function generateRandomPseudo() {
     const letters = "abcdefghijklmnopqrstuvwxyz";

@@ -42,41 +42,44 @@
         </div>
     </div>
 
-    <!-- Formulaire d'ajout d'utilisateur -->
-    <div class="form-container">
-        <h2>Ajouter ou Modifier un Utilisateur</h2>
-        <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
-            <input type="hidden" id="id_joueur" name="id_joueur">
-            <div class="form-group">
-                <label for="pseudo">Choisissez un pseudo :</label>
-                <input type="text" id="pseudo" name="pseudo" required>
-            </div>
+   <!-- Formulaire d'ajout d'utilisateur -->
+<div class="form-container">
+    <h2>Ajouter ou Modifier un Utilisateur</h2>
+    <form action="?controller=joueurs&action=addUser" method="POST" onsubmit="return prepareTicket()">
+        <input type="hidden" id="id_joueur" name="id_joueur">
+        <input type="hidden" id="action_type" name="action_type" value="add">
+        
+        <div class="form-group">
+            <label for="pseudo">Choisissez un pseudo :</label>
+            <input type="text" id="pseudo" name="pseudo" required>
+        </div>
 
-            <label>Choisissez vos numéros :</label>
-            <div class="number-grid">
-                <?php for ($i = 1; $i <= 49; $i++): ?>
-                    <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
-                <?php endfor; ?>
-            </div>
+        <label>Choisissez vos numéros :</label>
+        <div class="number-grid">
+            <?php for ($i = 1; $i <= 49; $i++): ?>
+                <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
+            <?php endfor; ?>
+        </div>
 
-            <label>Choisissez vos étoiles :</label>
-            <div class="star-grid">
-                <?php for ($i = 1; $i <= 9; $i++): ?>
-                    <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
-                <?php endfor; ?>
-            </div>
+        <label>Choisissez vos étoiles :</label>
+        <div class="star-grid">
+            <?php for ($i = 1; $i <= 9; $i++): ?>
+                <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
+            <?php endfor; ?>
+        </div>
 
-            <button type="button" class="generate-button" onclick="generateRandomSelection()">
-                <i>🎲</i> Générer aléatoirement
-            </button>
+        <button type="button" class="generate-button" onclick="generateRandomSelection()">
+            <i>🎲</i> Générer aléatoirement
+        </button>
 
-            <!-- Champs masqués pour stocker les numéros et les étoiles -->
-            <input type="hidden" id="numbers" name="numbers">
-            <input type="hidden" id="stars" name="stars">
+        <!-- Champs masqués pour stocker les numéros et les étoiles -->
+        <input type="hidden" id="numbers" name="numbers">
+        <input type="hidden" id="stars" name="stars">
 
-            <button type="submit" class="generate-button">Valider</button>
-        </form>
-    </div>
+        <button type="submit" class="generate-button">Valider</button>
+    </form>
+</div>
+
 </div>
 
 <script src="Utils/fonction_add_user.js"></script> 
