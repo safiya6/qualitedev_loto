@@ -113,7 +113,7 @@ function generateRandomPseudo() {
 }
 
 
-function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
+/*function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
     // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("edit-id_joueur").value = id_joueur;
     document.getElementById("edit-pseudo").value = pseudo;
@@ -177,5 +177,5 @@ function selectRandom() {
     const checkboxes = document.querySelectorAll('.select-checkbox');
     checkboxes.forEach((cb) => cb.checked = checkbox.checked);
 }
-
+*/
 
