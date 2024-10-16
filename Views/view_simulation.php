@@ -44,43 +44,48 @@
     </div>
 
     <!-- Edit/Add Form (Hidden by Default, Shows on Edit) -->
-    <div id="user-form-container" style="display: none;">
-        <h2>Modifier un Joueur</h2>
-        <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
-            <input type="hidden" id="id_joueur" name="id_joueur">
-            <input type="hidden" id="type_joueur" name="type_joueur" value="pred">
-
-            <label for="pseudo">Pseudo:</label>
+    <div class="form-container">
+    <h2> Modifier un Utilisateur</h2>
+    <form id="user-form" action="?controller=joueurs&action=editUser" method="POST" onsubmit="return prepareTicket()">
+        <input type="hidden" id="id_joueur" name="id_joueur">
+        <input type="hidden" id="action_type" name="action_type" value="add">
+        
+        <div class="form-group">
+            <label for="pseudo">Choisissez un pseudo :</label>
             <input type="text" id="pseudo" name="pseudo" required>
+            <button type="button" class="generate-pseudo-button" onclick="generateRandomPseudo()">Générer un pseudo</button>
+        </div>
 
-            <!-- Number Selection Grid -->
-            <label>Numéros:</label>
-            <div class="number-grid">
-                <?php for ($i = 1; $i <= 49; $i++): ?>
-                    <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
-                <?php endfor; ?>
-            </div>
+        <label>Choisissez vos numéros :</label>
+        <div class="number-grid">
+            <?php for ($i = 1; $i <= 49; $i++): ?>
+                <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
+            <?php endfor; ?>
+        </div>
 
-            <!-- Star Selection Grid -->
-            <label>Étoiles:</label>
-            <div class="star-grid">
-                <?php for ($i = 1; $i <= 9; $i++): ?>
-                    <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
-                <?php endfor; ?>
-            </div>
+        <label>Choisissez vos étoiles :</label>
+        <div class="star-grid">
+            <?php for ($i = 1; $i <= 9; $i++): ?>
+                <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
+            <?php endfor; ?>
+        </div>
 
-            <input type="hidden" id="numbers" name="numbers">
-            <input type="hidden" id="stars" name="stars">
-            <button type="submit">Valider</button>
-        </form>
-    </div>
+        <button type="button" class="generate-button" onclick="generateRandomSelection()">
+            <i>🎲</i> Générer aléatoirement
+        </button>
+
+        <!-- Champs masqués pour stocker les numéros et les étoiles -->
+        <input type="hidden" id="numbers" name="numbers">
+        <input type="hidden" id="stars" name="stars">
+
+        <button type="submit" class="generate-button">Valider</button>
+    </form>
 </div>
 
+
+
+
 <script src="Utils/fonction_add_user.js"></script>
-<script>
-// JavaScript functions for toggling selections, generating random pseudo, populating the form, etc.
-// Insert JavaScript functions like toggleSelection, populateForm, and prepareTicket here.
-</script>
 
 </body>
 </html>
