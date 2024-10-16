@@ -49,13 +49,13 @@
                 </div>
                 
                 <!-- Liste des joueurs créés avec cases à cocher -->
-               <?php if (!empty($joueurs_creer)): ?>
+                <?php if (!empty($joueurs_creer)): ?>
                 <?php foreach ($joueurs_creer as $joueur): ?>
                     <div class="data-row">
                         <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
-                        <div class="user-info">
-                            <span class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></span>
-                            <span class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></span>
+                        <div class="info-columns">
+                            <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
+                            <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         </div>
                     </div>
                 <?php endforeach; ?>

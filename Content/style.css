@@ -725,24 +725,22 @@ input[type="number"]:focus, input[type="text"]:focus {
 }
 
 
+/* Style de chaque ligne de joueur */
 .data-row {
     display: flex;
     align-items: center;
-    padding: 5px 0;
+    padding: 8px 0;
     border-bottom: 1px solid #ddd;
 }
 
-.user-info {
+/* Conteneur des colonnes pour le pseudo et le ticket */
+.info-columns {
     display: flex;
-    flex-direction: column;
-    margin-left: 10px;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 10px; /* Espace entre la case à cocher et les informations */
 }
 
-.user-item,
-.ticket-item {
-    font-size: 1rem;
-    color: #555;
-}
 
 
 
