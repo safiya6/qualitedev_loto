@@ -130,6 +130,10 @@ class Model
         $req->execute();
     }
 
+    public function deleteAllJoueurs_en_cours(){
+        $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours ");
+        $req->execute();
+    }
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {

@@ -190,7 +190,7 @@ class Controller_gagnant extends Controller
             // Passer au prochain groupe de gagnants
             $i += $equalCount;
         }
-
+        $model->deleteAllJoueurs_en_cours();
         // Stocker dans la session
         $_SESSION['topWinners'] = $topWinners;
     }

@@ -693,18 +693,18 @@ input[type="number"]:focus, input[type="text"]:focus {
     color: #354560;
 }
 
-#user-list-id
-#selection-container-id{
-    flex: 1; /* Permet à ces sections de prendre tout l'espace disponible */
+/* Conteneur principal */
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 95%; /* Conteneur plus large pour remplir l'écran */
+    margin: 100px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-height: 600px; /* Optionnel : limite la hauteur */
-    overflow-y: auto;
 }
-#selection-id{
-    width: 25%; /* Garde cette section petite */
+
+/* Section "Sélectionner un Nombre de Joueurs" - reste inchangée */
+#selection-id {
+    flex: 0 0 25%; /* Largeur fixe pour cette section */
     min-width: 250px; /* Largeur minimale pour éviter qu'elle devienne trop petite */
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
@@ -712,13 +712,18 @@ input[type="number"]:focus, input[type="text"]:focus {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.container {
-    display: flex;
-    gap: 20px;
-    max-width: 90%; /* Conteneur large */
-    margin: 100px auto;
+/* Sections "Joueurs en Cours" et "Liste des Joueurs Créés" - prend le reste de l'espace */
+#user-list-id,
+#selection-container-id {
+    flex: 1 1 0; /* Prend tout l'espace disponible après la section fixe */
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 600px; /* Optionnel : limite la hauteur */
+    overflow-y: auto; /* Ajoute un défilement vertical si le contenu est trop long */
 }
+
 
 .data-row {
     display: flex;
