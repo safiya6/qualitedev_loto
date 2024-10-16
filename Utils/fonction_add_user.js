@@ -45,25 +45,28 @@ function prepareTicket() {
     }
     document.getElementById("numbers").value = [...selectedNumbers].join(",");
     document.getElementById("stars").value = [...selectedStars].join(",");
-    console.log("ID Joueur:", document.getElementById("edit-id_joueur").value);
-    console.log("Pseudo:", document.getElementById("edit-pseudo").value);
+
+    // Log pour vérifier que type-joueur est défini
     console.log("Type Joueur:", document.getElementById("type-joueur").value);
-    console.log("Numbers:", document.getElementById("numbers").value);
-    console.log("Stars:", document.getElementById("stars").value);
+
     return true;
 }
 
+
 function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
+    // Remplit les champs cachés
     document.getElementById("edit-id_joueur").value = id_joueur;
     document.getElementById("edit-pseudo").value = pseudo;
-    document.getElementById("type-joueur").value = type_joueur;
+    document.getElementById("type-joueur").value = type_joueur; // Définit le type de joueur
 
+    // Réinitialise les sélections et vide les ensembles
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
     selectedNumbers.clear();
     selectedStars.clear();
 
     const [numbers, stars] = ticket.split(" | ");
 
+    // Sélectionne les numéros et ajoute-les à selectedNumbers
     numbers.split("-").forEach(num => {
         const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
         if (button) {
@@ -72,6 +75,7 @@ function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
         }
     });
 
+    // Sélectionne les étoiles et ajoute-les à selectedStars
     stars.split("-").forEach(star => {
         const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
         if (button) {
@@ -80,9 +84,11 @@ function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
         }
     });
 
+    // Affiche le formulaire de modification
     document.getElementById("overlay").style.display = "block";
     document.getElementById("edit-form-container").style.display = "block";
 }
+
 
 function hideEditForm() {
     document.getElementById("overlay").style.display = "none";
