@@ -15,8 +15,6 @@
     <!-- Liste des joueurs en cours -->
     <div class="users-list" id="user-list-id">
         <h3>Joueurs en Cours</h3>
-        <?php if (!empty($joueurs)): ?>
-            <div class="data-rows" id="data-rows">
             <?php if (!empty($joueurs_creer)): ?>
             <?php foreach ($joueurs_creer as $joueur): ?>
                 <div class="data-row">
@@ -27,9 +25,9 @@
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php else: ?>
-            <p>Aucun joueur créé à afficher.</p>
-        <?php endif; ?>
+            <?php else: ?>
+                <p>Aucun joueur créé à afficher.</p>
+            <?php endif; ?>
 
     </div>
 
