@@ -256,11 +256,24 @@ class Model
 
     public function deleteJoueurs_creer($id_joueur)
     {
+        // Vérifier si l'ID du joueur existe dans joueurs_en_cours et gérer correctement la suppression
+        $req = $this->bd->prepare("SELECT * FROM joueurs_en_cours WHERE id_joueur_creer = :id_joueur");
+        $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+        $req->execute();
+    
+        if ($req->rowCount() > 0) {
+            // Si le joueur existe dans joueurs_en_cours, ne pas le mettre à NULL mais le supprimer correctement
+            $deleteReq = $this->bd->prepare("DELETE FROM joueurs_en_cours WHERE id_joueur_creer = :id_joueur");
+            $deleteReq->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
+            $deleteReq->execute();
+        }
+    
+        // Puis supprimer de la table joueurs_creer
         $req = $this->bd->prepare("DELETE FROM joueurs_creer WHERE id_joueur = :id_joueur");
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
     }
-
+    
 
     public function updateJoueurPred($id_joueur, $pseudo, $ticket)
     {
