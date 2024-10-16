@@ -19,8 +19,15 @@
                 <p>Pseudo: <?= htmlspecialchars($joueur['pseudo']) ?> | Ticket: <?= htmlspecialchars($joueur['ticket']) ?></p>
                 
                 <!-- Edit Button -->
-                <button onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>', '<?= isset($joueur['id_joueur_creer']) ? 'creer' : 'pred' ?>')">Modifier</button>
-                
+                <form action="?controller=partie&action=editUser" method="POST">
+                    <input type="hidden" name="id_joueur" value="<?= $joueur['id_joueur'] ?>">
+                    <input type="hidden" name="type_joueur" value="<?= isset($joueur['id_joueur_creer']) ? 'creer' : 'pred' ?>">
+                    <input type="hidden" name="pseudo" value="<?= htmlspecialchars($joueur['pseudo']) ?>">
+                    <input type="hidden" name="numbers" value="<?= htmlspecialchars($joueur['numbers'] ?? '') ?>">
+                    <input type="hidden" name="stars" value="<?= htmlspecialchars($joueur['stars'] ?? '') ?>">
+                    <button type="submit">Modifier</button>
+                </form>
+
                 <!-- Delete Button -->
                 <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
                     <button type="submit">Supprimer</button>
@@ -46,10 +53,10 @@
     <!-- Edit/Add Form (Hidden by Default, Shows on Edit) -->
     <div class="form-container">
         <h2> Modifier un Utilisateur</h2>
-        <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
+        <form id="user-form" action="?controller=partie&action=editUser" method="POST">
             <input type="hidden" id="id_joueur" name="id_joueur">
             <input type="hidden" id="action_type" name="action_type" value="add">
-            <input type="hidden" id="type_joueur" name="type_joueur"> <!-- Champ pour type_joueur -->
+            <input type="hidden" id="type_joueur" name="type_joueur">
 
             <div class="form-group">
                 <label for="pseudo">Choisissez un pseudo :</label>
@@ -82,18 +89,8 @@
             <button type="submit" class="generate-button">Valider</button>
         </form>
     </div>
+</div>
 
 <script src="Utils/fonction_add_user.js"></script>
-
-<script>
-function populateForm(id_joueur, pseudo, ticket, type_joueur) {
-    document.getElementById('id_joueur').value = id_joueur;
-    document.getElementById('pseudo').value = pseudo;
-    document.getElementById('type_joueur').value = type_joueur; // Assigner le type joueur ici
-    // Séparer les numéros et les étoiles du ticket si besoin
-    // Vous pouvez ajuster cela en fonction de la structure du ticket
-}
-</script>
-
 </body>
 </html>
