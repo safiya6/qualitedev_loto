@@ -15,18 +15,22 @@
     <div class="current-players">
         <h2>Joueurs en Cours</h2>
         <?php foreach ($joueurs as $joueur): ?>
-            <div class="player-entry">
-                <p>Pseudo: <?= htmlspecialchars($joueur['pseudo']) ?> | Ticket: <?= htmlspecialchars($joueur['ticket']) ?></p>
-                
-                <!-- Edit Button -->
-                <button onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">Modifier</button>
-                
-                <!-- Delete Button -->
-                <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
-                    <button type="submit">Supprimer</button>
-                </form>
-            </div>
+        <?php 
+            $type_joueur = $joueur['id_joueur_creer'] ? 'creer' : 'pred';
+        ?>
+        <div class="player-entry">
+            <p>Pseudo: <?= htmlspecialchars($joueur['pseudo']) ?> | Ticket: <?= htmlspecialchars($joueur['ticket']) ?></p>
+
+            <!-- Bouton de modification avec type de joueur -->
+            <button onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>', '<?= $type_joueur ?>')">Modifier</button>
+
+            <!-- Bouton de suppression -->
+            <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
         <?php endforeach; ?>
+
     </div>
 
     <!-- Created Players List -->
@@ -48,7 +52,7 @@
     <h2> Modifier un Utilisateur</h2>
     <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
         <input type="hidden" id="id_joueur" name="id_joueur">
-        <input type="hidden" id="action_type" name="action_type" value="add">
+        <input type="hidden" id="type_joueur" name="type_joueur">
         
         <div class="form-group">
             <label for="pseudo">Choisissez un pseudo :</label>
