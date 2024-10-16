@@ -45,12 +45,17 @@ function prepareTicket() {
     }
     document.getElementById("numbers").value = [...selectedNumbers].join(",");
     document.getElementById("stars").value = [...selectedStars].join(",");
-
-    // Log pour vérifier que type-joueur est défini
+    
+    // Debugging information
+    console.log("ID Joueur:", document.getElementById("edit-id_joueur").value);
+    console.log("Pseudo:", document.getElementById("edit-pseudo").value);
     console.log("Type Joueur:", document.getElementById("type-joueur").value);
+    console.log("Numéros:", document.getElementById("numbers").value);
+    console.log("Étoiles:", document.getElementById("stars").value);
 
     return true;
 }
+
 
 
 function showEditForm(id_joueur, pseudo, ticket, type_joueur) {

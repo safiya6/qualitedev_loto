@@ -50,6 +50,7 @@ class Controller_partie extends Controller
 
     public function action_editUser()
     {
+        var_dump($_POST);
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars']) && isset($_POST['type_joueur'])) {
             $id_joueur = (int)$_POST['id_joueur'];
             $pseudo = trim($_POST['pseudo']);
