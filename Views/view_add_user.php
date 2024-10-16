@@ -54,6 +54,7 @@
         <div class="form-group">
             <label for="pseudo">Choisissez un pseudo :</label>
             <input type="text" id="pseudo" name="pseudo" required>
+            <button type="button" class="generate-pseudo-button" onclick="generateRandomPseudo()">Générer un pseudo</button>
         </div>
 
         <label>Choisissez vos numéros :</label>
