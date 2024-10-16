@@ -57,7 +57,7 @@ function prepareTicket() {
 }
 
 
-/*function populateForm(id_joueur, pseudo, ticket) {
+function populateForm(id_joueur, pseudo, ticket) {
     // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("id_joueur").value = id_joueur;
     document.getElementById("action_type").value = "update"; // Définit l'action à "update" pour modification
@@ -87,44 +87,7 @@ function prepareTicket() {
             selectedStars.add(parseInt(star));
         }
     });
-}*/
-function populateForm(id_joueur, pseudo, ticket, type_joueur) {
-    console.log("Ouverture du formulaire pour:", pseudo); // Vérification de l'appel
-    
-    // Affiche le formulaire pour modification
-    document.getElementById("user-form-container").style.display = 'block';
-
-    // Remplit les champs avec les informations du joueur
-    document.getElementById("id_joueur").value = id_joueur;
-    document.getElementById("pseudo").value = pseudo;
-    document.getElementById("type_joueur").value = type_joueur;
-
-    // Réinitialise les sélections et vide les ensembles
-    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
-    selectedNumbers.clear();
-    selectedStars.clear();
-
-    const [numbers, stars] = ticket.split(" | ");
-
-    // Sélectionne les numéros et ajoute-les à selectedNumbers
-    numbers.split("-").forEach(num => {
-        const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedNumbers.add(parseInt(num));
-        }
-    });
-
-    // Sélectionne les étoiles et ajoute-les à selectedStars
-    stars.split("-").forEach(star => {
-        const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedStars.add(parseInt(star));
-        }
-    });
 }
-
 
 
 
