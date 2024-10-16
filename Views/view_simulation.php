@@ -1,8 +1,8 @@
 <?php require_once "view_begin.php"; ?>
 
-<div class="container">
+<div class="container" >
     <!-- Formulaire de sélection de joueurs aléatoires -->
-    <div class="selection">
+    <div class="selection" id="selection-id">
         <h3>Sélectionner un Nombre de Joueurs</h3>
         <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
             <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
@@ -12,7 +12,7 @@
     </div>
     
     <!-- Section de sélection des joueurs créés -->
-    <div class="selection-container">
+    <div class="selection-container" id="selection-container-id">
         <h3>Liste des Joueurs Créés</h3>
         <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
             <div class="users-list">
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Liste des joueurs en cours -->
-    <div class="users-list">
+    <div class="users-list" id="user-list-id">
         <h3>Joueurs en Cours</h3>
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows" id="data-rows">

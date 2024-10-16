@@ -693,4 +693,12 @@ input[type="number"]:focus, input[type="text"]:focus {
     color: #354560;
 }
 
+#user-list-id
+#selection-container-id
+#selection-id{
+    width: 100%; 
+    max-width: 600px; 
+    margin: 0 auto; 
+}
+
 
