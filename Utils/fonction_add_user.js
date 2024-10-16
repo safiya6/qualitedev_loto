@@ -57,11 +57,13 @@ function prepareTicket() {
 }
 
 
-function populateForm(id_joueur, pseudo, ticket) {
+function populateForm(id_joueur, pseudo, ticket , type_joueur) {
     // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("id_joueur").value = id_joueur;
     document.getElementById("action_type").value = "update"; // Définit l'action à "update" pour modification
     document.getElementById("pseudo").value = pseudo;
+    document.getElementById('type_joueur').value = type_joueur; // Assigner le type joueur ici
+
 
     // Réinitialise les sélections et vide les ensembles
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
