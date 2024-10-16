@@ -71,8 +71,6 @@
     </div>
 
 
-    <div id="overlay" class="overlay" style="display: none;"></div>
-
     <!-- Formulaire de modification caché au départ -->
     <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>
@@ -98,9 +96,6 @@
             <input type="hidden" id="numbers" name="numbers">
             <input type="hidden" id="stars" name="stars">
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
-            <!-- Bouton pour fermer le formulaire de modification -->
-        <button type="button" onclick="hideEditForm()" class="close-button">Annuler</button>
-
         </form>
     </div>
 
