@@ -78,7 +78,7 @@
     </div>
 
 
-    <div id="overlay" class="overlay" style="display: none;" onclick="hideEditForm()"></div>
+   <!-- <div id="overlay" class="overlay" style="display: none;" onclick="hideEditForm()"></div>->
 
     <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>
