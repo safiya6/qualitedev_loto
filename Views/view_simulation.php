@@ -71,34 +71,41 @@
     </div>
 
 
-    <!-- Formulaire de modification caché au départ -->
+    <div id="overlay" class="overlay" style="display: none;" onclick="hideEditForm()"></div>
+
     <div id="edit-form-container" class="form-container" style="display: none;">
         <h2>Modifier un Utilisateur</h2>
         <form action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
             <input type="hidden" id="edit-id_joueur" name="id_joueur">
-            <input type="hidden" id="type-joueur" name="type_joueur"> <!-- Ajout du champ caché -->
+            <input type="hidden" id="type-joueur" name="type_joueur">
             <label for="edit-pseudo">Pseudo :</label>
             <input type="text" id="edit-pseudo" name="pseudo" required>
+            
+            <!-- Champs cachés pour les numéros et étoiles -->
+            <input type="hidden" id="numbers" name="numbers">
+            <input type="hidden" id="stars" name="stars">
+            
             <div id="error-message"></div>
+            
             <label>Choisissez vos numéros :</label>
             <div class="number-grid">
                 <?php for ($i = 1; $i <= 49; $i++): ?>
                     <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
                 <?php endfor; ?>
             </div>
+            
             <label>Choisissez vos étoiles :</label>
             <div class="star-grid">
                 <?php for ($i = 1; $i <= 9; $i++): ?>
                     <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
                 <?php endfor; ?>
             </div>
+            
             <button type="button" class="generate-button" onclick="generateRandomSelection()">🎲 Générer aléatoirement</button>
-            <input type="hidden" id="numbers" name="numbers">
-            <input type="hidden" id="stars" name="stars">
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
+            <button type="button" onclick="hideEditForm()" class="close-button">Annuler</button>
         </form>
     </div>
-
     <a href="?controller=gagnant" class="button">Lancer un Tirage</a>
 
 </div>
