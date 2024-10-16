@@ -12,7 +12,7 @@
     </div>
     
     <!-- Section de sélection des joueurs créés -->
-    <div class="container">
+    <div class="selection-container">
         <h3>Liste des Joueurs Créés</h3>
         <form id="selection-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
             <div class="users-list">
@@ -51,10 +51,10 @@
                         <div style="display: flex; flex-direction: column; gap: 5px;">
                             <!-- Boutons Modifier et Supprimer -->
                             <button type="button" class="edit-button" onclick="showEditForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>')">🖊️ Modifier</button>
-
                             <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
-                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>                        </div>
+                                <button type="submit" class="delete-button">🗑️ Supprimer</button>
+                            </form>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -90,6 +90,7 @@
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
         </form>
     </div>
+
     <a href="?controller=gagnant" class="button">Lancer un Tirage</a>
 
 </div>
