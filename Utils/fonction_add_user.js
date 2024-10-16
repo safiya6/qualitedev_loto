@@ -114,34 +114,21 @@ function generateRandomPseudo() {
 
 
 function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
-    // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("edit-id_joueur").value = id_joueur;
     document.getElementById("edit-pseudo").value = pseudo;
     document.getElementById("type-joueur").value = type_joueur;
 
-    // Réinitialise les sélections et vide les ensembles
-    document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
+    const [numbers, stars] = ticket.split(" | ");
     selectedNumbers.clear();
     selectedStars.clear();
 
-    const [numbers, stars] = ticket.split(" | ");
-
-    // Sélectionne les numéros et ajoute-les à selectedNumbers
     numbers.split("-").forEach(num => {
         const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedNumbers.add(parseInt(num));
-        }
+        if (button) button.classList.add("selected");
     });
-
-    // Sélectionne les étoiles et ajoute-les à selectedStars
     stars.split("-").forEach(star => {
         const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
-        if (button) {
-            button.classList.add("selected");
-            selectedStars.add(parseInt(star));
-        }
+        if (button) button.classList.add("selected");
     });
 
     document.getElementById("edit-form-container").style.display = "block";
