@@ -1,6 +1,6 @@
 <?php require_once "view_begin.php"; ?>
 
-<div class="container" >
+<div class="container"  >
     <!-- Formulaire de sélection de joueurs aléatoires -->
     <div class="selection" id="selection-id">
         <h3>Sélectionner un Nombre de Joueurs</h3>
