@@ -114,36 +114,36 @@ function generateRandomPseudo() {
 
 
 function showEditForm(id_joueur, pseudo, ticket, type_joueur) {
-    // Remplit les champs de formulaire avec les données du joueur
+    // Remplit le champ caché avec l'identifiant du joueur
     document.getElementById("edit-id_joueur").value = id_joueur;
     document.getElementById("edit-pseudo").value = pseudo;
     document.getElementById("type-joueur").value = type_joueur;
 
-    // Réinitialise la sélection visuelle et les ensembles
+    // Réinitialise les sélections et vide les ensembles
     document.querySelectorAll('.number-grid button, .star-grid button').forEach(btn => btn.classList.remove("selected"));
     selectedNumbers.clear();
     selectedStars.clear();
 
-    // Sépare les numéros et les étoiles du ticket
     const [numbers, stars] = ticket.split(" | ");
-    
-    // Met à jour les boutons visuellement ET les ensembles
+
+    // Sélectionne les numéros et ajoute-les à selectedNumbers
     numbers.split("-").forEach(num => {
         const button = document.querySelector(`.number-grid button[data-value="${num}"]`);
         if (button) {
             button.classList.add("selected");
-            selectedNumbers.add(parseInt(num)); // Ajoute aussi à l'ensemble
+            selectedNumbers.add(parseInt(num));
         }
     });
+
+    // Sélectionne les étoiles et ajoute-les à selectedStars
     stars.split("-").forEach(star => {
         const button = document.querySelector(`.star-grid button[data-value="${star}"]`);
         if (button) {
             button.classList.add("selected");
-            selectedStars.add(parseInt(star)); // Ajoute aussi à l'ensemble
+            selectedStars.add(parseInt(star));
         }
     });
 
-    // Affiche le formulaire d'édition
     document.getElementById("edit-form-container").style.display = "block";
 }
 
