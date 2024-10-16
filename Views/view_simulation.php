@@ -10,7 +10,7 @@
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
     </div>
-    
+    <?php var_dump($_POST)?>
     
     <!-- Liste des joueurs en cours -->
     <div class="users-list" id="user-list-id">
