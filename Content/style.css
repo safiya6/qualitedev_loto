@@ -694,23 +694,49 @@ input[type="number"]:focus, input[type="text"]:focus {
 }
 
 #user-list-id
-#selection-container-id
-#selection-id{
-    flex: 1 1 30%; /* Largeur flexible avec une base de 30% */
-    min-width: 300px; /* Largeur minimale pour que les div ne soient pas trop étroites */
-    max-width: 100%;
+#selection-container-id{
+    flex: 1; /* Permet à ces sections de prendre tout l'espace disponible */
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 600px; /* Optionnel : limite la hauteur */
+    overflow-y: auto;
+}
+#selection-id{
+    width: 25%; /* Garde cette section petite */
+    min-width: 250px; /* Largeur minimale pour éviter qu'elle devienne trop petite */
+    padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .container {
     display: flex;
-    justify-content: space-around;
     gap: 20px;
-    max-width: 90%; /* Élargir le conteneur sur la majorité de la largeur de l'écran */
+    max-width: 90%; /* Conteneur large */
     margin: 100px auto;
     padding: 20px;
 }
+
+.data-row {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.user-item,
+.ticket-item {
+    font-size: 1rem;
+    color: #555;
+}
+
 

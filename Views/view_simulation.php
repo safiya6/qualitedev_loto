@@ -49,15 +49,19 @@
                 
                 <!-- Liste des joueurs créés avec cases à cocher -->
                 <?php if (!empty($joueurs_creer)): ?>
-                    <?php foreach ($joueurs_creer as $joueur): ?>
-                        <div class="data-row">
-                            <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
-                            <span class="user-item"><?= htmlspecialchars($joueur['pseudo']) ?> - <?= htmlspecialchars($joueur['ticket']) ?></span>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Aucun joueur créé à afficher.</p>
-                <?php endif; ?>
+    <?php foreach ($joueurs_creer as $joueur): ?>
+        <div class="data-row">
+            <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>" class="select-checkbox">
+            <div class="user-info">
+                <span class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></span>
+                <span class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></span>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>Aucun joueur créé à afficher.</p>
+<?php endif; ?>
+
             </div>
             <!-- Bouton pour valider la sélection -->
             <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
