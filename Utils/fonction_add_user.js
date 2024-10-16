@@ -45,6 +45,11 @@ function prepareTicket() {
     }
     document.getElementById("numbers").value = [...selectedNumbers].join(",");
     document.getElementById("stars").value = [...selectedStars].join(",");
+    console.log("ID Joueur:", document.getElementById("edit-id_joueur").value);
+    console.log("Pseudo:", document.getElementById("edit-pseudo").value);
+    console.log("Type Joueur:", document.getElementById("type-joueur").value);
+    console.log("Numbers:", document.getElementById("numbers").value);
+    console.log("Stars:", document.getElementById("stars").value);
     return true;
 }
 

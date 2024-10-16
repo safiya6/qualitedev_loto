@@ -137,6 +137,7 @@ class Model
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
+            echo "Duplicate found"; 
             return false;
         }
 
