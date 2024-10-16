@@ -99,7 +99,7 @@
             <input type="hidden" id="stars" name="stars">
             <button type="submit" class="generate-button">Modifier l'utilisateur</button>
             <!-- Bouton pour fermer le formulaire de modification -->
-            <button type="button" onclick="hideEditForm()" class="close-button">Annuler</button>
+        <button type="button" onclick="hideEditForm()" class="close-button">Annuler</button>
 
         </form>
     </div>
