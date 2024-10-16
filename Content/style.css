@@ -741,6 +741,49 @@ input[type="number"]:focus, input[type="text"]:focus {
     margin-left: 10px; /* Espace entre la case à cocher et les informations */
 }
 
+/* Overlay pour l'effet de flou */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    backdrop-filter: blur(8px); /* Effet de flou */
+    z-index: 999; /* Au-dessus du contenu principal */
+}
+
+/* Formulaire de modification en mode modale */
+#edit-form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Au-dessus de l'overlay */
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    background: #d9534f;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.close-button:hover {
+    background: #c9302c;
+}
+
+
 
 
 
