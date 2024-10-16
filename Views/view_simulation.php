@@ -46,7 +46,7 @@
     <!-- Edit/Add Form (Hidden by Default, Shows on Edit) -->
     <div class="form-container">
     <h2> Modifier un Utilisateur</h2>
-    <form id="user-form" action="?controller=joueurs&action=editUser" method="POST" onsubmit="return prepareTicket()">
+    <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
         <input type="hidden" id="id_joueur" name="id_joueur">
         <input type="hidden" id="action_type" name="action_type" value="add">
         
