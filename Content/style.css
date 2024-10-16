@@ -396,4 +396,301 @@ input[type="text"] {
     display: none;
 }
 
+.selection, .users-list, .selection-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 12px; /* Coins arrondis */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.selection:hover, .users-list:hover, .selection-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Utilisateurs et formulaire box */
+.users-list, .form-container {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.users-list:hover, .form-container:hover {
+    transform: translateY(-10px);
+}
+
+.users-list {
+    width: 45%;
+    text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+
+
+.form-container {
+    width: 50%;
+}
+
+/* Titres des sections */
+.users-list h3, .form-container h2 {
+    font-size: 1.6rem;
+    color: #354560;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* En-têtes et lignes de données */
+.header-row, .data-row {
+    /* display: flex;
+    justify-content: space-between; */
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+.header-item, .user-item, .ticket-item {
+    width: 50%;
+    color: #555;
+    font-size: 1rem;
+}
+
+.data-row {
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+/* Formulaire */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+/* Grilles de sélection */
+.number-grid, .star-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.number-grid button, .star-grid button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+/* Boutons des numéros */
+.number-grid button {
+    border: 1px solid red; /* Bordure rouge pour les numéros non sélectionnés */
+    color: red; /* Couleur de texte rouge pour les numéros */
+}
+
+/* Boutons des étoiles */
+.star-grid button {
+    border: 1px solid #cc9a00; /* Bordure jaune foncé pour les étoiles non sélectionnées */
+    color: #cc9a00; /* Couleur de texte jaune foncé pour les étoiles */
+}
+
+/* Effet de sélection pour les numéros */
+.number-grid button.selected {
+    background-color: red; /* Fond rouge pour les numéros sélectionnés */
+    color: white; /* Texte blanc */
+    /*border: 2px solid red;  Bordure plus épaisse */
+}
+
+/* Effet de sélection pour les étoiles */
+.star-grid button.selected {
+    background-color: #cc9a00; /* Fond jaune foncé pour les étoiles sélectionnées */
+    color: white; /* Texte blanc */
+    /*border: 2px solid #cc9a00;  Bordure plus épaisse */
+}
+
+.generate-button {
+    margin-top: 10px;
+    /* padding: 10px 15px; */
+    /* border-radius: 5px; */
+    /* background-color: #4CAF50; */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.generate-button:hover {
+    /* background-color: #45a049; */
+    background: linear-gradient(135deg, #45a049, #4CAF50);
+    transform: scale(1.05);
+}
+
+.selected {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* Style du bouton de suppression */
+.delete-form {
+    display: inline;
+    margin-left: 10px;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: #d9534f; 
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    border-radius: 50%; /* Donne une forme ronde au bouton */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .delete-button:hover {
+    background-color: #d9544f3a; /* Légère teinte de fond pour plus de contraste *
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile pour plus de profondeur *
+} */
+
+.edit-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    margin-left: 5px;
+    font-size: 1.2rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-button:hover, .delete-button:hover {
+    color: #354560;
+    transform: scale(1.1);
+
+}
+
+#error-message{
+    
+    color: red;
+    margin-bottom: 20px;
+    display: none;
+}
+
+
+.selection{
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px;
+} 
+#edit-form-container{
+    display: none;
+}
+
+
+
+/* binta */
+/* Inputs et Sélecteurs */
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    transition: border 0.3s ease;
+}
+
+input[type="number"]:focus, input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+
+/* Styling for each section to have a uniform appearance */
+.selection, .selection-container, .users-list {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    /* max-width: 30%; */
+}
+
+.selection h3, .selection-container h3, .users-list h3 {
+    font-size: 1.8rem;
+    color: #354560;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+/* Centering the buttons and fields */
+.selection form, .selection-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.generate-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.generate-button:hover {
+    background-color: #45a049;
+}
+
+/* Style for the data rows and buttons in the users list */
+.users-list .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.edit-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    font-size: 1.2rem;
+}
+
+.edit-button:hover, .delete-button:hover {
+    color: #354560;
+}
+
 
