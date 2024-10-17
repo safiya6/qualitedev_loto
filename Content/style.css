@@ -209,7 +209,7 @@ nav {
 }
 
 .users-list {
-    width: 45%;
+    width: 100%;
     text-align: left;
     max-height: 1257px;
     overflow-y: auto;
@@ -411,13 +411,6 @@ input[type="text"] {
 
 .users-list:hover, .form-container:hover {
     transform: translateY(-10px);
-}
-
-.users-list {
-    width: 100%;
-    text-align: left;
-    max-height: 400px;
-    overflow-y: auto;
 }
 
 
