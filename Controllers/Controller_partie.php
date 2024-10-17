@@ -48,6 +48,16 @@ class Controller_partie extends Controller
         }
     }
 
+    public function action_deleteAllUsers()
+    {
+       
+            $model = Model::getModel();
+            $model->deleteAllJoueurs_en_cours();
+            header("Location: ?controller=partie");
+            exit();
+        
+    }
+
     public function action_editUser()
     {
         var_dump($_POST);

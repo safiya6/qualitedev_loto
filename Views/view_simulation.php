@@ -18,6 +18,9 @@
             <div class="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
                     <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
+                    <form action="?controller=partie&action=deleteAllUser" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                            <button type="submit" class="delete-button">🗑️ TOUT Supprimer</button>
+                        </form>
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
