@@ -179,3 +179,14 @@ function selectRandom() {
 }
 
 
+    // Fonction pour sélectionner ou désélectionner tous les joueurs
+    function toggleAllCheckboxes(selectAllCheckbox) {
+        const checkboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    }
+
+
+
+
