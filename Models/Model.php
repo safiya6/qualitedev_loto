@@ -366,7 +366,7 @@ class Model
 public function countJoueursEnCours()
 {
     $sql = "SELECT COUNT(*) as nb FROM joueurs_en_cours";
-    $stmt = $this->db->query($sql);
+    $stmt = $this->bd->query($sql);
     $result = $stmt->fetch();
     return $result['nb'];
 }
