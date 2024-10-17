@@ -131,10 +131,16 @@ class Model
     }
 
     public function deleteAllJoueurs_en_cours(){
-        $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours ");
-        $req = $this->bd->prepare("UPDATE Joueurs_en_cours SET choisi = FALSE;");
-        $req->execute();
+        // Supprimer tous les enregistrements de Joueurs_en_cours
+        $reqDelete = $this->bd->prepare("DELETE FROM Joueurs_en_cours");
+        $reqDelete->execute();
+    
+        // Mettre à jour choisi à FALSE dans Joueurs_pred
+        $reqUpdate = $this->bd->prepare("UPDATE Joueurs_pred SET choisi = FALSE");
+        $reqUpdate->execute();
     }
+    
+
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
