@@ -9,7 +9,6 @@
         <h3>Ticket Gagnant</h3>
         <p><?= htmlspecialchars($_SESSION['winningTicket']) ?></p>
     </div>
-    <a class="button-tirage" href="?controller=partie">Refaire une simulation</a>
     <!-- Section des gagnants du tirage -->
     <div class="winner-list">
         <h3>Liste des Gagnants</h3>
@@ -40,6 +39,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <a class="button-tirage" href="?controller=partie">Refaire une simulation</a>
         <?php else: ?>
             <p>Aucun gagnant à afficher.</p>
         <?php endif; ?>
