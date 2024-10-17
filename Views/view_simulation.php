@@ -58,31 +58,18 @@
 </div>
 
 <script>
-    // Fonction pour masquer les joueurs sélectionnés
-    function hideSelectedPlayers() {
+    // Fonction pour masquer les joueurs sélectionnés lors de la soumission
+    document.getElementById("create-players-form").addEventListener("submit", function() {
         // Récupère tous les checkboxes sélectionnés
         const selectedCheckboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]:checked');
         
         // Masque chaque joueur correspondant dans la liste des joueurs créés
         selectedCheckboxes.forEach(checkbox => {
-            console.log(checkbox.value);
             const playerRow = document.querySelector(`.data-row[data-id="${checkbox.value}"]`);
             if (playerRow) {
                 playerRow.style.display = 'none';
             }
         });
-    }
-
-    // Écoute l'événement submit du formulaire
-    document.getElementById("create-players-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Empêche la soumission par défaut pour que la fonction de masquage puisse s'exécuter
-
-        hideSelectedPlayers(); // Masque les joueurs sélectionnés
-        
-        // Envoi du formulaire après avoir masqué les joueurs sélectionnés
-        setTimeout(() => {
-            this.submit();
-        }, 100);
     });
 
     // Fonction pour sélectionner ou désélectionner tous les joueurs
