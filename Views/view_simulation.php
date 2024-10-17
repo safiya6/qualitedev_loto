@@ -1,5 +1,5 @@
 <?php require_once "view_begin.php"; ?>
-<a class="tirage" href="?controller=gagnant" >
+<a class="button-tirage" href="?controller=gagnant" >
     Lancer le Tirage
 </a>
 <div class="container">
