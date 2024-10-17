@@ -1,6 +1,6 @@
 <?php require_once "view_begin.php"; ?>
 
-<div class="container">
+<div class="container-winning">
     <!-- Titre de la page -->
     <h2 class="page-title">Tirage au Sort des Gagnants</h2>
 
@@ -58,7 +58,7 @@
         margin: 0;
     }
 
-    .container {
+    .container-winning {
         width: 100%;
         max-width: 800px;
         margin-top: 20px;

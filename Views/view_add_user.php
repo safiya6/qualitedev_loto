@@ -86,6 +86,6 @@
 
 </div>
 
-<script src="Utils/fonction_add_user.js"></script> 
+<script src="Utils/fonction_add_user.js"></script>
 </body>
 </html>

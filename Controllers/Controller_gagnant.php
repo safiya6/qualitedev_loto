@@ -69,7 +69,7 @@ class Controller_gagnant extends Controller
                 $_SESSION['currentPlayers'][$id_joueur]['ecart'] = $scoreData['ecart'];
             }
         } else {
-            echo "Aucun joueur en cours.";
+          // echo "Aucun joueur en cours.";
         }
     }
     
@@ -111,7 +111,7 @@ class Controller_gagnant extends Controller
     {
         // Vérifier que la session contient les joueurs
         if (!isset($_SESSION['currentPlayers']) || empty($_SESSION['currentPlayers'])) {
-            echo "Aucun joueur en cours.";
+           // echo "Aucun joueur en cours.";
             return [];
         }
 

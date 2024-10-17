@@ -58,27 +58,6 @@ abstract class Controller
         }
         die();
     }
-    // protected function render($vue, $data = [], $dossier = '')
-    // {
-    //     error_log("Rendu de la vue: " . $vue);
-    //     error_log("Données passées à la vue: " . json_encode($data));
-
-    //     extract($data);
-    //     if (!empty($dossier)) {
-    //         $dossier = $dossier . '/';
-    //     }
-
-    //     // Assurez-vous que le chemin vers le fichier de vue est correct
-    //     $view_file = "Views/" . $dossier . "view_" . $vue . '.php';
-    //     ;
-
-    //     if (file_exists($view_file)) {
-    //         require $view_file;
-    //     } else {
-    //         error_log("Erreur: Vue non trouvée - " . $view_file);
-    //         echo "Erreur: Vue non trouvée - " . $view_file;
-    //     }
-    // }
 
 
     /**
