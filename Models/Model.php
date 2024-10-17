@@ -125,26 +125,19 @@ class Model
 
     public function deleteJoueurs_en_cours($id_joueur)
     {
-        // Supprimer de joueurs_en_cours
-        
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours WHERE id_joueur = :id_joueur");
         $req->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
         $req->execute();
-    
-        // Mettre à jour choisi à False dans joueurs_pred
-        $updateReq = $this->bd->prepare("UPDATE Joueurs_pred SET choisi = FALSE WHERE id_joueur = :id_joueur");
-        $updateReq->bindValue(':id_joueur', $id_joueur, PDO::PARAM_INT);
-        $updateReq->execute();
     }
-    
+
     public function deleteAllJoueurs_en_cours(){
         $req = $this->bd->prepare("DELETE FROM Joueurs_en_cours ");
+        $req = $this->bd->prepare("UPDATE Joueurs_en_cours SET choisi = FALSE;");
         $req->execute();
     }
     public function updateJoueurs_creer($id_joueur, $pseudo, $ticket)
     {
         if ($this->isDuplicate($pseudo, $ticket, $id_joueur)) {
-            echo "Duplicate found"; 
             return false;
         }
 
