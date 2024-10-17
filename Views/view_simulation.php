@@ -65,6 +65,7 @@
         
         // Masque chaque joueur correspondant dans la liste des joueurs créés
         selectedCheckboxes.forEach(checkbox => {
+            console.log(checkbox.value);
             const playerRow = document.querySelector(`.data-row[data-id="${checkbox.value}"]`);
             if (playerRow) {
                 playerRow.style.display = 'none';
