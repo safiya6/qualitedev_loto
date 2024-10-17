@@ -2,7 +2,7 @@
 
 <div class="container">
     <!-- Titre de la page -->
-    <h2>Tirage au Sort des Gagnants</h2>
+    <h2 class="page-title">Tirage au Sort des Gagnants</h2>
 
     <!-- Affichage du ticket gagnant -->
     <div class="winning-ticket">
@@ -52,24 +52,27 @@
         font-family: Arial, sans-serif;
         background-color: #f4f7fb;
         color: #444;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
         margin: 0;
-        padding: 0;
     }
 
     .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
+        width: 100%;
+        max-width: 800px;
+        margin-top: 20px;
         background-color: #ffffff;
+        padding: 20px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         border-radius: 10px;
     }
 
-    h2 {
+    .page-title {
         text-align: center;
-        color: #333;
         font-size: 2em;
-        margin-bottom: 30px;
+        color: #333;
+        margin-bottom: 20px;
     }
 
     /* Ticket gagnant */
@@ -77,40 +80,31 @@
         text-align: center;
         padding: 15px;
         background-color: #e8f5e9;
-        border: 1px solid #81c784;
+        border: 1px solid #c8e6c9;
         margin-bottom: 30px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .winning-ticket h3 {
-        margin-top: 0;
-        color: #388e3c;
-        font-size: 1.5em;
-    }
-
-    .winning-ticket p {
         font-size: 1.2em;
+        color: #388e3c;
         font-weight: bold;
-        color: #2e7d32;
     }
 
     /* Table des gagnants */
     .winner-list {
-        margin-top: 30px;
+        margin-top: 20px;
+        text-align: center;
     }
 
     .winner-list h3 {
         color: #444;
-        font-size: 1.8em;
-        text-align: center;
+        font-size: 1.5em;
         margin-bottom: 15px;
     }
 
     .winners-table {
         width: 100%;
         border-collapse: collapse;
-        background-color: #f9f9f9;
+        background-color: #f7f7f7;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -118,18 +112,30 @@
 
     .winners-table th,
     .winners-table td {
-        padding: 12px;
+        padding: 15px;
         text-align: center;
-        border-bottom: 1px solid #e0e0e0;
+        font-size: 0.95em;
     }
 
     .winners-table th {
-        background-color: #757575;
+        background-color: #616161;
         color: #ffffff;
         font-weight: bold;
     }
 
+    .winners-table tr {
+        transition: background-color 0.3s ease;
+    }
+
     .winners-table tr:nth-child(even) {
-        background-color: #eeeeee;
+        background-color: #f0f0f0;
+    }
+
+    .winners-table tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .winners-table td {
+        color: #666;
     }
 </style>
