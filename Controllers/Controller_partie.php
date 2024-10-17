@@ -50,13 +50,17 @@ class Controller_partie extends Controller
 
     public function action_deleteAllUsers()
     {
-       
-            $model = Model::getModel();
-            $model->deleteAllJoueurs_en_cours();
-            header("Location: ?controller=partie");
-            exit();
+        // Initialisation du modèle
+        $model = Model::getModel();
         
+        // Supprimer tous les joueurs en cours
+        $model->deleteAllJoueurs_en_cours();
+
+        // Rediriger vers la page des joueurs en cours après suppression
+        header("Location: ?controller=partie");
+        exit();
     }
+
 
     public function action_editUser()
     {
