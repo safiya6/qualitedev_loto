@@ -11,7 +11,7 @@
             <input type="number" name="nombre" min="1" max="<?= $maxSelectable ?>" required style="width: 50px;">
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
-    </div>    
+    </div>
 
     <!-- Liste des joueurs en cours -->
     <div class="users-list">

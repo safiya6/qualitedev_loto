@@ -833,6 +833,7 @@ input[type="number"]:focus, input[type="text"]:focus {
     display:  inline-block; 
     padding: 10px 20px;
     margin-left: 900px;
+    margin-top : 50px;  
     background-color: #0c2b4d; 
     color: white; text-decoration:
     none; border-radius: 5px;
