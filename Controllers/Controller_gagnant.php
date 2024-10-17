@@ -9,6 +9,13 @@ class Controller_gagnant extends Controller
      * Fonction qui trie les numéros et les étoiles d'un ticket dans l'ordre décroissant
      * et le recompose sous forme de chaîne.
      */
+    protected $model;
+
+    // Ajoutez cette méthode pour injecter un modèle mocké pendant les tests
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+    }
 
      public function action_default()
      {
