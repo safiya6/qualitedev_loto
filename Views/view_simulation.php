@@ -38,10 +38,6 @@
         <h3>Liste des Joueurs Créés</h3>
         <form id="create-players-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
             <div class="users-list">
-                <div class="header-row">
-                    <input type="checkbox" id="select-all">
-                    <label for="select-all">Sélectionner tous</label>
-                </div>
                 <?php if (!empty($joueurs_creer)): ?>
                     <?php foreach ($joueurs_creer as $joueur): ?>
                         <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
