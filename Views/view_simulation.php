@@ -17,7 +17,6 @@
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
-                    <?php $type_joueur = isset($joueur['id_joueur_creer']) && $joueur['id_joueur_creer'] !== null ? 'creer' : 'pred'; ?>
                     <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
@@ -74,9 +73,15 @@
     }
 
     // Écoute l'événement submit du formulaire
-    document.getElementById("create-players-form").addEventListener("submit", function() {
-        // Exécute hideSelectedPlayers après un léger délai pour que la soumission ait lieu
-        setTimeout(hideSelectedPlayers, 100);
+    document.getElementById("create-players-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Empêche la soumission par défaut pour que la fonction de masquage puisse s'exécuter
+
+        hideSelectedPlayers(); // Masque les joueurs sélectionnés
+        
+        // Envoi du formulaire après avoir masqué les joueurs sélectionnés
+        setTimeout(() => {
+            this.submit();
+        }, 100);
     });
 
     // Fonction pour sélectionner ou désélectionner tous les joueurs
