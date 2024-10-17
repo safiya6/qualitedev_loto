@@ -71,7 +71,10 @@
 
 <script>
     // Fonction pour masquer les joueurs sélectionnés lors de la soumission
-    document.getElementById("create-players-form").addEventListener("submit", function() {
+    document.getElementById("create-players-form").addEventListener("submit", function(event) {
+        // Empêcher le rechargement de la page pour permettre le masquage des éléments sélectionnés
+        event.preventDefault();
+
         // Récupère tous les checkboxes sélectionnés
         const selectedCheckboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]:checked');
         
@@ -82,6 +85,9 @@
                 playerRow.style.display = 'none';
             }
         });
+
+        // Soumettre le formulaire après avoir masqué les joueurs
+        this.submit();
     });
 
     // Fonction pour sélectionner ou désélectionner tous les joueurs
