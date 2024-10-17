@@ -63,7 +63,18 @@
         </form>
     </div>
 </div>
-<a href="?controller=gagnant"> Lancer le Tirage</a>
+<a href="?controller=gagnant" style="
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+">
+    Lancer le Tirage
+</a>
 
 <script>
     // Fonction pour masquer les joueurs sélectionnés lors de la soumission
