@@ -48,33 +48,9 @@ class Controller_partie extends Controller
         }
     }
 
-    public function action_deleteAllUsers()
-    {
-        // Initialisation du modèle
-        $model = Model::getModel();
-        
-        // Supprimer tous les joueurs en cours
-        $model->deleteAllJoueurs_en_cours();
-
-        // Rediriger vers la page des joueurs en cours après suppression
-        header("Location: ?controller=partie");
-        exit();
-    }
-
-
     public function action_editUser()
     {
-        var_dump($_POST);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo "<pre>";
-            echo "ID Joueur: " . $_POST['id_joueur'] ?? 'non défini';
-            echo "Pseudo: " . $_POST['pseudo'] ?? 'non défini';
-            echo "Type Joueur: " . $_POST['type_joueur'] ?? 'non défini';
-            echo "Numéros: " . $_POST['numbers'] ?? 'non défini';
-            echo "Étoiles: " . $_POST['stars'] ?? 'non défini';
-            echo "</pre>";
-        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur']) && !empty($_POST['pseudo']) && !empty($_POST['numbers']) && !empty($_POST['stars']) && isset($_POST['type_joueur'])) {
             $id_joueur = (int)$_POST['id_joueur'];
             $pseudo = trim($_POST['pseudo']);
