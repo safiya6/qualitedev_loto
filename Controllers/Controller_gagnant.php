@@ -8,25 +8,29 @@ class Controller_gagnant extends Controller
      * et le recompose sous forme de chaîne.
      */
 
-    public function action_default()
-    {
-        // Initialisation du modèle
-        $model = Model::getModel();
-        
-        // Vider et remplir la session avec les joueurs en cours (si nécessaire)
-        $_SESSION['currentPlayers'] = [];  // Vider
-        $joueursEnCours = $model->selectJoueursEnCoursPred();
-        foreach ($joueursEnCours as $joueur) {
-            $_SESSION['currentPlayers'][$joueur['id_joueur']] = $joueur;
-        }
-
-        // Appeler la fonction pour calculer les scores
-        $ticket = $this->action_generateRandomTicket();
-        $this->action_calculateScores($ticket);
-        $topWinners = $this->action_getTopWinners();
-        $this->action_distributeGains(3000000);
-        $this->render("tirage");
-    }
+     public function action_default()
+     {
+         // Initialisation du modèle
+         $model = Model::getModel();
+         
+         // Vider et remplir la session avec les joueurs en cours
+         $_SESSION['currentPlayers'] = [];
+         $joueursEnCours = $model->selectJoueursEnCoursPred();
+         foreach ($joueursEnCours as $joueur) {
+             $_SESSION['currentPlayers'][$joueur['id_joueur']] = $joueur;
+         }
+     
+         // Générer et stocker le ticket gagnant
+         $ticket = $this->action_generateRandomTicket();
+         $_SESSION['winningTicket'] = $ticket;  // Stocke le ticket gagnant en session
+         
+         // Calculer les scores
+         $this->action_calculateScores($ticket);
+         $topWinners = $this->action_getTopWinners();
+         $this->action_distributeGains(3000000);
+         $this->render("tirage");
+     }
+     
 
     private function action_sortTicket($ticket)
     {
