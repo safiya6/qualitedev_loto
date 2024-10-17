@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 session_start();
+use App\Models\Model;
 
 class Controller_partie extends Controller
 {

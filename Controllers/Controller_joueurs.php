@@ -1,6 +1,7 @@
 <?php
 session_start();
 namespace App\Controllers;
+use App\Models\Model;
 
 class Controller_joueurs extends Controller
 {

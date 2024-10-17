@@ -1,5 +1,7 @@
 <?php
 namespace App\Controllers;
+use App\Models\Model;
+
 
 class Controller_gagnant extends Controller
 {
