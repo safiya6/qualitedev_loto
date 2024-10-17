@@ -10,7 +10,7 @@
 <body>
     <nav>
         <ul class="nav-bar">
-            <li><a href="?controller=joueurs">Ajouter un pseudo</a></li>
+            <li><a href="?controller=joueurs">Creer des joueurs </a></li>
             <li><a href="?controller=partie">Simulation</a></li>
             <li><a href="?controller=accueil">Accueil</a></li>
         </ul>

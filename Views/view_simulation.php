@@ -37,7 +37,7 @@
         <form id="create-players-form" action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
             <div class="users-list">
                 <div class="header-row">
-                    <input type="checkbox" id="select-all" onclick="toggleAllCheckboxes(this)">
+                    <input type="checkbox" id="select-all">
                     <label for="select-all">Sélectionner tous</label>
                 </div>
                 <?php if (!empty($joueurs_creer)): ?>
@@ -65,19 +65,11 @@
     <?php unset($_SESSION['message_err']); ?>
 <?php endif; ?>
 
-<a href="?controller=gagnant" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
+<a class="tirage" href="?controller=gagnant" >
     Lancer le Tirage
 </a>
 
-<script>
-    // Fonction pour sélectionner ou désélectionner tous les joueurs
-    function toggleAllCheckboxes(selectAllCheckbox) {
-        const checkboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-    }
-</script>
+
 
 </body>
 </html>
