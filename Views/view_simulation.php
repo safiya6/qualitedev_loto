@@ -1,5 +1,7 @@
 <?php require_once "view_begin.php"; ?>
-
+<a class="tirage" href="?controller=gagnant" >
+    Lancer le Tirage
+</a>
 <div class="container">
     <!-- Formulaire de sélection de joueurs aléatoires -->
     <div class="selection">
@@ -65,9 +67,7 @@
     <?php unset($_SESSION['message_err']); ?>
 <?php endif; ?>
 
-<a class="tirage" href="?controller=gagnant" >
-    Lancer le Tirage
-</a>
+
 
 
 
