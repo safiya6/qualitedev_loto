@@ -22,10 +22,10 @@
                         <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
                         <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
                         <!-- Bouton Modifier 
-                        <a href="?controller=partie&action=editUserForm&id_joueur=<?= $joueur['id_joueur'] ?>&type_joueur=<?= $type_joueur ?>" class="edit-button">🖊️ Modifier</a>
+                        <a href="?controller=partie&action=editUserForm&id_joueur=<?= $joueur['id_joueur'] ?>&type_joueur=<?= $type_joueur ?>" class="edit-button">🖊️ Modifier</a>-->
                         <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
                             <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>-->
+                        </form>
                     </div>
                 <?php endforeach; ?>
             </div>
