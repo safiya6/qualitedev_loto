@@ -331,11 +331,7 @@ class Model
     }
 
 
-    public function countJoueursEnCours()
-    {
-        $req = $this->bd->query("SELECT COUNT(*) as count FROM joueurs_en_cours");
-        return (int) $req->fetch(PDO::FETCH_ASSOC)['count'];
-    }
+
 
     public function selectSpecificJoueurs_creer(array $ids)
     {
