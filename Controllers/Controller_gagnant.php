@@ -142,6 +142,7 @@ class Controller_gagnant extends Controller
 
     public function action_distributeGains($totalGains)
     {
+        $model = Model::getModel(); 
         // Récupérer les gagnants de la session
         if (!isset($_SESSION['topWinners']) || empty($_SESSION['topWinners'])) {
             echo "Aucun gagnant à distribuer.";
