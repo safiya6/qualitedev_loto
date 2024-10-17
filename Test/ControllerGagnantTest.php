@@ -12,11 +12,24 @@ class ControllerGagnantTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->controller = new Controller_gagnant();
+        // Création d'un mock pour Controller_gagnant avec la méthode render
+        $this->controller = $this->getMockBuilder(Controller_gagnant::class)
+                                 ->onlyMethods(['render'])
+                                 ->getMock();
+
+        // Mock de la méthode render pour qu'elle ne produise aucune sortie pendant les tests
+        $this->controller->expects($this->any())
+                         ->method('render')
+                         ->willReturn(null);
+
+        // Mock du modèle pour simuler les interactions avec la base de données
         $this->model = $this->createMock(Model::class);
-        $this->controller->setModel($this->model); // Méthode à créer pour injecter le modèle mocké
+        $this->controller->setModel($this->model); // Méthode à créer dans Controller_gagnant pour injecter le modèle mocké
+
+        // Initialisation de la session pour chaque test
         $_SESSION = [];
     }
+
 
     public function testSinglePlayerScoreCalculation()
     {
