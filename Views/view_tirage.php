@@ -42,30 +42,97 @@
             <p>Aucun gagnant à afficher.</p>
         <?php endif; ?>
     </div>
-
-    <!-- Bouton pour relancer un tirage -->
-    <div class="rerun">
-        <a href="?controller=gagnant&action=default" class="button">Relancer le Tirage</a>
-    </div>
 </div>
 
 <style>
-    /* Styles pour le ticket gagnant */
+    /* Style général de la page */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fb;
+        color: #444;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    /* Ticket gagnant */
     .winning-ticket {
         text-align: center;
-        padding: 10px;
-        background-color: #f1f8e9;
-        border: 1px solid #c5e1a5;
-        margin-bottom: 20px;
-        border-radius: 5px;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border: 1px solid #81c784;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
+
     .winning-ticket h3 {
         margin-top: 0;
         color: #388e3c;
+        font-size: 1.5em;
     }
+
     .winning-ticket p {
         font-size: 1.2em;
         font-weight: bold;
         color: #2e7d32;
+    }
+
+    /* Table des gagnants */
+    .winner-list h3 {
+        color: #444;
+        font-size: 1.8em;
+        text-align: center;
+    }
+
+    .winners-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .winners-table th,
+    .winners-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+    .winners-table th {
+        background-color: #1976d2;
+        color: #ffffff;
+        font-weight: normal;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .winners-table tr {
+        transition: background-color 0.3s ease;
+    }
+
+    .winners-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .winners-table tr:hover {
+        background-color: #e3f2fd;
+    }
+
+    .winners-table td {
+        color: #666;
     }
 </style>
