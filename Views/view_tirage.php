@@ -39,10 +39,11 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <a class="button-tirage" href="?controller=partie">Refaire une simulation</a>
+           
         <?php else: ?>
             <p>Aucun gagnant à afficher.</p>
         <?php endif; ?>
+        <a class="button-tirage" href="?controller=partie">Refaire une simulation</a>
     </div>
 </div>
 
