@@ -5,15 +5,15 @@
     <div class="selection">
         <h3>Sélectionner un Nombre de Joueurs</h3>
         <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" name="nombre" min="1" max="100" required style="width: 50px;">
+            <label for="nombre">Nombre de joueurs (entre 1 et <?= $maxSelectable ?>) :</label>
+            <input type="number" name="nombre" min="1" max="<?= $maxSelectable ?>" required style="width: 50px;">
             <button type="submit" class="generate-button">Afficher les joueurs</button>
         </form>
     </div>    
 
     <!-- Liste des joueurs en cours -->
     <div class="users-list">
-        <h3>Joueurs en Cours</h3>
+        <h3>Joueurs en Cours (<?= $nbJoueursEnCours ?>)</h3>
         <?php if (!empty($joueurs)): ?>
             <div class="data-rows">
                 <?php foreach ($joueurs as $joueur): ?>
@@ -56,40 +56,20 @@
         </form>
     </div>
 </div>
-<a href="?controller=gagnant" style="
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-">
+
+<!-- Message d'erreur -->
+<?php if (!empty($_SESSION['message_err'])): ?>
+    <div class="error-message">
+        <?= htmlspecialchars($_SESSION['message_err']) ?>
+    </div>
+    <?php unset($_SESSION['message_err']); ?>
+<?php endif; ?>
+
+<a href="?controller=gagnant" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
     Lancer le Tirage
 </a>
 
 <script>
-    // Fonction pour masquer les joueurs sélectionnés lors de la soumission
-    document.getElementById("create-players-form").addEventListener("submit", function(event) {
-        // Empêcher le rechargement de la page pour permettre le masquage des éléments sélectionnés
-        event.preventDefault();
-
-        // Récupère tous les checkboxes sélectionnés
-        const selectedCheckboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]:checked');
-        
-        // Masque chaque joueur correspondant dans la liste des joueurs créés
-        selectedCheckboxes.forEach(checkbox => {
-            const playerRow = document.querySelector(`.data-row[data-id="${checkbox.value}"]`);
-            if (playerRow) {
-                playerRow.style.display = 'none';
-            }
-        });
-
-        // Soumettre le formulaire après avoir masqué les joueurs
-        this.submit();
-    });
-
     // Fonction pour sélectionner ou désélectionner tous les joueurs
     function toggleAllCheckboxes(selectAllCheckbox) {
         const checkboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]');

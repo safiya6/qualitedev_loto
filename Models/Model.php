@@ -367,6 +367,14 @@ class Model
     $req->execute(['id_joueur' => $id_joueur_creer, 'id_joueur_creer' => $id_joueur_creer]);
 }
 
+public function countJoueursEnCours()
+{
+    $sql = "SELECT COUNT(*) as nb FROM joueurs_en_cours";
+    $stmt = $this->db->query($sql);
+    $result = $stmt->fetch();
+    return $result['nb'];
+}
+
 
 
 

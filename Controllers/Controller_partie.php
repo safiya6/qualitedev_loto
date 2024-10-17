@@ -7,16 +7,43 @@ class Controller_partie extends Controller
     {
         $model = Model::getModel();
 
-        // Vider la session pour 'currentPlayers'
-        unset($_SESSION['currentPlayers']);
-
-        // Remplir 'currentPlayers' avec les données actualisées des joueurs en cours
-        $joueursEnCours = $model->selectJoueursEnCoursPred();
-        $_SESSION['currentPlayers'] = $joueursEnCours;
-
-        // Afficher la vue en utilisant les données stockées en session
+        // Récupérer le nombre de joueurs en cours
+        $nbJoueursEnCours = $model->countJoueursEnCours();
         $joueurs_creer = $model->selectAllJoueurs_creer();
-        $this->render("simulation", ['joueurs' => $_SESSION['currentPlayers'], 'joueurs_creer' => $joueurs_creer]);
+
+        // Passer le nombre de joueurs en cours et la liste des joueurs créés à la vue
+        $this->render("simulation", [
+            'joueurs' => $model->selectJoueursEnCoursPred(),
+            'joueurs_creer' => $joueurs_creer,
+            'nbJoueursEnCours' => $nbJoueursEnCours,
+            'maxSelectable' => max(0, 100 - $nbJoueursEnCours) // Limite dynamique
+        ]);
+    }
+
+    public function action_addSelectedJoueursCreer()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_joueurs'])) {
+            $model = Model::getModel();
+
+            // Obtenir les joueurs sélectionnés
+            $selectedIds = $_POST['selected_joueurs'];
+            $nbJoueursEnCours = $model->countJoueursEnCours();
+            $nbToAdd = count($selectedIds);
+
+            // Vérifier la limite de 100 joueurs en cours
+            if ($nbJoueursEnCours + $nbToAdd > 100) {
+                $_SESSION['message_err'] = "Vous ne pouvez pas ajouter plus de joueurs. Maximum de 100 atteint.";
+            } else {
+                foreach ($selectedIds as $id_joueur_creer) {
+                    // Insérer le joueur dans `joueurs_en_cours`
+                    $model->insertJoueurEnCoursFromCreer($id_joueur_creer);
+                }
+                $_SESSION['message'] = "$nbToAdd joueurs ont été ajoutés à la partie en cours.";
+            }
+        }
+
+        header("Location: ?controller=partie");
+        exit();
     }
 
     public function action_selectRandomJoueurs() {
@@ -77,25 +104,7 @@ class Controller_partie extends Controller
     }
     
 
-    public function action_addSelectedJoueursCreer()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_joueurs'])) {
-        $model = Model::getModel();
-
-        // Obtenir les joueurs sélectionnés
-        $selectedIds = $_POST['selected_joueurs'];
-
-        foreach ($selectedIds as $id_joueur_creer) {
-            // Insérer le joueur dans Joueurs_en_cours avec id_joueur_creer
-            $model->insertJoueurEnCoursFromCreer($id_joueur_creer);
-        }
-
-        $_SESSION['message'] = count($selectedIds) . " joueurs ont été ajoutés à la partie en cours.";
-    }
-
-    header("Location: ?controller=partie");
-    exit();
-}
+    
 
 }
 
