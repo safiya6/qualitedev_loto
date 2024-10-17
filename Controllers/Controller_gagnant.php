@@ -32,26 +32,10 @@ class Controller_gagnant extends Controller
      }
      
 
-    private function action_sortTicket($ticket)
-    {
-        // Séparer les numéros et les étoiles
-        list($numbers, $stars) = explode(" | ", $ticket);
-        
-        // Convertir en entiers, puis trier en ordre décroissant
-        $numbers = explode("-", $numbers);
-        $stars = explode("-", $stars);
-        
-        $numbers = array_map('intval', $numbers);
-        $stars = array_map('intval', $stars);
-        
-        rsort($numbers);
-        rsort($stars);
 
-        // Recomposer le ticket trié
-        $sortedTicket = implode("-", $numbers) . " | " . implode("-", $stars);
-        
-        return $sortedTicket;
-    }
+    /**
+     * 
+     */
 
     public function action_calculateScores( $winningTicket)
     {

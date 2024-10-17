@@ -68,15 +68,27 @@ class Controller_joueurs extends Controller
             }
         }
         
-    public function action_deleteUser()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
-            $id_joueur = intval($_POST['id_joueur']);
-            $model = Model::getModel();
-            $model->deleteJoueurs_creer($id_joueur);
+        public function action_deleteUser()
+        {
+            // Vérifie si la méthode de requête est POST et si 'id_joueur' est défini dans les données POST
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id_joueur'])) {
+                
+                // Convertit 'id_joueur' en entier pour s'assurer qu'il est bien de type numérique
+                $id_joueur = intval($_POST['id_joueur']);
+                
+                // Récupère une instance du modèle pour pouvoir accéder aux méthodes de la base de données
+                $model = Model::getModel();
+                
+                // Appelle la méthode deleteJoueurs_creer du modèle pour supprimer le joueur correspondant à 'id_joueur'
+                $model->deleteJoueurs_creer($id_joueur);
+            }
+            
+            // Redirige vers la page des joueurs après la suppression
+            header("Location: ?controller=joueurs");
+            
+            // Stoppe l'exécution du script pour s'assurer que la redirection est immédiate
+            exit();
         }
-        header("Location: ?controller=joueurs");
-        exit();
-    }
+        
 }
 ?>
