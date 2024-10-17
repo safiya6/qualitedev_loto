@@ -66,13 +66,16 @@
         padding: 20px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
     }
 
     .page-title {
         text-align: center;
         font-size: 2em;
         color: #333;
-        margin-bottom: 20px;
     }
 
     /* Ticket gagnant */
@@ -81,18 +84,18 @@
         padding: 15px;
         background-color: #e8f5e9;
         border: 1px solid #c8e6c9;
-        margin-bottom: 30px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         font-size: 1.2em;
         color: #388e3c;
         font-weight: bold;
+        width: 100%;
     }
 
     /* Table des gagnants */
     .winner-list {
-        margin-top: 20px;
         text-align: center;
+        width: 100%;
     }
 
     .winner-list h3 {
@@ -101,41 +104,4 @@
         margin-bottom: 15px;
     }
 
-    .winners-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #f7f7f7;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .winners-table th,
-    .winners-table td {
-        padding: 15px;
-        text-align: center;
-        font-size: 0.95em;
-    }
-
-    .winners-table th {
-        background-color: #616161;
-        color: #ffffff;
-        font-weight: bold;
-    }
-
-    .winners-table tr {
-        transition: background-color 0.3s ease;
-    }
-
-    .winners-table tr:nth-child(even) {
-        background-color: #f0f0f0;
-    }
-
-    .winners-table tr:hover {
-        background-color: #e0e0e0;
-    }
-
-    .winners-table td {
-        color: #666;
-    }
-</style>
+    .
