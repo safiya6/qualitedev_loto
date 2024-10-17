@@ -1,160 +1,99 @@
 <?php require_once "view_begin.php"; ?>
 
 <div class="container">
-    <!-- Formulaire de sélection de joueurs aléatoires -->
-    <div class="selection">
-        <h3>Sélectionner un Nombre de Joueurs</h3>
-        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" name="nombre" min="1" max="100" required style="width: 50px;">
-            <button type="submit" class="generate-button">Afficher les joueurs</button>
+    <!-- Number Selector -->
+    <div class="selection-panel">
+        <h2>Sélectionner un Nombre de Joueurs</h2>
+        <form action="?controller=partie&action=selectRandomJoueurs" method="POST">
+            <label for="nombre">Nombre de joueurs (entre 1 et 100):</label>
+            <input type="number" name="nombre" min="1" max="100" required>
+            <button type="submit">Afficher les joueurs</button>
         </form>
-    </div>    
+    </div>
 
-    <!-- Liste des joueurs en cours -->
-    <div class="users-list">
-        <h3>Joueurs en Cours</h3>
-        <?php if (!empty($joueurs)): ?>
-            <div class="data-rows">
-                <?php foreach ($joueurs as $joueur): ?>
-                    <?php $type_joueur = isset($joueur['id_joueur_creer']) && $joueur['id_joueur_creer'] !== null ? 'creer' : 'pred'; ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
-                        <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
-                        <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <!-- Bouton Modifier 
-                        <a href="?controller=partie&action=editUserForm&id_joueur=<?= $joueur['id_joueur'] ?>&type_joueur=<?= $type_joueur ?>" class="edit-button">🖊️ Modifier</a>-->
-                        <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
-                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>
-                    </div>
-                <?php endforeach; ?>
+    <!-- Current Players Section -->
+    <div class="current-players">
+        <h2>Joueurs en Cours</h2>
+        <?php foreach ($joueurs as $joueur): ?>
+            <div class="player-entry">
+                <p>Pseudo: <?= htmlspecialchars($joueur['pseudo']) ?> | Ticket: <?= htmlspecialchars($joueur['ticket']) ?></p>
+                
+                <!-- Edit Button -->
+                <button onclick="populateForm(<?= $joueur['id_joueur'] ?>, '<?= htmlspecialchars($joueur['pseudo'], ENT_QUOTES) ?>', '<?= htmlspecialchars($joueur['ticket'], ENT_QUOTES) ?>', '<?= isset($joueur['id_joueur_creer']) ? 'creer' : 'pred' ?>')">Modifier</button>
+                
+                <!-- Delete Button -->
+                <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
+                    <button type="submit">Supprimer</button>
+                </form>
             </div>
-        <?php else: ?>
-            <p>Aucun joueur à afficher.</p>
-        <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 
-    <!-- Formulaire de modification utilisateur -->
-    <?php if (isset($joueur_edit) && !empty($joueur_edit)): ?>
-    <div class="form-container">
-        <h2>Modifier un Utilisateur</h2>
-        <form action="?controller=partie&action=editUser" method="POST">
-            <input type="hidden" name="id_joueur" value="<?= $joueur_edit['id_joueur'] ?>">
-            <input type="hidden" name="type_joueur" value="<?= $type_joueur ?>">
-            
-            <label for="pseudo">Pseudo :</label>
-            <input type="text" name="pseudo" value="<?= htmlspecialchars($joueur_edit['pseudo']) ?>" required>
-            
-            <label>Numéros :</label>
-            <input type="text" name="numbers" placeholder="Ex: 1,2,3,4,5">
-            
-            <label>Étoiles :</label>
-            <input type="text" name="stars" placeholder="Ex: 1,2">
-            
-            <button type="submit" class="generate-button">Modifier l'utilisateur</button>
-        </form>
-    </div>
-    <?php endif; ?>
-
-    <?php require_once "view_begin.php"; ?>
-
-<div class="container">
-    <!-- Formulaire de sélection de joueurs aléatoires -->
-    <div class="selection">
-        <h3>Sélectionner un Nombre de Joueurs</h3>
-        <form action="?controller=partie&action=selectRandomJoueurs" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-            <label for="nombre">Nombre de joueurs (entre 1 et 100) :</label>
-            <input type="number" name="nombre" min="1" max="100" required style="width: 50px;">
-            <button type="submit" class="generate-button">Afficher les joueurs</button>
-        </form>
-    </div>    
-
-    <!-- Liste des joueurs en cours -->
-    <div class="users-list">
-        <h3>Joueurs en Cours</h3>
-        <?php if (!empty($joueurs)): ?>
-            <div class="data-rows">
-                <?php foreach ($joueurs as $joueur): ?>
-                    <?php $type_joueur = isset($joueur['id_joueur_creer']) && $joueur['id_joueur_creer'] !== null ? 'creer' : 'pred'; ?>
-                    <div class="data-row" data-id="<?= $joueur['id_joueur'] ?>">
-                        <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
-                        <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        <!-- Bouton Modifier 
-                        <a href="?controller=partie&action=editUserForm&id_joueur=<?= $joueur['id_joueur'] ?>&type_joueur=<?= $type_joueur ?>" class="edit-button">🖊️ Modifier</a>-->
-                        <form action="?controller=partie&action=deleteUser&id_joueur=<?= $joueur['id_joueur'] ?>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce joueur ?');">
-                            <button type="submit" class="delete-button">🗑️ Supprimer</button>
-                        </form>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p>Aucun joueur à afficher.</p>
-        <?php endif; ?>
-    </div>
-
-    <!-- Formulaire de modification utilisateur -->
-    <?php if (isset($joueur_edit) && !empty($joueur_edit)): ?>
-    <div class="form-container">
-        <h2>Modifier un Utilisateur</h2>
-        <form action="?controller=partie&action=editUser" method="POST">
-            <input type="hidden" name="id_joueur" value="<?= $joueur_edit['id_joueur'] ?>">
-            <input type="hidden" name="type_joueur" value="<?= $type_joueur ?>">
-            
-            <label for="pseudo">Pseudo :</label>
-            <input type="text" name="pseudo" value="<?= htmlspecialchars($joueur_edit['pseudo']) ?>" required>
-            
-            <label>Numéros :</label>
-            <input type="text" name="numbers" placeholder="Ex: 1,2,3,4,5">
-            
-            <label>Étoiles :</label>
-            <input type="text" name="stars" placeholder="Ex: 1,2">
-            
-            <button type="submit" class="generate-button">Modifier l'utilisateur</button>
-        </form>
-    </div>
-    <?php endif; ?>
-
-    <!-- Liste des joueurs créés -->
-    <div class="selection-container">
-        <h3>Liste des Joueurs Créés</h3>
+    <!-- Created Players List -->
+    <div class="created-players">
+        <h2>Liste des Joueurs Créés</h2>
         <form action="?controller=partie&action=addSelectedJoueursCreer" method="POST">
-            <div class="users-list">
-                <div class="header-row">
-                    <input type="checkbox" id="select-all">
-                    <label for="select-all">Sélectionner tous</label>
+            <?php foreach ($joueurs_creer as $joueur): ?>
+                <div class="player-entry">
+                    <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>">
+                    <label><?= htmlspecialchars($joueur['pseudo']) ?> | Ticket: <?= htmlspecialchars($joueur['ticket']) ?></label>
                 </div>
-                <?php if (!empty($joueurs_creer)): ?>
-                    <?php foreach ($joueurs_creer as $joueur): ?>
-                        <div class="data-row">
-                            <input type="checkbox" name="selected_joueurs[]" value="<?= $joueur['id_joueur'] ?>">
-                            <div class="user-item">Pseudo : <?= htmlspecialchars($joueur['pseudo']) ?></div>
-                            <div class="ticket-item">Ticket : <?= htmlspecialchars($joueur['ticket']) ?></div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Aucun joueur créé à afficher.</p>
-                <?php endif; ?>
-            </div>
-            <button type="submit" class="generate-button">Ajouter les joueurs sélectionnés</button>
+            <?php endforeach; ?>
+            <button type="submit">Ajouter les joueurs sélectionnés</button>
         </form>
     </div>
 
-</div>
+    <!-- Edit/Add Form (Hidden by Default, Shows on Edit) -->
+    <div class="form-container">
+        <h2> Modifier un Utilisateur</h2>
+        <form id="user-form" action="?controller=partie&action=editUser" method="POST" onsubmit="return prepareTicket()">
+            <input type="hidden" id="id_joueur" name="id_joueur">
+            <input type="hidden" id="action_type" name="action_type" value="add">
+            <input type="hidden" id="type_joueur" name="type_joueur"> <!-- Champ pour type_joueur -->
+
+            <div class="form-group">
+                <label for="pseudo">Choisissez un pseudo :</label>
+                <input type="text" id="pseudo" name="pseudo" required>
+                <button type="button" class="generate-pseudo-button" onclick="generateRandomPseudo()">Générer un pseudo</button>
+            </div>
+
+            <label>Choisissez vos numéros :</label>
+            <div class="number-grid">
+                <?php for ($i = 1; $i <= 49; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'number')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
+
+            <label>Choisissez vos étoiles :</label>
+            <div class="star-grid">
+                <?php for ($i = 1; $i <= 9; $i++): ?>
+                    <button type="button" onclick="toggleSelection(this, 'star')" data-value="<?= $i ?>"><?= $i ?></button>
+                <?php endfor; ?>
+            </div>
+
+            <button type="button" class="generate-button" onclick="generateRandomSelection()">
+                <i>🎲</i> Générer aléatoirement
+            </button>
+
+            <!-- Champs masqués pour stocker les numéros et les étoiles -->
+            <input type="hidden" id="numbers" name="numbers">
+            <input type="hidden" id="stars" name="stars">
+
+            <button type="submit" class="generate-button">Valider</button>
+        </form>
+    </div>
+
+<script src="Utils/fonction_add_user.js"></script>
 
 <script>
-function hideSelectedPlayers() {
-    // Récupère tous les checkboxes sélectionnés
-    const selectedCheckboxes = document.querySelectorAll('#create-players-form input[name="selected_joueurs[]"]:checked');
-    
-    // Masque chaque joueur correspondant dans la liste des joueurs créés
-    selectedCheckboxes.forEach(checkbox => {
-        const playerRow = document.querySelector(`.data-row[data-id="${checkbox.value}"]`);
-        if (playerRow) {
-            playerRow.style.display = 'none';
-        }
-    });
+function populateForm(id_joueur, pseudo, ticket, type_joueur) {
+    document.getElementById('id_joueur').value = id_joueur;
+    document.getElementById('pseudo').value = pseudo;
+    document.getElementById('type_joueur').value = type_joueur; // Assigner le type joueur ici
+    // Séparer les numéros et les étoiles du ticket si besoin
+    // Vous pouvez ajuster cela en fonction de la structure du ticket
 }
 </script>
+
 </body>
 </html>
-
