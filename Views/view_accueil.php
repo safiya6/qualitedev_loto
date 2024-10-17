@@ -14,7 +14,7 @@
             <div class="rules-box">
                 <h2>Règles du jeu</h2>
                 <p>
-                    Bienvenue dans le loto où tu as 10 fois plus de chances de gagner. 
+                    Bienvenue dans le loto où tu as 10 fois plus de chances de gagner. \n
                     Voici les règles : chaque participant choisit 5 numéros entre 1 et 49. 
                     Tirage au sort chaque semaine. Jouer est strictement interdit aux personnes de moins de 18 ans.
                 </p>
