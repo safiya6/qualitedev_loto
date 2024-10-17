@@ -1,4 +1,6 @@
 <?php
+namespace App\Controller;
+
 class Controller_accueil extends Controller
 {
     /**

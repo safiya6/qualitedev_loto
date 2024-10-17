@@ -1,5 +1,5 @@
 <?php
-//namespace App\Controllers;
+namespace App\Controllers;
 
 class Controller_gagnant extends Controller
 {
